@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بروتوكولات الأدوية - التأمين الصحي</title>
+    <style>
+:root {
+    --md-sys-color-primary: #00677F;
+    --md-sys-color-on-primary: #FFFFFF;
+    --md-sys-color-primary-container: #BCEEFF;
+    --md-sys-color-on-primary-container: #001F29;
+    --md-sys-color-secondary: #4A6269;
+    --md-sys-color-on-secondary: #FFFFFF;
+    --md-sys-color-secondary-container: #CDE7EE;
+    --md-sys-color-on-secondary-container: #051F25;
+    --md-sys-color-tertiary: #565D7E;
+    --md-sys-color-on-tertiary: #FFFFFF;
+    --md-sys-color-tertiary-container: #DDE1FF;
+    --md-sys-color-on-tertiary-container: #121A37;
+    --md-sys-color-error: #BA1A1A;
+    --md-sys-color-background: #FBFCFD;
+    --md-sys-color-on-background: #191C1D;
+    --md-sys-color-surface: #FFFFFF;
+    --md-sys-color-on-surface: #191C1D;
+    --md-sys-color-surface-variant: #DAE4E7;
+    --md-sys-color-on-surface-variant: #3F484B;
+    --md-sys-color-outline: #C0C8CC;
+    --md-sys-color-shadow: rgba(0, 0, 0, 0.08);
+    
+    --md-ref-typeface-brand: 'Roboto', 'Noto Sans Arabic', 'Arial', sans-serif;
+    --md-ref-typeface-plain: 'Roboto', 'Noto Sans Arabic', 'Arial', sans-serif;
+    
+    --transition-standard: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-emphasized: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-decelerated: 0.4s cubic-bezier(0, 0, 0.2, 1);
+    --transition-accelerated: 0.2s cubic-bezier(0.4, 0, 1, 1);
+    
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    
+    --elevation-1: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
+    --elevation-2: 0 3px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.1);
+    --elevation-3: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.12);
+    --elevation-4: 0 6px 12px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(0, 0, 0, 0.14);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--md-ref-typeface-plain);
+    margin: 0;
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+    line-height: 1.75;
+    font-size: 1rem;
+    font-weight: 400;
+    overflow-x: hidden;
+    display: flex;
+    letter-spacing: 0.01em;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--md-sys-color-surface-variant);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--md-sys-color-primary);
+    border-radius: 4px;
+    opacity: 0.7;
+    transition: opacity var(--transition-standard);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    opacity: 1;
+    background: var(--md-sys-color-secondary);
+}
+
+#sidebar {
+    width: 300px;
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface-variant);
+    padding: var(--space-lg);
+    height: 100vh;
+    overflow-y: auto;
+    border-left: 1px solid var(--md-sys-color-outline);
+    transition: transform var(--transition-emphasized);
+    position: fixed;
+    right: -300px;
+    top: 0;
+    z-index: 1001;
+    box-shadow: -3px 0 12px var(--md-sys-color-shadow);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+#sidebar.open {
+    transform: translateX(-300px);
+}
+
+#sidebar h3 {
+    margin-top: 0;
+    color: var(--md-sys-color-primary);
+    border-bottom: 2px solid var(--md-sys-color-primary-container);
+    padding-bottom: var(--space-md);
+    font-family: var(--md-ref-typeface-brand);
+    font-size: 1.4em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    position: relative;
+}
+
+#sidebar h3::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background-color: var(--md-sys-color-primary);
+    transition: width var(--transition-emphasized);
+}
+
+#sidebar:hover h3::after {
+    width: 100%;
+}
+
+#tocList {
+    list-style-type: none;
+    padding: 0;
+    margin: var(--space-md) 0 0 0;
+}
+
+#tocList li a {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    text-decoration: none;
+    color: var(--md-sys-color-on-surface-variant);
+    border-bottom: 1px solid rgba(192, 200, 204, 0.3);
+    transition: all var(--transition-standard);
+    border-radius: 8px;
+    margin-bottom: var(--space-xs);
+    font-size: 0.95em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
+#tocList li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background-color: var(--md-sys-color-primary);
+    transform: scaleY(0);
+    transition: transform var(--transition-standard);
+    border-radius: 0 2px 2px 0;
+}
+
+#tocList li a:hover, #tocList li a.active {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    font-weight: 500;
+    padding-right: var(--space-xl);
+    padding-left: calc(var(--space-md) + 3px);
+    box-shadow: var(--elevation-1);
+    transform: translateX(2px);
+}
+
+#tocList li a:hover::before, #tocList li a.active::before {
+    transform: scaleY(1);
+}
+
+.main-content {
+    flex-grow: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding-right: 0;
+    transition: margin-right var(--transition-emphasized);
+    background-image: linear-gradient(to bottom, rgba(188, 238, 255, 0.05), rgba(221, 225, 255, 0.05));
+    position: relative;
+}
+
+.main-content.sidebar-open {
+    margin-right: 300px;
+}
+
+.header-controls {
+    background-color: var(--md-sys-color-surface);
+    padding: var(--space-lg) var(--space-xl);
+    border-bottom: 1px solid var(--md-sys-color-outline);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    box-shadow: var(--elevation-1);
+    transition: box-shadow var(--transition-standard), transform var(--transition-standard);
+}
+
+.header-controls.scrolled {
+    box-shadow: var(--elevation-2);
+}
+
+.header-controls h1 {
+    color: var(--md-sys-color-primary);
+    text-align: center;
+    margin: 0 0 var(--space-md) 0;
+    font-family: var(--md-ref-typeface-brand);
+    font-size: 2em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    transition: transform var(--transition-standard);
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.header-controls h1::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--md-sys-color-primary);
+    transform: translateX(-50%);
+    transition: width var(--transition-emphasized);
+}
+
+.header-controls:hover h1::after {
+    width: 80px;
+}
+
+.search-container {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+    margin-bottom: var(--space-sm);
+    position: relative;
+}
+
+#searchInput {
+    flex-grow: 1;
+    padding: 12px 18px;
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 24px;
+    font-size: 1em;
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-background);
+    transition: all var(--transition-standard);
+    box-shadow: var(--elevation-1);
+}
+
+#searchInput:focus {
+    border-color: var(--md-sys-color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 103, 127, 0.15), var(--elevation-2);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+#searchInput::placeholder {
+    color: var(--md-sys-color-on-surface-variant);
+    opacity: 0.7;
+    transition: opacity var(--transition-standard);
+}
+
+#searchInput:focus::placeholder {
+    opacity: 0.4;
+}
+
+#sidebarToggle {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    border: none;
+    padding: 0;
+    font-size: 1.5em;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--transition-standard);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: var(--elevation-2);
+    position: relative;
+    overflow: hidden;
+}
+
+#sidebarToggle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease-out, height 0.5s ease-out;
+}
+
+#sidebarToggle:hover {
+    background-color: var(--md-sys-color-secondary);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#sidebarToggle:hover::before {
+    width: 150%;
+    height: 150%;
+}
+
+#sidebarToggle:active {
+    transform: scale(0.95);
+}
+
+#didYouMean {
+    padding: var(--space-xs) var(--space-xl) var(--space-sm) var(--space-xl);
+    font-style: italic;
+    color: var(--md-sys-color-secondary);
+    font-size: 0.9em;
+    min-height: 1.2em;
+    transition: all var(--transition-standard);
+    opacity: 0.9;
+}
+
+#didYouMean a {
+    color: var(--md-sys-color-primary);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all var(--transition-standard);
+    position: relative;
+    display: inline-block;
+}
+
+#didYouMean a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--md-sys-color-primary);
+    transition: width var(--transition-standard);
+}
+
+#didYouMean a:hover {
+    color: var(--md-sys-color-tertiary);
+}
+
+#didYouMean a:hover::after {
+    width: 100%;
+    background-color: var(--md-sys-color-tertiary);
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-xl);
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.drug-entry {
+    background-color: var(--md-sys-color-surface);
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 16px;
+    padding: var(--space-xl);
+    margin-bottom: var(--space-xl);
+    box-shadow: var(--elevation-2);
+    transition: all var(--transition-standard);
+    position: relative;
+    overflow: hidden;
+}
+
+.drug-entry::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background-color: var(--md-sys-color-primary);
+    transition: height var(--transition-emphasized);
+}
+
+.drug-entry:hover {
+    box-shadow: var(--elevation-3);
+    transform: translateY(-2px);
+}
+
+.drug-entry:hover::before {
+    height: 100%;
+}
+
+.drug-entry h2 {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+    color: var(--md-sys-color-primary);
+    font-size: 1.6em;
+    font-family: var(--md-ref-typeface-brand);
+    border-bottom: 1px solid var(--md-sys-color-primary-container);
+    padding-bottom: var(--space-md);
+    position: relative;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+}
+
+.drug-entry h2::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+    background-color: var(--md-sys-color-primary);
+    transition: width var(--transition-emphasized);
+}
+
+.drug-entry:hover h2::after {
+    width: 100%;
+}
+
+.drug-entry h2 .drug-name-en {
+    font-size: 0.85em;
+    color: var(--md-sys-color-on-surface-variant);
+    font-weight: normal;
+    display: block;
+    margin-top: var(--space-xs);
+    transition: color var(--transition-standard);
+}
+
+.drug-entry:hover h2 .drug-name-en {
+    color: var(--md-sys-color-secondary);
+}
+
+.drug-entry h3 {
+    color: var(--md-sys-color-secondary);
+    font-size: 1.2em;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+    font-weight: 600;
+    position: relative;
+    padding-left: var(--space-sm);
+    letter-spacing: -0.01em;
+}
+
+.drug-entry h3::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background-color: var(--md-sys-color-secondary-container);
+    border-radius: 2px;
+}
+
+.drug-entry p, .drug-entry ul, .drug-entry ol, .drug-entry div > p {
+    margin-bottom: var(--space-md);
+    white-space: pre-wrap;
+    color: var(--md-sys-color-on-surface);
+    word-wrap: break-word;
+    line-height: 1.8;
+}
+
+.drug-entry ul, .drug-entry ol {
+    padding-right: var(--space-xl);
+}
+
+.drug-entry li {
+    margin-bottom: var(--space-sm);
+    position: relative;
+}
+
+.drug-entry li::marker {
+    color: var(--md-sys-color-primary);
+}
+
+.highlight {
+    background-color: var(--md-sys-color-tertiary-container);
+    color: var(--md-sys-color-on-tertiary-container);
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    position: relative;
+    transition: all var(--transition-standard);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+.highlight:hover {
+    background-color: var(--md-sys-color-tertiary);
+    color: var(--md-sys-color-on-tertiary);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#noResults {
+    text-align: center;
+    padding: var(--space-xl) var(--space-lg);
+    font-size: 1.4em;
+    color: var(--md-sys-color-on-surface-variant);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.keywords {
+    font-size: 0.95em;
+    color: var(--md-sys-color-on-surface-variant);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px dashed var(--md-sys-color-outline);
+    line-height: 1.7;
+    transition: all var(--transition-standard);
+}
+
+.keywords strong {
+    color: var(--md-sys-color-secondary);
+    font-weight: 600;
+}
+
+.keywords:hover {
+    color: var(--md-sys-color-on-surface);
+    border-top-style: solid;
+}
+
+.protocol-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: var(--space-md) 0;
+    font-size: 0.95em;
+    box-shadow: var(--elevation-2);
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all var(--transition-standard);
+}
+
+.protocol-table:hover {
+    box-shadow: var(--elevation-3);
+}
+
+.protocol-table th, .protocol-table td {
+    border: none;
+    border-bottom: 1px solid var(--md-sys-color-outline);
+    border-right: 1px solid var(--md-sys-color-outline);
+    padding: 12px 16px;
+    text-align: right;
+    transition: all var(--transition-standard);
+}
+
+.protocol-table th:last-child, .protocol-table td:last-child {
+    border-right: none;
+}
+
+.protocol-table tr:last-child td {
+    border-bottom: none;
+}
+
+.protocol-table thead th {
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    font-weight: 600;
+    border-bottom: 2px solid var(--md-sys-color-primary);
+    position: relative;
+}
+
+.protocol-table thead th::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--md-sys-color-primary);
+    transition: width var(--transition-emphasized);
+}
+
+.protocol-table:hover thead th::after {
+    width: 100%;
+}
+
+.protocol-table tbody tr:nth-child(even) td {
+    background-color: rgba(249, 249, 249, 0.7);
+}
+
+.protocol-table tbody tr:hover td {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+}
+
+@media (max-width: 768px) {
+    :root {
+        --space-xl: 24px;
+        --space-lg: 20px;
+        --space-md: 12px;
+    }
+    
+    body {
+        flex-direction: column;
+        font-size: 15px;
+    }
+    
+    #sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 70vh;
+        position: fixed;
+        right: 0;
+        top: -100vh;
+        transform: translateY(0);
+        border-left: none;
+        border-bottom: 1px solid var(--md-sys-color-outline);
+        box-shadow: 0 3px 15px var(--md-sys-color-shadow);
+        transition: transform var(--transition-emphasized);
+        border-radius: 0 0 16px 16px;
+    }
+    
+    #sidebar.open {
+        transform: translateY(100vh);
+        top: 0;
+    }
+    
+    .main-content.sidebar-open {
+        margin-right: 0;
+    }
+    
+    .header-controls {
+        padding: var(--space-md) var(--space-lg);
+    }
+    
+    .header-controls h1 {
+        font-size: 1.6em;
+        margin-bottom: var(--space-sm);
+    }
+    
+    .container {
+        padding: var(--space-md);
+    }
+    
+    .drug-entry {
+        padding: var(--space-lg);
+        margin-bottom: var(--space-lg);
+        border-radius: 12px;
+    }
+    
+    #sidebarToggle {
+        font-size: 1.3em;
+        width: 44px;
+        height: 44px;
+    }
+    
+    #searchInput {
+        padding: 10px 16px;
+        font-size: 0.95em;
+    }
+    
+    .drug-entry h2 {
+        font-size: 1.4em;
+    }
+    
+    .drug-entry h3 {
+        font-size: 1.1em;
+    }
+    
+    .protocol-table th, .protocol-table td {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.drug-entry {
+    animation: slideInRight 0.5s ease-out forwards;
+    animation-delay: calc(var(--animation-order, 0) * 0.1s);
+    opacity: 0;
+}
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h3>فهرس الأدوية</h3>
+        <ul id="tocList"></ul>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="header-controls">
+            <h1>بروتوكولات الأدوية - التأمين الصحي</h1>
+            <div class="search-container">
+                <button id="sidebarToggle" title="فتح/إغلاق الفهرس">☰</button>
+                <input type="text" id="searchInput" placeholder="ابحث عن دواء أو بروتوكول..." onkeyup="filterDrugs()">
+            </div>
+            <div id="didYouMean"></div>
+        </div>
+        <div class="container" id="drugListContainer">
+            <div id="drugList">
+            </div>
+            <div id="noResults" style="display:none;">لم يتم العثور على نتائج.</div>
+        </div>
+    </div>
+
+    <script>
+        const drugData = [
+  {
+    "drug_name_ar": "جهاز قياس السكر بدون وخز (Free style libre)",
+    "drug_name_en": "Free style libre sensor",
+    "protocol_ar": "إيماء إلى القطاعات الواردة من الفروع بخصوص احكام المحكمة الصادرة لبعض المنتفعين بفروع الهيئة لتوفير جهاز قياس السكر بدون ألم Free style (sensor)،\nنحيطكم علماً بأنه قد تم ادراج الصنف المذكور على المنظومة الإلكترونية لهيئة الشراء الموحد بإسم جهاز قياس نسبة السكر بالدم بدون وخز أو ألم free style libre 2 و غير متاح detector حيث ان السنسورات ستعمل من خلال mobile application و الذي سيتم التدريب عليه من خلال الشركة ،\nلذا يرجى طلب الصنف على المنظومة للحالات الصادر لها احكام المحكمة بكميات تكفى مدة 3 شهور ( بواقع عدد 2 سينسور لكل مريض شهريا ) على ان يتم الصرف للحالات بكمية تكفي شهر فقط و يعاد الصرف شهرياً ،\nمع العلم أنه بالنسبة للحالات التي يصرف لها مستلزمات المضخة او السينسورات الخاصة بجهاز الـ free style يتم صرف عدد (1) علبة شرائط سكر فقط كل شهرين في حالة التوصية لصرفها للمريض ، و ذلك طبقاً لتعليمات السادة الاطباء المسئولين بلجنة السكر برئاسة الهيئة .\nوشكراً،،،",
+    "keywords": ["سكر", "freestyle", "sensor", "سينسور", "mobile application", "detector", "جهاز قياس السكر"]
+  },
+  {
+    "drug_name_ar": "البيومين",
+    "drug_name_en": "Albumin administration protocols",
+    "protocol_ar": "Serum albumin less than 2g/dl with appropriate indications:\n1. Large volume paracentesis ( more than 5L )\nDose:\n[TABLE_START]\nParacentesis Volume Removed | Albumin Dose (grams)\n0-4.9 L | Follow instructions of ordering provider to determine need for albumin\n5-6.9 L | 37.5 g\n7-8.9 L | 50 g\n9-10.9 L | 62.5 g\n11-12.9 L | 75 g\n13-14.9 L | 87.5 g\n>15 L | 100 g\n[TABLE_END]\n2. Plasmapharesis\n3. Hepatorenal syndrome\nDose: vial 20% every tid for 2-3 days\n4. Sever nephrotic syndrome\n5. Spontaneous bacterial peritonitis and liver cirrhosis.\nDose vial 20% every bid for 2 – 3 days\n\n**Inappropriate indications:**\no Hypoalbuminemia without any listed indications\no Hemodialysis\no Pancreatitis\no Burns in first 24hrs\no Ascites responsive to diuretics\no Wound healing\no Malnutrition\no Traumatic brain injury",
+    "keywords": ["Albumin", "paracentesis", "Plasmapharesis", "Hepatorenal syndrome", "nephrotic syndrome", "liver cirrhosis", "البيومين"]
+  },
+  {
+    "drug_name_ar": "بروتوكول استعمال عقار الديريفان (Propofol)",
+    "drug_name_en": "Propofol",
+    "protocol_ar": "1. يتم سحب أكبر قدر ممكن من عقار الديريفان من الرعايات المركزة والمستخدم في الاستعاضة عن الديريفان في الرعايات المركزة لأقسام العمليات والتدخلات الجراحية. ويتم الاستعاضة عن الديريفان في الرعايات المركزة بالأدوية البريزيديكس والدورميكم.\n2. يقتصر استعمال الديريفان ( مع الاستعانة بإضافة عقار الكيتامين لخفض الجرعات المستخدمة من الديريفان ) وذلك في الإجراءات التداخلية في الحالات الآتية :\n  • جميع الإجراءات الجراحية القصيرة التي تتراوح من 30 لـ 45 دقيقة)، والتي يستخد فيها LMA.\n  • مناظير الجهاز الهضمي.\n  • حالات الاشعة التداخلية.\n3. يتم استبدال عقار الديريفان بعقار الإنترافال في الحالات التالية:\n  • الاجراءات الجراحية الطويلة اكثر من 60 دقيقة).\n  • الاجراءات الجراحية التي تستلزم تركيب ادوية مخدرة للمريض واعطاء باسط عضلي.\n4. في حالات (TIVA & conscious sedation) يتم استعمال الكيتامين والدورميكم والفنتانيل كأدوية مساعدة مع الديريفان بهدف استعمال جرعات أقل من الديريفان.",
+    "keywords": ["Propofol", "الديريفان", "TIVA", "conscious sedation", "LMA", "الكيتامين", "الدورميكم", "الفنتانيل", "بروبوفول"]
+  },
+  {
+    "drug_name_ar": "بروتوكول استخدام الاميونوجلوبيولين (Intravenous Immunoglobulin)",
+    "drug_name_en": "CONDITIONS FOR WHICH INTRAVENOUS IMMUNOGLOBULIN USE IS APPROPRIATE AND IS CONSIDERED THE HIGHEST PRIORITY BECAUSE OF A RISK TO LIFE WITHOUT TREATMENT",
+    "protocol_ar": "I-PRIMARY AND SECONDARY ANTIBODY DEFICIENCY STATES:\n1-Primary immunodeficiencies (associated with significant antibody defects)\nSelection criteria: A specific PID diagnosis must be established by a clinical immunologist\nOutcomes for review: Outcome measures are not required\nDosage: Initiate at 0.4–0.6 g/kg/month; dose requirements may increase and should be based on clinical outcome\n\n2-Thymoma with immunodeficiency\nSelection criteria: Profound B cell depletion and/or significant antibody deficiency .\nOutcomes for review: Outcome measures are not required\nDosage: Initiate at 0.4–0.6 g/kg/month; dose requirements may increase and should be based on clinical outcome\n\n3-HSCT in primary immunodeficiencies\nSelection criteria : PID patients undergoing HSCT\nOutcomes for review: Outcome measures are not required\nDosage: Initiate at 0.4–0.6 g/kg/month dose requirements may increase and should be based on clinical outcome\n\n4-Specific antibody deficiency\nSelection criteria :Approval by a clinical immunologist, AND Severe, persistent, opportunistic or recurrent bacterial infections despite continuous oral antibiotic therapy for 3 months, AND Documented failure of serum antibody response to unconjugated pneumococcal or other polysaccharide vaccine challenge\nOutcomes for review: Outcome measures are not required\nDosage: Initiate at 0.4–0.6 g/kg/month; dose requirements may increase and should be based on clinical outcome\n\nII. HAEMATOLOGY:\n1. Alloimmune thrombocytopaenia (foeto- maternal/neonatal)\nSelection criteria: Clinical suspicion in antenatal or neonatal setting based on clinical and laboratory features: Thrombocytopaenia or spontaneous haemorrhage in the foetus; OR Thrombocytopenia with or without haemorrhage in the neonate; OR Unexplained foetal death in a previous pregnancy and the presence of maternal plateletspecific alloantibodies that are known or suspected to cause this condition (most commonly HPA-1a or HPA-5b)\nOutcomes for review:\nIncrement in (neonatal) platelet count\nSuccessful outcome of pregnancy\nDosage:\nMaternal: 1 g/kg weekly throughout pregnancy\nNeonatal: 1 g/kg; occasionally >1 dose required if thrombocytopaenia persists.\n\n2. Haemolytic disease of the newborn\nSelection criteria:\nAs adjunct to continuous multiple phototherapy in cases of Rhesus haemolytic disease or ABO haemolytic disease\nOutcomes for review:\nRecord bilirubin. Record gestational age Avoidance of exchange transfusion\nDosage: 0.5 g/kg over 4 hours\n\n3. Immune thrombocytopaenic purpura\nTreatment depends on bleeding, platelet count, age , adverse effects of medications. Treatment is usually started if bleeding or platelet count <20-30 thousand/mm³.\nSelection criteria:\nContra-indication to corticosteroids, or need for rapid response to increase platelet count (e.g. before procedure, surgery, delivery), or in life threatening bleeding(combined with other drugs and measures).\nOutcomes for review:\nResolution of bleeding\nIncrement in platelet count\nDosage:\n0.8-1g/kg infusion for 1-2 days according to age , to be repeated at later date if platelet count has not responded\n\n❖ TRANSPLANTATION\n  • CMV-induced pneumonitis following transplantation Short term, with antibiotic as alternative .\n  • Hematopoietic Stem Cell Transplant (HSCT)or Bone MarrowTransplant (BMT):\nSelection criteria:\npost-transplantfor recipients who are markedly hypogammaglobulinemic (IgG level < 400 mg/dl), who have a primary immunodeficiency disease, or who have CMV, EBV, or RSV infection, or with steroid-resistant graft-versus-host disease (GVHD) .\n\nIII- NEUROLOGY:\n1- Chronic Inflammatory Demyelinating Polyradiculoneuropathy (CIDP)\nSelection criteria:\nProbable or definite diagnosis of CIDP by a neurologist according to the EFNS/International Peripheral Nerve Society Guidelines; AND Significant functional impairment inhibiting normal daily activities\nOutcomes for review:\nImprovement in any of the following pre-specified measures (record 3 of 5):\n ☐MRC score (7 pairs of muscles in upper and lower limb scored 0–5, maximum 70)\n ☐ INCAT sensory sum score\n ☐ The ONLS\n ☐ Up and go 10-m walk (in secs)\n ☐ Other validated disability measure\nDosage: 2 doses of IVIg (2 g/kg given over several days) 6 weeks apart; restarted at relapse and repeated using the ‘time to relapse’ as the interval between courses (i.e. if a patient relapses after 6 weeks, 2 g/kg is given over several days every 6 weeks)\n\n2-Guillain-Barré syndrome (includes Bickerstaff’s brain stem encephalitis)\nSelection criteria:\nDiagnosis of GBS (or variant) in hospital; AND Significant disability (Hughes Grade 4); OR Disease progression\nOutcomes for review:\nRecord the disability grade at diagnosis\nDosage: 2 g/kg usually given over 5 days (shorter time frame not recommended because of potential fluid overload and autonomic problems); second dose may be considered at 14 days for non- responsive or late deteriorating patients.\nOther lines of treatment:\nPlasma exchange is an alternative.\n\n3-Paraprotein-associated demyelinating neuropathy (IgM, IgG or IgA)\nSelection criteria:\nDiagnosis by a neurologist AND Significant functional impairment inhibiting normal daily activities; AND Other therapies have failed, are contraindicated or undesirable\nOutcomes for review:\nImprovement in any of the following pre-specified measures (record 3 of 5):\n ☐ MRC score (7 pairs of muscles in upper and lower limb scored 0–5, maximum 70)\n ☐ INCAT sensory sum score\n ☐ The ONLS\n ☐ Up and go 10-m walk (in secs)\n ☐ Other validated disability measure\nDosage: 2 doses of IVIg (2 g/kg given over several days) 6 weeks apart; restarted at relapse and repeated using the ‘time to relapse’ as the interval between courses\n\n4- Multifocal Motor Neuropathy:\nSelection criteria:\nDiagnosis by neurologist, It is the first line treatment for this disease\nDosage: 2 doses of IVIg (2 g/kg in 2 to 5 divided doses) , and maintained on 0.4 – 2 g/kg 2-6 weekly, the amount of doses should be titrated to the individual response, the aim for minimal dose to maintain optimal functional status.\n\nICF is the International Classification of Functioning,Disability,and Health, which is concerned with qualification of the impairments in the body functions and structures that happened as a result of the illness, As well as activity limitations and participation restriction that the patient will be involved in their life situations as a result of their illness.\nThis can help us in qualifying the appropriate need for Intravenous Immunoglobulins for the patients as follows:\n1- severe impairment of body functions: graded by the number(3) and denotes severe impairment of the body functions like sensations and motor power of the muscles which is disrupting the patient’s daily life and accounts for 50-95% impairment.\n2- severe impairment of body structure graded by the number(3) and denotes severe impairment of the body structures like brain and spinal cord and related nerves and muscle structures that disrupted the patient’s daily life and accounts for more than 50% of impairment.\n3- severe difficulty in performance and capacity of the patient, graded by (3) which caused his activity limitations and restricted his participation in daily life, and decreased his capacity for involving in life situations.\n4- complete impairment refers to impairment more than 95% of the patient’s daily life.\n\nIV: OTHER\n1-Kawasaki disease\nSelection criteria:\nClinical diagnosis of Kawasaki disease by a paediatrician or immunologist\nOutcomes for review:\nResolution of fever\nDosage:\n2 g/kg single dose, given over 10–12 hours, in conjunction with high-dose aspirin; a second dose may be given if no response, or if relapse within 48h\n\n2-Toxic epidermal necrolysis, Stevens Johnson syndrome\nSelection criteria:\nDiagnosis by a dermatologist; AND Involved body surface area >10%; AND When other treatments are contraindicated; OR the condition is life-threatening .\nOutcomes for review:\nResolution of the disease\nDosage:\n2 g/kg, preferably as a single dose, or divided over 3 consecutive days.\n\nREFERENCES:\n1. Clinical Guidelines For Immunoglobulin Use 2nd EDITION UPDATE SCOTLAND, March 2012.\n2. Clinical Guideline For The Use Of Human Normal Immunoglobulin (IvIg); Royal Cornwall Hospitals NHS TRUST (2013).\n3. Criteria for the clinical use of intravenous immunoglobulin in Australia Second Edition July 2012.\n4. Clinical Guidelines for Immunoglobulin Use; Second edition update; Department of Health; London (2011).\n5. Cindy Neunert. Current management of immune thrombocytopenia.ASH (American society of Hematology) Education Book December 6, 2013 vol. 2013 no. 1 276-282.",
+    "keywords": ["IVIG", "Immunoglobulin", "PID", "Thymoma", "HSCT", "antibody deficiency", "thrombocytopaenia", "Haemolytic disease", "purpura", "Transplantation", "CMV", "BMT", "GVHD", "CIDP", "Guillain-Barré syndrome", "GBS", "Paraprotein-associated demyelinating neuropathy", "Multifocal Motor Neuropathy", "ICF", "Kawasaki disease", "Toxic epidermal necrolysis", "Stevens Johnson syndrome", "الاميونوجلوبيولين"]
+  },
+  {
+    "drug_name_ar": "ملاحظات عامة متعلقة بطلب IVIG",
+    "drug_name_en": "General Notes for IVIG request",
+    "protocol_ar": "Detailed history and physical examination\nPrevious treatment and its outcome\nplan of future management and availability of alternative treatment\ncopy of relevant investigations.",
+    "keywords": ["IVIG requirements", "investigations", "history", "متطلبات IVIG"]
+  },
+  {
+    "drug_name_ar": "الدم ومشتقاته",
+    "drug_name_en": "Blood and Blood Products",
+    "protocol_ar": "نحيط سيادتكم علما بأنه تم اعتماد السيد الدكتور / رئيس مجلس الإدارة بالهيئة على أن يكون قيمة استرداد النفقات لوحدات الدم أو أي من مشتقاته (وارد أهل مريض) التي يقوم بشرائها أهل المرضى المحجوزين بمستشفيات التأمين الصحي في حال عدم توافرها بمخزون بنك دم المستشفى بنفس سعر التعاقد مع المركز القومى لخدمات نقل الدم كمساهمة من الهيئة لتوفير الد للمريض مع استيفاء الضوابط المنظمة وهى كالآتى :\n1. يتم تقييم حالة المريض بواسطة الطبيب المعالج مدعمة بالتحاليل والفحوصات\n2. إذا تبين أن الاحتياج لتوفير الدم ضرورة ملحة وأن الحالة طارئة وعدم نقل الدم للمريض قد يتسبب في حدوث وفاه أو مضاعفات شديدة للمريض يقوم الطبيب بتوثيق ذلك في طلب نقل الدم\n3. وكذلك في حالة الفصائل النادرة (RH NEGATIVE) التي يصعب توافرها بصفة دائمة ببنك الدم وبكميات وفيرة\n4. في حال وجود بنك دم تجميعي بالمستشفى يتم توجيه أهلية المريض للتبرع للمساهمة في توفير مخزون الدم\n5. لا يتم شراء الدم أو مشتقاته لهؤلاء المرضى إلا إذا تعذر توفير الدم عن طريق إحدى الطرق الآتية:\n  • عدم توفر فصيلة دم المريض بالمخزون من المتبرعين الذين تم توفيرهم\n  • عدم توفر الدم بالجهات المتعاقدة وتوثيق ذلك من الجهة الموردة مع التوقيع والختم بنموذج طلبية الدم لهذه الجهة.\n  • عدم وجود أمكانية لتوريد الدم المطلوب بإذن صرف 111 من أي من وحدات الهيئة.\n  • وعليه إذا رفض المريض أو أهليته توفير متبرعين وأثر أهل المريض أن يقوم بشراء الدم فيتم أعلامه بأن ليس من حقه تقديم طلب للاسترداد وأن شراء بدل التبرع .",
+    "keywords": ["blood transfusion", "RH negative", "blood bank", "نقل الدم", "فصائل نادرة", "مشتقات الدم"]
+  },
+  {
+    "drug_name_ar": "الفا كالسيدول",
+    "drug_name_en": "Alpha-Calcidiol",
+    "protocol_ar": "تعليمات وصف عقار Alpha-Calcidiol\nيقتصر وصف دواء Alphacalcidol caps. على حالات الفشل الكلوي و التي تستمر على الغسيل الكلوي فقط أو الفشل الكلوي المتقدم الذي يحدده الاستشاري و حالات Hypoparathyroidism.\nوكعلاج أساسي في حالات هشاشة العظام بالإضافة إلى الكالسيوم على أن يكون بواقع حبة واحدة يومياً.\nويكرر",
+    "keywords": ["Alphacalcidol", "فشل كلوي", "هشاشة العظام", "Hypoparathyroidism", "كالسيوم", "الفاكالسيدول", "Alpha-calcidol caps"]
+  },
+  {
+    "drug_name_ar": "سيليمارين، حامض اورسو دي اوكسي كوليك، فيتامين هـ",
+    "drug_name_en": "Silymarin, Ursodeoxycholic acid, Vitamin H",
+    "protocol_ar": "بناءا على تعليمات اللجنة القومية لمكافحة الفيروسات الكبدية فقد تم ايقاف صرف عقاقير :\n- سيليمارين\n- حامض الاورسو دي اوكسي كوليك\n- فيتامين هـ\nوالعقاقير المركبة منها للمرضى المصابين بتليف الكبد :\n- مرضى الالتهاب أو التليف الكبدي الفيروسي المتكافئ وغير المتكافئ المتلقين للعلاج بادوية المضادات الحيوية .\n- مرضى الالتهاب أو التليف الكبدي غير الفيروسي المتكافئ وغير المتكافئ.\nمع استثناء صرف حامض الاورسو دي اوكسي كوليك لمرضى :\n- التهاب الاقنية الصفراوية الاولى ( primary biliary cholangitis)\n- التهاب الاقنية الصفراوية المصلب الاولى ( primary sclerosing cholangitis )\nو استثناء صرف عقار فيتامين هـ لمرضى التهاب او تليف الكبد الدهني عند الحاجه اليه .\nذلك للعلم والتنبيه بما يلزم .\nمع وافر التحية",
+    "keywords": ["Silymarin", "Ursodeoxycholic acid", "Vitamin H", "تليف الكبد", "التهاب الكبد", "primary biliary cholangitis", "primary sclerosing cholangitis", "سيليمارين", "اورسوديوكسي كوليك", "فيتامين هـ"]
+  },
+  {
+    "drug_name_ar": "Mycophenolic acid",
+    "drug_name_en": "Mycophenolic acid",
+    "protocol_ar": "في إطار التيسير على المرضى في صرف بعض الأدوية المتداولة منذ سنوات عديدة والتي تعتبر خطوط علاجية تطبق منذ عدة سنوات.\nفيما يخص عرض عقار Mycophenolic acid 180,360 على اللجنة العليا للدواء ،\nيرجى التوضيح ان العقار يعرض على اللجنة العليا في حالات الامراض المناعية فقط مثل autoimmune disease( R.A, SLE ....)\nولكن حالات الزرع يتم الصرف كالمعتاد طبقا لضوابط الصرف السابقة دون العرض على اللجنة العليا للدواء\nوتفضلوا بقبول وافر الاحترام ،،،",
+    "keywords": ["Mycophenolic acid", "autoimmune disease", "R.A", "SLE", "زرع", "ميكوفينوليك أسيد"]
+  },
+  {
+    "drug_name_ar": "ملاحظات بخصوص جرعات الانسولين المرتفعة وكتلة الجسم",
+    "drug_name_en": "Notes on high insulin doses and BMI",
+    "protocol_ar": "يرجى العلم انه لوحظ مؤخرا كثرة طلبات الانسولين لمرضى السكر المرفوعة الى اللجنة العليا للجرعات الزائدة عن البروتوكول .\nلذا يرجى من سيادتكم التنبيه بضرورة توضيح الوزن وكتلة الجسم (BMI) بالتقرير لحالات النوع الثانى من مرضى السكرى .\nولحالات النوع الاول او طلبة المدارس يرجى توضيح الوزن أو كتلة الجسم بالتقرير المرفق من اللجنة الاستشارية .\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["انسولين", "BMI", "سكرى النوع الاول", "سكرى النوع الثانى", "كتلة الجسم", "جرعات الانسولين"]
+  },
+  {
+    "drug_name_ar": "Hirudin 280 I.U cream",
+    "drug_name_en": "Hirudin 280 I.U cream",
+    "protocol_ar": "نحيط سيادتكم علما بإمكانية طلب صنف Hirudin 280 I.U cream مع مراعاة طلب الأرخص سعرا على المنظومة وذلك حفاظا على استمرار سلاسل الامداد الدوائي ، سلطة الوصف أخصائى ( عظام - جراحة مع و أعصاب. أوعية دموية - روماتيزم ) ويتم الصرف بحد أقصى ٤ أنبوبة ٢٥ جم في الشهر ولا يتم التكرار الا بعد اعادة العرض على الأخصائي.\nوتفضلوا بقبول فائق الاحترام و التقدير",
+    "keywords": ["Hirudin cream", "عظام", "جراحة", "أعصاب", "أوعية دموية", "روماتيزم", "هيرودين كريم"]
+  },
+  {
+    "drug_name_ar": "Azacitidine 100mg",
+    "drug_name_en": "Azacitidine 100mg",
+    "protocol_ar": "استمرارا للتعاون المشترك والجهود المبذولة لصالح تنوع مصادر الامداد الدوائى ولصالح المريض المصرى.\nنحيط سيادتكم علما انه عند طلب Azacitidine 100mg للحالات الصادر لها موافقة من اللجنة العليا للأورام أو الدواء يتم طلب الصنف الأقل سعراً على منظومة الشراء الموحد.\nويراعى عند الصرف استمرار المريض على نفس المنتج لنفس الشركة والرجوع لاستشارى أمراض الدم بالفروع لتنفيذ تعليمات متابعة المريض ومراقبة نتائج استخدام الأدوية.\nوتفضلوا بقبول وافر التحية",
+    "keywords": ["Azacitidine", "أورام", "أمراض الدم", "ازاسيتيدين"]
+  },
+  {
+    "drug_name_ar": "topical tacrolimus (مرهم تاكروليمس الموضعي)",
+    "drug_name_en": "topical tacrolimus",
+    "protocol_ar": "مرسل لسيادتكم البروتوكول العلمي وضوابط صرف عقار topical tacrolimus لعلاج atopic dermatitis حيث ان الجرعة القصوى للصرف انبوبة واحدة ( 30 جرام) شهريا يرجى من سيادتكم التعميم على السادة الاطباء والتنبيه على الالتزام بما جاء به . وفي حال الاحتياج لزيادة عن هذه الجرعة يرفع لجنة عليا للدواء .\nوتفضلوا بقبول فائق الاحترام\n\n**Criteria for patient selection:**\nConventional treatment with topical emollient / steroid regimens will continue to be the mainstay of treatment for patients with atopic dermatitis (eczema). Use of topical tacrolimus may however be considered as an alternative to systemic therapy (as is the case with phototherapy) in the following situations:\nBody eczema - when requiring continuous use of potent topical steroid\nFacial eczema - when requiring continuous use of moderate strength topical steroid\n\n**Administration details:**\nApply thinly to affected areas of the skin only\nEach affected region of the skin should be treated with topical tacrolimus until clearance occurs and then treatment should be discontinued. Generally, improvement is seen within one week of starting treatment. If no signs of improvement are seen after two weeks of treatment, the diagnosis of atopic eczema should be re-evaluated and / or further treatment options considered\nTopical tacrolimus can be used for short term and intermittent treatment, but continuous long-term treatment should be avoided\nAge < 2 years - not recommended\nAge 2-16 years - 0.03% ointment once daily for up to three weeks until clear. Twice daily use may occasionally be required as determined by a dermatologist\nAge > 16 years - 0.1% ointment twice daily until clear. If symptoms recur, restart 0.1% twice daily. An attempt should be made to reduce the frequency of application to once daily and to use the lower strength 0.03% ointment if clinical condition allows\nDo not use under occlusion, especially wet-wrap bandaging\nAvoid contact with eyes and mucous membranes\nDo not use topical corticosteroids concurrently on areas being treated, although these may be used as a 'rescue' treatment for flares of eczema\n\n**Contra-indications:**\nHypersensitivity to macrolides (eg erythromycin) in general, to tacrolimus or to any of the excipients (White soft paraffin, Liquid paraffin, Propylene carbonate, White beeswax, Hard paraffin\nAvoid in genetic epidermal barrier defects, eg Netherton's syndrome (because of increased absorption)\nDo not use in pregnancy or if breast-feeding\n\n**Cautions:**\nDo not use in immunocompromised patients or those on immunosuppressive therapy\nDo not apply to malignant or potentially malignant skin conditions, eg cutaneous T cell lymphoma\nDo not use when undergoing photo(chem)therapy, or for 2 months after. Advise about sun protection and sun bed avoidance (additional immunosuppression)\nClear any overt secondary infection prior to use, particularly herpes simplex\nVaccinations should be administered pre-treatment, or 14 days (28 days for live vaccines) after treatment ceases\nUse with caution in patients taking drugs that inhibit CYP 3A4 enzyme (eg erythromycin, itraconazole, diltiazem) and in those with hepatic dysfunction\n\n**Side-effects**\nBurning sensation, pruritus, erythema, sensation of warmth and tingling are common\nFacial flushing after consumption of an alcoholic beverage\nIncreased risk of folliculitis, acne and herpes viral infections\nLymphadenopathy - monitor to ensure that resolves. Investigate / stop tacrolimus if persists.\n\n**Contact points**\nDr G Lowe Consultant Dermatologist Ninewells Hospital 01382 633901\nDr S Lewis-Jones Consultant Dermatologist Ninewells Hospital 01382 633901\nMs A Coulson Principal Clinical Pharmacist Specialist Services 01382 660111 Bleep 4830\nMs K Stephen Senior Charge Nurse Dermatology Ninewells Hospital 01382 633901\n\n**Review date:** December 2007\nGL/AC 1206\n\n**Medicine name:**\nTopical tacrolimus (Protopic ointment) 0.03% and 0.1%\n**Licensed indication(s):**\nTreatment of moderate to severe atopic dermatitis in adults who are not adequately responsive to or who are intolerant of conventional therapies such as topical corticosteroids (0.03 and 0.1%)\nTreatment of moderate to severe atopic dermatitis in children (2 years of age and above) who fail to respond adequately to conventional therapies such as topical corticosteroids (0.03% only)\n\n**Scottish Medicines Consortium advice:**\nRecommended for restricted use within NHS Scotland. Use should be initiated and supervised by dermatologists within secondary care who have experience of treating atopic dermatitis using immunomodulatory therapy. A register of recipients should be established and maintained. (September 2002)\n\n**Prescriber details:**\nPrescription should be initiated and supervised by Dermatologists within secondary care (consultant or specialist registrar). May be prescribed by General Practitioners in primary care after initiation of treatment by dermatologist.\n\n[TABLE_START]\nConsultant Responsibilities\nConfirm diagnosis and severity of atopic dermatitis\nVerify prior conventional therapy unsuccessful\nAsk GP to prescribe initial 3-6 week supply of topical tacrolimus\nReview response to treatment - within 3 weeks children age 2-16, 6 weeks adults\nAsk GP to continue prescribing if initial therapeutic response favourable\nOutline written instructions for GP\nEnsure inclusion in departmental register\nDiscuss potential risk of malignancy with patient and/or parents prior to initiation of therapy\nRegular patient review - at least annual\n[TABLE_END]\n\n[TABLE_START]\nGP Responsibilities\nPrescription of tacrolimus as recommended by dermatologist\nReview response to ongoing treatment as per written instructions from hospital\nStop treatment when skin clears, or if adverse events\nRefer back to secondary care if not responding to recommended treatment\n[TABLE_END]",
+    "keywords": ["tacrolimus", "atopic dermatitis", "eczema", "steroid", "تاكروليمس", "Protopic", "Scottish Medicines Consortium", "مرهم موضعي"]
+  },
+  {
+    "drug_name_ar": "Prolia (Denosumab 60 mg)",
+    "drug_name_en": "Prolia (Denosumab 60 mg)",
+    "protocol_ar": "إيماء إلى ما تلاحظ مؤخرا من ازدياد كبير في الطلبات الواردة إلى اللجنة العليا للأورام بعقار Prolia في حالات أورام الثدي .\nمرسل لسيادتكم ضوابط صرف عقار Prolia (Denosumab 60 mg) في حالات الأورام طبقا لرأى السادة الأطباء استشاريي الأورام باللجنة العليا للأورام.\nيتم عرض الحالات التي ينطبق عليها الشروط الأتية على اللجنة العليا للأورام مع إرسال الفحوصات الدالة على ذلك\n١- في حالات Breast cancer طبقا لمبادرة صحة المرأة ويرفق الباثولوجي لتأكيد التشخيص\n٢- وجود Dexa scan حديث يوضح وجود Osteoporosis (-2.5) .\n٣- تحليل وظائف كلى يوضح Creatinin clearance >30 .\n٤- أقصى جرعة هي ٤ جرعات (جرعة كل ستة شهور ) على مدار سنتين .\n٥- الحالات التي لا ينطبق عليها الضوابط السابقة يتم تحويلها الى Zoledronic acid جرعة كل سنة شهور عن طريق اللجنة الفرعية ودون العرض على اللجنة العليا.\n- نرجو من سيادتكم التكرم بالتعميم ذلك على لجان الأورام مع توضيح ضوابط الوصف والتشديد على عدم مخالفتها من قبل اللجان الفرعية .\nوتفضلوا بقبول وافر التحية",
+    "keywords": ["Prolia", "Denosumab", "Breast cancer", "Dexa scan", "Osteoporosis", "Creatinin clearance", "Zoledronic acid", "أورام", "بروليا", "دينوسوماب"]
+  },
+  {
+    "drug_name_ar": "Adalimumab (Humira, Hyrimoz, Idacio)",
+    "drug_name_en": "Adalimumab (Humira, Hyrimoz, Idacio)",
+    "protocol_ar": "بالإشارة لطلب سيادتكم لإبداء الرأي علي إدراج العلاج البيولوجي (Idacio, Adalimumab 40 mg).\nأود أن أفيد سيادتكم بأنه المتوفر حالياً ومنذ إقرار البروتوكول الجديد للأمراض الروماتيزمية من نفس النوع ( الاسم العلمي Adalimumab 40 mg) هو نوعان فقط الأول (Humira 40 mg (brand والثاني (Hyrimoz 40 mg (Biosimilar ، وحيث إن معيار الكفاءة والأمان هما الأساس في اختيار نوعية العلاج البيولوجي لعلاج مرضانا ، وحيث إن الكميات المتاحة خلال الفترة الحالية من خلال الشركات المنتجة كافي ولا توجد شكوي حالياً ، فإنني اقترح علي سيادتكم عدم إضافة أي نوع جديد Biosimilar وذلك نظراً لعدم الحاجة في الوقت الحالي لهذا العلاج ونظراً لعدم وجود أي دراسات أو معلومات دقيقة تفيد كفاءة وعوامل الأمان من استخدام هذا العلاج.\nولسيادتكم وافر الشكر والتقدير ،\n\n(إشارة إلى تعميم سابق بخصوص Hyrimose/Humira)\nيرجى التكرم بالعلم ان صنف hyrimose biosimilar هوا لعقار humira ويمكن صرفه بنفس ضوابط صرف الـ humira و تنقل المرضى بينهم بأمان حسبما افادت اللجنة العلمية بالهيئة وذلك حفاظا على استكمال الخطة العلاجية للمرضى .\n\n(إشارة إلى تعميم سابق بخصوص Idacio)\nايماءا الى طلب سيادتكم على توفير صنف Idacio المادة الفعالة (Adalimumab 40mg) مرسل لكم الرد العلمى على أساس معيار الكفاءة والأمان من السادة الإستشاريين أعضاء اللجنه العليا للأدوية مرفق (طيه) .",
+    "keywords": ["Adalimumab", "Humira", "Hyrimoz", "Idacio", "Biosimilar", "Rheumatology", "اداليموماب", "هيوميرا", "هايريموز", "ايداسيو", "روماتيزم", "علاج بيولوجي"]
+  },
+  {
+    "drug_name_ar": "Omperazol 20mg tab & Omperazol 40mg tab (اوميبرازول)",
+    "drug_name_en": "Omeprazole 20mg tab & Omeprazole 40mg tab",
+    "protocol_ar": "تحديث البروتوكول المنظم لوصف عقار Omperazol 20mg tab & Omperazol 40mg tab\n**يستخدم في حالات :-**\n- علاج التهابات المرئ والمعدة والاثنى عشر\n- علاج تقرحات المرئ والمعدة والاثنى عشر\n- علاج إرتجاع المرئ المزمن\n- علاج جراثومة المعدة\n- علاج وقائى عند استخدام بعض الادوية الاخرى التي تؤثر على المعدة (مرضى الاورام – زرع الكلى والكبد)\n**قواعد الصرف**\n**بعد عمل منظار معدة :**\nOmperazol 20mg tab قرص يوميا او Omperazol 40mg tab قرص يوميا لمدة 14 يوم وحتى ثلاثة اشهر بحد اقصى بمعرفة الطبيب الاستشاري\n**بدون عمل منظار :**\nOmperazol 20mg tab قرص يوميا او Omperazol 40mg tab قرص يوميا لمدة 14 يوم بمعرفة الطبيب الاستشاري ولا يكرر خلال نفس الشهر والحالات الغير مستجيبة يتم عمل منظار للمعدة\n**مرضى الاورام وزرع الكلى والكبد :** يتم عمل تقرير استشارى من ثلاثة اطباء استشاريين بصرف Omperazol 20mg tab قرص يوميا او Omperazol 40mg tab قرص مرة واحدة يوميا يحدد كل ثلاثة اشهر موضحا به التشخيص والعلاج والجرعة اليومية\n**علاج جراثومة المعدة : علاج استشاري**\nOmperazol 20mg tab قرص مرتين يوميا او Omperazol 40mg tab قرص مرة واحدة يوميا لمدة 14 يوما بمعرفة الطبيب الاستشاري\n**الحالات التي سبق لها عمل منظار معدة وصرف لها العلاج ثلاثة اشهر وترغب في تكرار العلاج تخضع لتقييم الاستشاري والعرض طبقا لبروتوكول الصرف دون الحاجة لاعادة المنظار**\nوهذا للعلم واتخاذ اللازم\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["Omeprazole", "اوميبرازول", "التهاب المرئ", "قرحة المعدة", "ارتجاع المرئ", "جرثومة المعدة", "أورام", "زرع كلى", "زرع كبد", "Omperazol"]
+  },
+  {
+    "drug_name_ar": "Dapagliflozin 10mg (داباجليفلوزين)",
+    "drug_name_en": "Dapagliflozin 10mg",
+    "protocol_ar": "نحيط سيادتكم علما بانه من منطلق تطوير ملفات الامداد الدوائى و تلبية احتياجات المرضى فانه نحيط سيادتكم علما بامكانية صرف عقار dapagliflozin 10mg التجارى و المجانى ) لمرضى الكلى chronic kidney disease و بسلطة وصف استشارى مع ارفاق الفحوصات و التحاليل اللازمة مع التذكرة الطبية والجرعة القصوى قرص واحد يوميا. مع العلم ان العقار مدرج ببروتوكولات الهيئة .\nو ذلك للحاجة الماسة و العاجلة للمرضى و لضمان استمرار سلاسل الامداد الدوائى .\nو تفضلوا بقبول فائق الاحترام",
+    "keywords": ["Dapagliflozin", "داباجليفلوزين", "chronic kidney disease", "مرضى الكلى"]
+  },
+  {
+    "drug_name_ar": "Adalimumab 40mg/0.4ml (اوداسيو، فرزينباس كابي) - فرع سوهاج",
+    "drug_name_en": "Adalimumab 40mg/0.4ml (Odacio, Ferzinbas Kabi) - Sohag branch",
+    "protocol_ar": "الرجاء من سيادتكم الموافقة على توفير صنف ( اوداسيو فرزينباس كابي ) مادة فعالة Adalimumab 40mg / 0.4ml ) وذلك لحدوث نقص في توريد الهيوميرا والهيرموزا وطلب الصنف واحتياج المستشفى الى الصنف .",
+    "keywords": ["Adalimumab", "Odacio", "Ferzinbas Kabi", "Humira", "Hyrimoz", "Sohag", "اوداسيو", "فرزينباس كابي", "سوهاج", "نقص توريد"]
+  },
+  {
+    "drug_name_ar": "بروتوكولات أدوية الأورام والحالات الخاصة",
+    "drug_name_en": "Oncology and Special Cases Drug Protocols",
+    "protocol_ar": "**أدوية مدرجة ببروتوكولات الهيئة ولاتحتاج لموافقة اللجنة العليا للدواء:**\n[TABLE_START]\nالتشخيص | العقار\nAcute leukemia | Methylprednisolone, Asparginase, Vincristine, Cyclophosphamide, Doxirubicin, Imercaptipurine, Cytribine, Methotrexate\nDifferent solid malignancies | Cosmegen\nAllergy | Sosetide meg 0. Pulmicort ampules 0.25mg, 0.5mg Monoral Sm.i\nAutoimmune encephalitis | Methylprednisone\nMs-Nmo-anti mog | Methylprednisone\nCerebric sclerosis | Folic acid\nStatus dystricicus | Solindin\nProphylaxis | fibrongen\nيصرف من بنك الدم (الاسم البديل) في حالات اعراض الدم والاورام | V-Fend (voriconazole)\n[TABLE_END]\n\n**أدوية يتم صرفها فقط من داخل الوحدات المملوكة للهيئة الخاصه للتأمين الصحى بعد موافقه اللجنه العليا للدواء:**\nأولا : الادوية يتم صرفها فقط من داخل الوحدات المملوكة للهيئة الخاصه للتأمين الصحى بعد موافقه اللجنه العليا للدواء ويتم توجيه المنافع للتبرع للشركة التابع له لاتخاذ الاجراءات اللازمه لاستصدار موافقه اللجنه العليا للدواء وتحمل وصف الاورام الخاص بالمريض.\n[TABLE_START]\nالعقار | تعليمات الصرف\nRevolade | - Aplastic anemia - Idiopathic thrombocytopenic purpura (ITP) - Refractory primary hemophagocytic lymphohistiocytosis (JAK inhibitor:Ruxolitinib) - Primary immunodeficiency diseases - Autoinflammatory syndromes\nConcept 250mg, 500mg | - Ms-Nmo-anti mog - Tuberous sclerosis\nAdalimumab, Etanercept | يصرف داخل وحدات الهيئة فقط\nMyfortic, Everolimus | -\nOmalizumab – Duplumab | يصرف في حالات الحساسية المناعية فقط بعد العرض على اللجنة العليا للدواء بوحدات الهيئة\nFliotide125 mcg | استشارة صدرية من وحدات الهيئة بوحدات الهيئة\n[TABLE_END]\n\nثانيا: ادوية يتم صرفها من الجهات المتعاقده مع الهيئة للتأمين الصحى بعد موافقه اللجنه العليا للدواء.\nيتم توجيه المنافع للتبرع للشركة التابع له لاتخاذ الاجراءات اللازمه لاستصدار موافقه اللجنه العليا للدواء وتحمل وصف الاورام الخاص بالمريض يتضمن على قرار اللجنه العليا للدواء وان يتم ارفاق صوره من الموافقه مع المظلفه المقدمه للصرف و يتم التوقيع على الاقرار الخاص بتحمل هيئه الشراء الموحد.\n[TABLE_START]\nالعقار | تعليمات الصرف\nIVIG | Idiopathic Thrombocytopenic Purpura (ITP) في حالة عدم توافر العقار في الجهه المتعاقدة يرفق افادة بذلك، الأدوية مصحوبة من صيدلية الجهه ويتم اعتمادها من الشئون الطبية\nMycophenolatemofetil |\nRituximab |\nNeutropenia | بروتوكول صرف العلاج على حالات الأورام في حالات نقص المناعة للأطباء المعالجين للتحاليل صورة. الدور، يوضح عدد الصفائح الدموية أقل من ١٠٠\nAmbizome | Febrile neutropenia / fungal infection / acute leukemia with intensive chemotherapy\n[TABLE_END]",
+    "keywords": ["oncology", "acute leukemia", "solid malignancies", "allergy", "autoimmune encephalitis", "aplastic anemia", "ITP", "Ruxolitinib", "Omalizumab", "IVIG", "Neutropenia", "Ambizome", "Revolade", "Concept", "Adalimumab", "Etanercept", "Myfortic", "Everolimus", "Fliotide", "Methylprednisolone", "Asparginase", "Vincristine", "Cyclophosphamide", "Doxirubicin", "Imercaptipurine", "Methotrexate", "Cosmegen", "Voriconazole", "أورام", "حالات خاصة"]
+  },
+  {
+    "drug_name_ar": "ضوابط صرف أدوية خاصة (Colistin, Tyagacil, Neupogen)",
+    "drug_name_en": "Special Dispensing Rules (Colistin, Tygacil, Neupogen)",
+    "protocol_ar": "٢. ضوابط صرف بعض الأدوية بتعليمات خاصه بعد الرجوع إلى إداره الشئون الطبية بالفرع:\n[TABLE_START]\nالعقار | تعليمات صرف العلاج\nColistin – Zavezevta | يصرف للحالات بالرعاية المركزة قسم ارفاق (يصرف لعينة طبقا بعد مراجعة قطاعات الطبية وارفق صورة المزرعة)\nTyagacil | للحالات الحرجة عند عدم استجابة المريض للمضادات الحيوية الأخرى الأقل سعرا\nNeupogen | بروتوكول صرف العلاج يستدعى العرض على طبيب الاورام وامراض الدم وزرع الاعضاء فقط على ان لا يقل تحليل صورة الدم يوضح عدد الصفائح الدمويه اقل من ١٠٠\n[TABLE_END]\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["Colistin", "Zavezevta", "Tyagacil", "Tygacil", "Neupogen", "RBC", "WBC", "Platelets", "كوليستين", "تايجاسيل", "نيوبوجين", "ضوابط صرف"]
+  },
+  {
+    "drug_name_ar": "Thioctic acid (Thiotacid) (ثيوكتيك أسيد)",
+    "drug_name_en": "Thioctic acid (Thiotacid)",
+    "protocol_ar": "يرجى التكرم بالعلم بان العقار Thioctic acid (Thiotacid) يستخدم كعلاج مكمل على خطة العلاج الاساسية لمرضى التهاب الاعصاب الطرفية المتعدد وليس كعلاج اساسى للمرضى وذلك بحسب ما افادت به اللجان العلمية المتخصصة بالهيئة.\nوان ادارج العقار ضمن قائمة ادوية الهيئة الاساسية منذ اكثر من 25 عاما قد توافقت عليه اللجان العلمية الطبية ان سلطة الوصف استشارى.\nالجرعة القصوى: 600 mg سواء كجرعة واحدة يوميا او مقسمة على جرعتين مع تقييم المريض المستمر كل 3 اشهر ووقف الصرف مباشرة اذا لم يثبت الغرض المطلوب منه ومراعاة عدم ازدواجية صرفه مع فيتامين ب .\n** وفيما يخالف الجرعات الموصوفة سابقا يمكن دائما عرض مستندات المريض على اللجنة العليا للدواء لبيان استحقاق المريض بتقرير استشارى وذلك حفاظا على مصالح المريض وحفاظا على مصالح الهيئة.\nلذا نرجو من سيادتكم التكرم بمايلي:\n1. التكرم بالتنبيه على السادة استشارى التخصص بعدم تجاوز الجرعة القصوى.\n2. التكرم بالتنبيه على السادة الصيدلة للالتزام بالجرعات المقررة.\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["Thioctic acid", "Thiotacid", "التهاب الاعصاب", "فيتامين ب", "ثيوكتيك أسيد", "ثيوتا سيد"]
+  },
+  {
+    "drug_name_ar": "Bendamustine, Voriconazole (بندامستين، فوريكونازول) - فرع سوهاج",
+    "drug_name_en": "Bendamustine, Voriconazole - Sohag Branch",
+    "protocol_ar": "في اطار التخفيف عن المرضى وبناء على توصيات اطباء اللجنة العليا\nنحيط علم سيادتكم بان صنفي:\nBendamustine بالاسم العلمي Voriconazole\nسيتم صرفهم بتقرير استشارى اللجنة الفرعية بدون العرض على اللجنة العليا على ان يتم الصرف شهريا ويتم التقييم عن طريق اللجان الفرعية\nوتفضلوا بقبول وافر التحية",
+    "keywords": ["Bendamustine", "Voriconazole", "Sohag", "بندامستين", "فوريكونازول", "سوهاج", "لجنة عليا"]
+  },
+  {
+    "drug_name_ar": "أدوية متنوعة (IVIG, Ganciclovir, Methylprednisolone, Infliximab, Rituximab, Cyclophosphamide, Tocilizumab)",
+    "drug_name_en": "Various Drugs (IVIG, Ganciclovir, Methylprednisolone, Infliximab, Rituximab, Cyclophosphamide, Tocilizumab)",
+    "protocol_ar": "(يصرف بالاسم العلمي بحسب الضوابط)\n[TABLE_START]\nالعقار | التشخيص\nIVIG | Primary immunodeficiency diseases\nAntifungal (Ambisome, Ganciclovir (Cymevene)) | -\nMethylprednisolone 500mg, 1gm | Juvenile idiopathic arthritis\nInfliximab | -\nTocilizumab 80mg, 200mg, 400mg مع ارفاق تقرير استشاري منظوم مطابق للشعار | Systemic lupus erythematosus\nMethylprednisolone 500mg, 1gm | -\nCyclophosphamide vial only | -\nRituximab | -\nComplicated cases (IVIG, Plasma pharesis) | Kawasaki vasculitis\nIVIG | -\nMethylprednisolone 500mg, 1gm - Infliximab | Autoinflammatory syndromes\nTocilizumab 80mg, 200mg, 400mg مع ارفاق تقرير استشاري منظوم مطابق للشعار | Juvenile Dermatomyositis\nCyclophosphamide vial only | -\nRituximab | -\nRefracto cases IVIG) | Juvenile systemic sclerosis\nMethylprednisolone 500mg, 1gm | -\nCyclophosphamide vial only | -\nRituximab | -\nTocilizumab 80mg, 200mg, 400mg مع ارفاق تقرير استشاري منظوم مطابق للشعار | ANCA positive vasculitis\nMethylprednisolone 500mg, 1gm | -\nCyclophosphamide vial only | -\nRituximab | -\nTocilizumab 80mg, 200mg, 400mg مع ارفاق تقرير استشاري منظوم مطابق للشعار | Behcet vasculitis\nMethylprednisolone 500mg, 1gm | -\nCyclophosphamide vial only | -\nRituximab | Autoimmune encephalitis\nIVIG | Ms-Nmo-anti mog\nCyclophosphamide vial only | -\n[TABLE_END]",
+    "keywords": ["IVIG", "Ambisome", "Ganciclovir", "Cymevene", "Methylprednisolone", "Infliximab", "Tocilizumab", "Systemic lupus erythematosus", "Kawasaki vasculitis", "Autoinflammatory syndromes", "Juvenile Dermatomyositis", "Juvenile systemic sclerosis", "ANCA positive vasculitis", "Behcet vasculitis", "Autoimmune encephalitis", "Ms-Nmo-anti mog", "Cyclophosphamide", "Rituximab", "أدوية متنوعة"]
+  },
+  {
+    "drug_name_ar": "Gazyva في Chronic lymphocytic leukemia (جازيفا)",
+    "drug_name_en": "Gazyva in Chronic lymphocytic leukemia",
+    "protocol_ar": "مرسل لسيادتكم ضوابط صرف عقار Gazyva used as afirst line for unfit patient ( has comorbidity )\n**With the following regimens :-**\n-( Gazyva + chemotherapy ) protocol for maximum 6 cycles in 6 monthes (8 vials of Gazyva 1000mgeach vial )\n- Dosing schedule as the following :-\n- **First month : (3 vials )**\n- 100mg first day then 900mg second day ( one vial )\n- 1000 mg at the day 8 ( one vial )\n- 1000 mg at the day 15 ( one vial )\n- **From the second month till the sixth month 1000 mg at the first day of every month only (5 vials )**\nوذلك طبقا للبروتوكول المعروض من استشاريين اللجنة العليا لامراض الدم والمعتمد من السيد الدكتور رئيس الهيئة\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["Gazyva", "Obinutuzumab", "Chronic lymphocytic leukemia", "CLL", "chemotherapy", "جازيفا", "ابيناوتوزوماب"]
+  },
+  {
+    "drug_name_ar": "أدوية جلدية وروماتيزم (Acitretin, Mycophenolate mofetil, Cyclosporin, Rapamune, Tacrolimus, Forteo)",
+    "drug_name_en": "Dermatology and Rheumatology Drugs (Acitretin, Mycophenolate mofetil, Cyclosporin, Rapamune, Tacrolimus, Forteo)",
+    "protocol_ar": "بعد التحية\nنفيد سيادتكم بأنه تخفيفا على المرضى فقد اتفق السادة الإستشاريين اطباء اللجنة العليا ( الروماتولوجى - الجلدية ) بالآتى :\n- يتم صرف عقار Acitretin بواسطة استشارى التخصص بدون العرض على اللجنة العليا للدواء\n- يؤخر النظر في قائمة لهذه الادوية الاساسية بسطة وصف استشارى روماتيزم الجلدية\n- يتم صرف الادوية الاتية التابعة لامراض الكلى (المناعية) بعد العرض على اللجنة العليا للدواء أول مرة فقط بتقرير استشارى التخصص وليس لجنة فرعية ويتم التكرار من الإستشارى بعد موافقة مدير التموين الطبي بالفرع بدون العرض على اللجنة العليا\nMycophenolate mofetil 250,500 mg\nCyclosporin 25,50,100 mg tab , syrup\nRapamune 1 mg\nMycophenolic acid 180, 360 mg\nTacrolimus 0.5, 1 mg\n- يتم صرف عقار Forteo بعد العرض على اللجنة العليا للدواء كل ستة اشهر بتقرير استشارى التخصص وليس لجنة فرعية.",
+    "keywords": ["Acitretin", "Mycophenolate mofetil", "Cyclosporin", "Rapamune", "Mycophenolic acid", "Tacrolimus", "Forteo", "Dermatology", "Rheumatology", "Kidney diseases", "جلدية", "روماتيزم", "أمراض الكلى", "اسيتريتين", "ميكوفينولات", "سيكلوسبورين", "راباميون", "تاكروليمس", "فورتيو"]
+  },
+  {
+    "drug_name_ar": "Venetoclax in Acute myeloid leukemia (فينيتوكلاكس)",
+    "drug_name_en": "Venetoclax in Acute myeloid leukemia",
+    "protocol_ar": "مرسل لسيادتكم ضوابط صرف عقار Venetoclax in Acute myeloid leukemia\n- For AML patients unfit for chemotherapy\n**With the following regimens :-**\n-( Venetoclax+ LDAC + voriconazole ) protocol by dose\n{ 100mg venetoclax daily for 28 days / month } for maximum 6 cycles then reavaluate\nوذلك طبقا للبروتوكول المعروض من استشاريين اللجنة العليا لامراض الدم والمعتمد من السيد الدكتور رئيس الهيئة\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["Venetoclax", "Acute myeloid leukemia", "AML", "LDAC", "voriconazole", "chemotherapy", "فينيتوكلاكس", "ابيضاض الدم النقوي الحاد"]
+  },
+  {
+    "drug_name_ar": "isosorbide-5 mononitrate 25mg capsule (ايزوسوربيد)",
+    "drug_name_en": "isosorbide-5 mononitrate 25mg capsule",
+    "protocol_ar": "يرجي العلم بانه قد تمت اتاحة طلب صنف isosorbide-5 mononitrate 25mg capsule بالاضافة للتركيزات المتاحة للصنف داخل قائمة الهيئة الاساسية\nوسلطة الوصف اخصائى الباطنة/القلب وذلك لضمان سلاسل الامداد الدوائى وحرصا على مصالح المرضى والصالح العام\nنرجو من سيادتكم التكرم بالتوجيه بما يلزم\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["isosorbide-5 mononitrate", "capsule", "ايزوسوربيد ٥ مونو نيترات", "القلب", "الباطنة"]
+  },
+  {
+    "drug_name_ar": "Pemetrexed (بيميتريكسيد)",
+    "drug_name_en": "Pemetrexed",
+    "protocol_ar": "مرسل لسيادتكم التحديث الاخير في بروتوكول اورام الرئة لاستخدام عقار Pemetrexed بحسب توصيات NCCN guidelines وهي كالتالي :\n1.Patients with pathologically confirmed diagnosis of Non Small Cell lung Cancer\n2.Complete laboratory and radiological assessment prior to treatment\n3.Premedication with folic acid and Depovit -B12\n4.After receiving 3 cycles, patients to be evaluated for response\n5.Responding patients would continue 3 more cycles and evaluated till reaching maximum response\n6.Non responding patients should receive another line of treatment\n- نرجو من سيادتكم التكرم بتعميم ذلك على لجان الأورام مع توضيح ضوابط الوصف والتشديد على عدم مخالفتها من قبل اللجان الفرعية .\nوتفضلوا بقبول وافر التحية",
+    "keywords": ["Pemetrexed", "NCCN guidelines", "Non Small Cell lung Cancer", "folic acid", "Depovit-B12", "بيميتريكسيد", "اورام الرئة", "NSCLC"]
+  },
+  {
+    "drug_name_ar": "Tadalafil 5mg (تادالافيل)",
+    "drug_name_en": "Tadalafil 5mg",
+    "protocol_ar": "يرجى العلم بانه يمكنكم طلب عقار Tadalafil 5 mg ليتم صرفه في حالات BPH بعد العرض على استشاري المسالك بحد اقصى قرص واحد يوميا علما بانه سعره على المنظومة 3.51 للقرص ويتم طلبه مناصفه مع الاصناف المدرجة مسبقا لعلاج BPH.\nوذلك للحاجة الماسة و العاجلة و لضمان استمرار سلاسل الامداد الدوائى.\nوتفضلوا بقبول فائق الاحترام و التقدير",
+    "keywords": ["Tadalafil", "BPH", "تادالافيل", "تضخم البروستاتا الحميد", "مسالك بولية"]
+  },
+  {
+    "drug_name_ar": "Botox (بوتكس) لعلاج حالات فرط نشاط المثانة",
+    "drug_name_en": "Botox for overactive bladder",
+    "protocol_ar": "نحيط علم سيادتكم إنه تم اعتماد السيد الدكتور/ رئيس مجلس الإدارة بتفويض مديرى الفروع لإجراء حقن \" بوتكس للمثانة \" لحالات المنتفعين الذين يعانون من المادة العصبية وحالات متلازمة فرط نشاط المثانة\nوذلك طبقا للضوابط الاتية:\n١. عرض الحالة على (٢) استشاري بالهيئة:\n   ** بالنسبة للرجال : عرض عدد (٢) استشاري مسالك بولية\n   ** بالنسبة للسيدات : عرض استشاري مسالك بولية + عرض استشاري نساء\n   ** بالنسبة للأطفال : عرض استشاري مسالك بولية + عرض استشاري أطفال\n٢. اجراء فحص ديناميكية التبول\n٣. بحث الطلب من خلال ادارة الشئون الطبية بالفروع وعرضها على مديرى الفروع للاعتماد وذلك تيسيرا على المنتفعين\n٤. يتم اعادة تقييم الحالة في حالة الاحتياج للحقن مرة اخرى\nوتفضلوا بقبول فائق الاحترام\nتحريرا في : ٢٠٢٤/١/٣٠",
+    "keywords": ["Botox", "بوتكس", "فرط نشاط المثانة", "overactive bladder", "مسالك بولية", "نساء", "أطفال", "ديناميكية التبول"]
+  },
+  {
+    "drug_name_ar": "Mometasone Furaote Nasal Spray (موميتازون فيوراوات بخاخ أنف)",
+    "drug_name_en": "Mometasone Furaote Nasal Spray",
+    "protocol_ar": "نحيط سيادتكم علما بإمكانية طلب صنف Mometasone Furaote Nasal Spray . سلطة الوصف أخصائي انف و أذن ، مع مراعاة طلب الأرخص سعرا على المنظومة وذلك حفاظا على سلاسل الامداد الدوائى و ضمان التوريد.\nو بحد أقصى زجاجة شهريا ولا يتم وصفه تكرار علاجى.\nوتفضلوا بقبول فائق الاحترام و التقدير",
+    "keywords": ["Mometasone Furaote Nasal Spray", "موميتازون فيوراوات", "بخاخ أنف", "انف واذن وحنجرة"]
+  },
+  {
+    "drug_name_ar": "Sulfax PLUS gel, Sulfax CMO cream (سلفاكس)",
+    "drug_name_en": "Sulfax PLUS gel, Sulfax CMO cream",
+    "protocol_ar": "نحيط سيادتكم علما بإمكانية طلب صنف Sulfax PLUS gel, Sulfax CMO cream لعلاج حالات الروماتيزم و الخشونة و التهاب المفاصل ، سلطة الوصف أخصائي (عظام- روماتيزم) ويتم الصرف بحد أقصى واحد أنبوبة شهريا .\nوذلك حفاظا على سلاسل الامداد الدوائى و ضمان التوريد.\nوتفضلوا بقبول فائق الاحترام و التقدير",
+    "keywords": ["Sulfax PLUS gel", "Sulfax CMO cream", "سلفاكس", "روماتيزم", "خشونة", "التهاب المفاصل", "عظام"]
+  },
+  {
+    "drug_name_ar": "Statins للأطفال (ستاتين)",
+    "drug_name_en": "Statins for children",
+    "protocol_ar": "نحيط سيادتكم علما بإمكانية صرف statins للاطفال الذين يعانون من Familial Hypercholesterolemia ويتم تحديد الجرعة وفقا للتحاليل الطبية الخاصة بالطفل lipid profile ويتم اعادة التقييم كل ٣ أشهر..\nوتفضلوا بقبول فائق الاحترام و التقدير",
+    "keywords": ["Statins", "ستاتين", "أطفال", "Familial Hypercholesterolemia", "lipid profile", "ارتفاع الكوليسترول الوراثي"]
+  },
+  {
+    "drug_name_ar": "أدوية هرمون النمو",
+    "drug_name_en": "Growth Hormone Drugs",
+    "protocol_ar": "احكاما للرقابة على صرف الادوية ولضمان وصول الادوية لمستحقيها يرجى التنبيه على السادة الصيادلة بجميع الوحدات التابعة لسيادتكم بانه عند صرف هرمون النمو ( للحالات الجديدة ) يجب ارفاق قرار اللجنة العليا لهرمون النمو التابعة للادارة المركزية للشئون الطبية برئاسة الهيئة مع قرار اللجنة الفرعية.\nوتفضلوا بقبول فائق الاهترام",
+    "keywords": ["هرمون النمو", "Growth Hormone", "اللجنة العليا", "قرار اللجنة الفرعية"]
+  },
+  {
+    "drug_name_ar": "Tamsulin (تامسولين) لعلاج تضخم البروستاتا",
+    "drug_name_en": "Tamsulin for BPH",
+    "protocol_ar": "بناءا على ما تلاحظ من طول قوائم الانتظار لمرضى عيادات إستشارى جراحة المسالك البولية و تسهيلا على المرضى لتقليل قوائم الانتظار للمرضى الموصوف لهم عقار (Tamsulin) والذي يكرر مدى الحياة.\nلذا يتم عرض المريض أول مرة على إستشارى جراحة المسالك البولية و يكرر بعد ذلك من الأخصائى شهريا و يتم صرف العلاج بصورة شهرية فقط و ليس علاج شهرين لاحكام الرقابة.\nلذا يتم التوجيه للمختصين طرفكم بتنفيذ ذلك\nوتفضلوا بقبول فائق الإحترام ،،،",
+    "keywords": ["Tamsulin", "تامسولين", "تضخم البروستاتا", "BPH", "جراحة المسالك البولية", "مدى الحياة"]
+  },
+  {
+    "drug_name_ar": "Risdiplam (ريسديبلام)",
+    "drug_name_en": "Risdiplam",
+    "protocol_ar": "إيماء إلى توصيات اللجنة العليا لمرضى ضمور العضلات المنعقدة بمستشفى المقطم للتأمين الصحى بتاريخ 18 يوليو 2024 المتضمنة الآتى :\n1. يتم تقييم حالات ضمور العضلات التي تقرر لها العلاج من اللجنة العليا لمتابعة مرضى ضمور العضلات تقييم مبدئى قبل أخذ العقار وتقييم دورى كل 6 شهور من بداية اخذ العقار من خلال مراكز عيادة ناصر التابعة لفرع القاهرة بالهيئة العامة للتأمين الصحى.\n2. لا يتم صرف عقار الشراب (Risdiplam) للذين صدر لهم احكام قضائية أو من تمت الموافقة لهم على فتح حساب لجميع التبرعات إلا من خلال مستشفى معهد ناصر للبحوث والعلاج التابعة لأمانة المراكز الطبية المتخصصة أو العيادات الفرعية التابعة للهيئة العامة للتأمين الصحى أو حسب ماتقرره اللجنة العليا\n3. ضرورة تفعيل نموذج التحويل للجنة العليا بالعيادات الفرعية والمقررة سابقا (مرفق) وأن يتم استقبال الحالات الواردة من العيادات الفرعية في اللجنة العليا إلا بهذا النموذج .\nالرجاء من سيادتكم التكرم بالتنبيه على المختصين بضرورة الالتزام بتوصيات اللجنة العليا.\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["Risdiplam", "ريسديبلام", "ضمور العضلات", "مستشفى المقطم", "مراكز عيادة ناصر", "معهد ناصر"]
+  },
+  {
+    "drug_name_ar": "بروتوكول استخدام الادويه المخدرة (الفنتانيل، الكيتامين، النالوفين، المورفين، الترامادول)",
+    "drug_name_en": "Protocol for Narcotic Drugs (Fentanyl, Ketamine, Nalbuphine, Morphine, Tramadol)",
+    "protocol_ar": "• الفنتانيل\nيعتبر الفنتانيل هو العقار المخدر الأكثر امانا داخل العمليات\nيستخدم الفنتانيل فى حالات التخدير الكلى فى العمليات بجرعه ۱۰۰-۲۰۰ ميكروجرام (امبولين) حسب وزن المريض وطول العمليه .\nويستخدم أيضاً فى حالات التخدير الموضعى عند الحاجه فى بعض الحالات بجرعه ٢٥-٥٠ ميكروجرام مع الدورميكم كمهدئات .\nومن الممكن استخدامه لمرض الرعايه المركزه على أجهزة التنفس الصناعى بمعدل ٢٥ ميكروجرام في الساعه .\n\n• الكيتامين\nيستخدم الكيتامين كمهدئ ومسكن للالام للمرضى بالرعايه المركزه وخاصة المرضى على اجهزة التنفس الصناعى بمعدل ٠,٢٥ ملليجرام لكل كيلو جرام فى الساعه خاصه حالات الالتهاب الرئوى .\nومن الممكن استخدامه أيضاً كمهدئ لحالات التخدير الموضعى بالعمليات .\n\n• النالوفين\nيستخدم النالوفين كمسكن للآلام بعد العمليات الكبرى بجرعة ١٠ ملليجرام او بمعدل ٥ ملليجرام كل ٨ ساعات حسب حالة المريض ونوع العمليه، ومن الممكن استخدامه ايضاً في القسم الداخلى .\n\n• المورفين\nيستخدم المورفين فى الحالات الكبرى والتى تستغرق وقت طويل يصل لعدة ساعات وخاصة الحالات التي يرتفع فيها ضغط الدم أثناء العمليه بشكل كبير والحالات التي يكون فيها ضغط الدم مرتفع ولا يمكن التحكم فيه ولابد من اجراء الجراحه والحالات التى تعانى من ارتفاع ضغط الدم المزمن بجرعة ١٠ ملليجرام .\nويمكن استخدامه أيضاً كمسكن للآلام بعد العمليات الكبرى .\n\n• الترامادول\nيستخدم كمسكن للآلام بالرعايه المركزه بجرعة ٥٠-١٠٠ ميكروجرام كل ٨-١٢ ساعه حسب الحاله العامه للمريض ودرجة الألم وهو اكثر امانا لمعظم مرضى الاورام ويمكن استخدامه أيضاً بالقسم الداخلى .\n\nمعايير استخدام الادويه المخدرة بالقسم الداخلى\n✓ يفضل استخدام الادويه المسكنه الغير مخدره بالقسم الداخلى لانها اكثر امانا للمرضى .\n✓ في حالات الألم الشديد يمكن استخدام الادويه المخدرة بجانب الادويه المسكنه الغير مخدره لتقليل جرعات الادويه المخدره .\n✓ يفضل استخدام النالوفين والترامادال بالاقسام الداخليه لانهم اكثر امانا .\n✓ استخدام الادويه المخدرة بالقسم الداخلى يكون تحت إشراف الطبيب المسئول عن الحاله وبملاحظته التامه للمريض بعد اعطاءه المخدر.\n\nاي استخدام للادويه المخدرة يتم تحت إشراف الطبيب المسئول سواء بالرعايه او العمليات او القسم الداخلى وبأمر كتابى منه ويقوم التمريض الذي أعطى العقار بتدوين ذلك بورقة علاج المريض.\nا.د/ بهاء الدين عويس\nأستاذ التخدير والرعاية المركزه وعلاج الألم بجامعة عين شمس",
+    "keywords": ["فنتانيل", "Fentanyl", "كيتامين", "Ketamine", "نالوفين", "Nalbuphine", "مورفين", "Morphine", "ترامادول", "Tramadol", "ادوية مخدرة", "Narcotic drugs", "تخدير", "رعاية مركزة", "علاج الألم"]
+  },
+  {
+    "drug_name_ar": "Precedex protocol (بريسيدكس)",
+    "drug_name_en": "Precedex protocol",
+    "protocol_ar": "Precedex protocol\nMechanism of action: centrally acting alpha 2 adrenergic receptor agonist\nSedation: elicit sedative and anesthetic properties by activating G-protein in brainstem, which result in inhibition of norepinephrine release.\nAgitation: mechanism of action of acute treatment of agitation associated with schizophrenia or bipolar I or II disorder may be due to activation of presynaptic alpha-2 adrenergic receptors.\nDose regimen: start with maintenance dose (0.1-0.7)mcg/kg/hr.\n200mcg (one vial 2ml each ml = 100 mcg Dexmedetomidine) added to 48 ml Nacl 0.9 % on rate 1-10 ml/hr titrated dose according to acquired sedation level. Close monitoring of ECG , Pulse oximetry , NIBP & conscious level.\nNo loading dose ( bolus doses lead to severe bradycardia up to sinus arrest & severe hypotension).\n\nIndication:\n1. Sedation in ICU of intubated or non intubated patient.\n2. control agitation.\n3. During a surgical procedure.\n\nPrecaution:\n• Precedex should be administered by continuous infusion not to exceed 24hrs (tachyphylaxis and increase withdrawal effect).\n• Increase incidence of bradycardia and hypotension in elderly, and potential for reduced clearance in patients with impaired hepatic or renal function, dose reduction should be considered in this patients type.\n• Increasing precedex dosage too rapidly could lead to oversedation and increased potential for side effects.",
+    "keywords": ["Precedex", "Dexmedetomidine", "sedation", "agitation", "ICU", "alpha 2 adrenergic receptor agonist", "بريسيدكس", "ديكسميديتوميدين", "تخدير", "رعاية مركزة"]
+  },
+  {
+    "drug_name_ar": "قائمة أدوية الأورام للعرض على اللجنة الفرعية",
+    "drug_name_en": "Oncology Drugs List for Subcommittee Review",
+    "protocol_ar": "في اطار التيسير على مرضى الاورام في صرف بعض الادوية المتداولة منذ سنوات عديدة والتي تعتبر خطوط علاجية تطبق منذ عدة سنوات\nيرجى التكرم بالاحاطة ان صرف بعض هذه الادوية سيكون صرفها على النحو التالي :\n[TABLE_START]\nم | العقار | التشخيص | الاجراء\n١ | Sunitinib | -Met.RCC, -Met.GIST, -Thyroid cancer | العرض الاول عن طريق اللجنة العليا فقط ثم يتم الاستكمال وتكرار العلاج عن طريق تقييم الفحوصات من خلال اللجنة الفرعية\n٢ | Pazopanib | -Met.RCC, -Met.sarcoma | العرض الاول عن طريق اللجنة العليا فقط ثم يتم الاستكمال وتكرار العلاج عن طريق تقييم الفحوصات من خلال اللجنة الفرعية\n٣ | Everolimus | -Met.RCC | العرض الاول عن طريق اللجنة العليا فقط ثم يتم الاستكمال وتكرار العلاج عن طريق تقييم الفحوصات من خلال اللجنة الفرعية\n٤ | Temozolamide | -Brain tumor | العرض الاول عن طريق اللجنة العليا فقط ثم يتم الاستكمال وتكرار العلاج عن طريق تقييم الفحوصات من خلال اللجنة الفرعية\n٥ | Vinorelbine | -Met.breast cancer, -Lung cancer | العرض الاول عن طريق اللجنة العليا فقط ثم يتم الاستكمال وتكرار العلاج عن طريق تقييم الفحوصات من خلال اللجنة الفرعية\n٦ | Gefetinib | -Lung cancer | العرض الاول عن طريق اللجنة العليا فقط ثم يتم الاستكمال وتكرار العلاج عن طريق تقييم الفحوصات من خلال اللجنة الفرعية\n٧ | Lapatinib | -Met.breasr cancer | العرض الاول عن طريق اللجنة العليا فقط ثم يتم الاستكمال وتكرار العلاج عن طريق تقييم الفحوصات من خلال اللجنة الفرعية\n[TABLE_END]\n لذا يرجى من سيادتكم التكرم والتنبيه والنشر على السادة مسئولى اللجان\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["Sunitinib", "Pazopanib", "Everolimus", "Temozolamide", "Vinorelbine", "Gefetinib", "Lapatinib", "Oncology", "Met.RCC", "Met.GIST", "Thyroid cancer", "Met.sarcoma", "Brain tumor", "Met.breast cancer", "Lung cancer", "أورام", "سونيتينيب", "بازوبانيب", "ايفروليمس", "تيموزولاميد", "فينوريلبين", "جيفتينيب", "لاباتينيب"]
+  },
+  {
+    "drug_name_ar": "Omegapress (Octreotide) 0.1mg & 0.2mg (اوميجا برس - اوكتريوتايد)",
+    "drug_name_en": "Omegapress (Octreotide) 0.1mg & 0.2mg",
+    "protocol_ar": "يرجى العلم انه طبقا لاعتماد رئيس الهيئة ادراج عقار Omegapress بتركيزاته (0.2mg & 0.1mg) لعلاج الاطفال الذين يعانون من مرضى القئ الطويل للبرتوكولات الاتيه :\nالجرعة المبدئية : 0.2 mg once daily for 2 weeks\nمراقبة الاستجابة بعد اسبوعين اذا حدثت استجابة كاملة ( تقليل اللأعراض الليلية 50%) يتم الاستمرار على العلاج لمدة 3 شهور.\nاذا لم تحدث استجابة تتم زيادة الجرعة الى 0.4 mg مرة واحدة يوميا لمدة 3شهور\nيتم وقف العلاج لمدة اسبوع ومراقبة الإستجابة :\n  • في حالة الاستجابة : يتم تقليل الجرعة الى 0.1 mg مرة واحدة يوميا لمدة 3 شهور\n  • اذا حدثت انتكاسة بعد الاستجابة فى الفترة الاولى : الاستمرار على 0.2mg مرة واحدة يوميا لمدة 3 شهور اخرى\n- في حالة عدم الاستجابة للعقار يجب وقفه واعادة تقييم الحالة\n- المدة الكلية للعلاج بالعقار هي 6 اشهر فقط ثم يتم سحب العقار .\nوذلك للعلم ،،",
+    "keywords": ["Omegapress", "Octreotide", "اوميجا برس", "اوكتريوتايد", "القئ الطويل", "اطفال", "long vomiting"]
+  },
+  {
+    "drug_name_ar": "Ventoclax (فينتوكلاكس)",
+    "drug_name_en": "Ventoclax",
+    "protocol_ar": "الرجاء من سيادتكم افادتنا بكيفية صرف وكتابة روشتة عقار ( ventoclax ) حيث ان موافقة اللجنة العليا على صرف العقار مدتها 3 شهور والعبوة (برطمان) تحتوى (120 قرص ) تكفى 4 شهور ولا نستطيع فتح العبوة وصرفها بالقرص طبقا لتعليمات مكافحة العدوى .\nولسيادتكم جزيل الشكر",
+    "keywords": ["Ventoclax", "فينتوكلاكس", "صرف روشتة", "مكافحة العدوى"]
+  },
+  {
+    "drug_name_ar": "Nintedanib و Pirfenidone لعلاج حالات Idiopathic pulmonary fibrosis",
+    "drug_name_en": "Nintedanib and Pirfenidone for Idiopathic pulmonary fibrosis",
+    "protocol_ar": "مرسل لسيادتكم موافقة السيد الأستاذ الدكتور رئيس مجلس الادارة على ادراج عقاري Nintedanib و pirfenidone لعلاج حالات Idiopathic pulmonary fibrosis وذلك بعد العرض على اللجنة العليا للدواء برئاسة الهيئة مع استيفاء الاوراق المطلوبة:\n1- تقرير طبي مفصل بحالة المريض.\n2- اشعة مقطعية عالية الكثافة على الصدر خلال 3 اشهر.\n3- وظائف تنفس خلال 3 اشهر.\nوذلك للعلم و لاتخاذ اللازم.\nوتفضلوا بقبول فائق الاحترام\n\n(مذكرة للعرض على السيد الدكتور رئيس مجلس الادارة بخصوص علاج حالات ILD)\nفي اطار دور الهيئة في التيسير على المواطنين و تحديث البروتوكولات العلاجية بصفه مستمرة لزيادة جوده الخدمة المقدمة للمرضى.\nفقد تقدم الساده اطباء اللجنة العليا للصدر ببروتوكول لعلاج حالات (ILD).\nأ.د/ وجدي امين مساعد وزير الصحة و السكان و مدير مستشفى الصدر بالعباسية سابقا.\nأ.د/ ياسر مصطفى رئيس قسم الصدر السابق طب عين شمس.\nلتوضيح الحالات التي تم عرضها على اللجنة العليا للصدر بزيادة مصر الجديدة الخاصة التابعة و العاجلة لادراج الأدوية لهذه الحالات ليتمكن من استكمال دراسة الجدوى الاقتصادية لكل من Nintedanib& Pirfenidone\n[TABLE_START]\nالتكلفة الشهرية للمريض | الجرعة الشهرية | السعر | الوحدة | الصنف\n32025.60 جنيها | قرص 3 مرات يوميا | 17.16 | caps | Pirfenidone 267 mg\n4633.2 جنيها | قرص مرتين يوميا | 533.76 | caps | Nintedanib 150 mg\n14040 جنيها | قرص مرتين يوميا | 234 | caps | Nintedanib 100 mg\n[TABLE_END]\nمرفق لسيادتكم\n- البروتوكول المرسل الينا من السادة اطباء اللجنة العليا للصدر.\nArticle about pharmacological treatment of Idiopathic pulmonary fibrosis\nالأمر معروض على سيادتكم لاتخاذ ما ترونه مناسبا\nنحو الموافقة على ادراج عقارى Nintedanib & Pirfenidone ضمن قائمة ادوية الهيئة بصرف وفقا لتقرير استشاري اللجنة العليا للصدر.\nوتفضلوا بقبول فائق الاحترام و التقدير\n\n(Continuation from a separate document - Profile picture and doses of anti fibrotics)\n\"Provided that these patients were following the above-mentioned treatment protocol and they were regular in their treatment and environmental control measures.\nProfile picture and doses of anti fibrotics:\nPirfenidone\n-pt with IPF (UIP pattern in HRCT).\n-pt with chronic HP not responding to steroid.\n-Dose:start 1X3X7,then 2X3X7,then 3x3 for 3 months and reassess\nNintedanib (ofev)\n-pt with IPF (UIP pattern in HRCT).\n-pt with any type of ILD who show unexplained clinical ,radiological&functional deterioration within last 3 months (PPF)\n-Pt with connective tissue disease associated ILD.\n-Dose:150 mg\n\n(Protocol of ILD)\nILD are group of diseases affecting the lung parenchyma starting by inflammation of parenchyma ending in many cases with interstitial fibrosis. Generally this group are uncommon and many of them due to unknown cause. Some cases may occur in different collagen diseases.\nWhen ILD is suspected The following should be done before start treatment:\n  • Good history especially bird breeding and occupational or environmental exposures to irritants.\n  • Recent (within 3 months) HRCT chest.\n  • Recent (within 3 months) Spirometry & DLCO (If not available we can do 6 minute walk test: 6MWT)\nIf diagnosis confirmed start treatment as follow:\n  • Avoid the cause if detected (ex bird breeding/ exposure .....etc)\n  • Avoid smoking.\n  • Start steroids (prednisolone orally) the dose is variable according to the severity of the case.\n  • Inadequate response to steroids may need adding some immunosuppressive drugs ex Azathioprine or Methotrexate needs referral to the consultant or higher committee.\n  • Some cases with collagen diseases may need cooperation with Rheuma clinic.\n  • Adding supplement with calcium & vitamin D to all patients receiving steroides.\n  • Some advanced cases may need Oxygen in home (Refer to protocol of oxygen therapy)\n  • Start Rehabilitation in physiotherapy clinics for all patients.\n  • Follow up clinically every 3 months, HRCT & Functions every year except patients show clinical deterioration or worsening hypoxia.\nIndications for Anti-fibrotic (Pirfenedone & Nintedinab) [Prescribed by the higher committee]\n  ➢ IDF with UIP pattern in HRCT should start antifibrotic from the start especially early cases, but in mind that cases with advanced end stage fibrosis will not benefit . The incidence of this group is universally estimated to be around 10 per 100.000 per/year, and is uncommon in those younger than 50 years old and more frequent from the sixth decade on.\n  ➢ PMP (Progressive massive fibrosis): any case with ILD and experienced deterioration as follow:\n    o Clinical worsening of symptoms: cough & Dyspnea.\n    o Worsening of hypoxia\n    o More than 10% drop in FVC or DLCO than last measurements, or\n    o Shortening of distance and early desaturation in 6MWT.",
+    "keywords": ["Nintedanib", "Pirfenidone", "Idiopathic pulmonary fibrosis", "IPF", "ILD", "HRCT", "Spirometry", "DLCO", "UIP", "HP", "PPF", "Anti-fibrotic", "نينتيدانيب", "بيرفينيدون", "تليف رئوي مجهول السبب"]
+  },
+  {
+    "drug_name_ar": "Invega Sustenna 100 & 150 mg (انفيجا ساستينا)",
+    "drug_name_en": "Invega Sustenna 100 & 150 mg",
+    "protocol_ar": "بخصوص الحالات التي تحتاج لتلقي عقار Invega Sustenna 100& 150 mg لا يتم العرض على اللجنة العليا للدواء الا بعد العرض على لجنة الصحة النفسية وذلك يتم بالتنسيق مع مسئول التأهيل التخاطبي و النفسي بالخدمات الطبية برئاسة الهيئة .\nبالنسبة لحالات التكرار فانه يتم اعاده التقييم من خلال لجنة الصحة النفسية للمرضى الذين قد مر عام على تناولهم للعقار.\nولن يتم قبول الطلبات التي سيستم اللجنة العليا للدواء بدون وجود التقرير الخاص بلجنة الصحة النفسية.\nوتفضلوا بقبول فائق الاحترام و التقدير",
+    "keywords": ["Invega Sustenna", "انفيجا ساستينا", "صحة نفسية", "تأهيل تخاطبي"]
+  },
+  {
+    "drug_name_ar": "أدوية علاج COPD",
+    "drug_name_en": "COPD Medications",
+    "protocol_ar": "نحيط سيادتكم علما بانه قد تمت موافقة السيد الدكتور رئيس مجلس الادارة على بروتوكول COPD و اعتماد الادوية الخاصة بهذا البروتوكول و هى كالاتى:\nاولا : صيدليات الهيئة\n[TABLE_START]\nاسم الصنف | الوحدة | الجرعة القصوى | المجموعة الدوائية | سلطة الوصف\nGlycopyrronium bromide 50mcg | Cap | مرة يوميا | LAMA | استشاري صدر\nGlycopyrronium 50mcg + Indacaterol 110mcg | Cap | مرة يوميا | LAMA+LABA | استشاري صدر\n[TABLE_END]\n\nثانيا: الصيدليات التجارية\nتصرف الاصناف التالية من خلال المنافذ التجارى بالهيئة و يتحمل المريض نصف اجمالى السعر المتاح على منظومة الشراء الموحد شاملا الضريبة ويتم تحديث السعر من ادارة التموين الطبى بالفرع وفقا لاذون التسليم المسعر الخاصة بالصنف و الواردة لمخازن الفرع.\n[TABLE_START]\nاسم الصنف | الوحدة | الجرعة القصوى | المجموعة الدوائية | سلطة الوصف\nSpiriva 18 mcg | Cap | مرة يوميا | LAMA | لجنة عليا\nAnoro Ellipta 62.5 mcg/25 mcg | بخاخ | مرة يوميا | LAMA+LABA | لجنة عليا\nBreztr LAMA+LCS 160 mcg / 9 mcg / 5 mcg | بخاخ | مرتين يوميا | LAMA+ICS | لجنة عليا (This seems to be Breztri Aerosphere - LAMA+LABA+ICS, not LAMA+LCS)\nEnerzair breezhaler 150/50/160 mcg | Cap | مرة يوميا | LABA+LAMA+ICS | لجنة عليا\n[TABLE_END]\nوتفضلوا بقبول فائق الاحترام و التقدير",
+    "keywords": ["COPD", "Glycopyrronium bromide", "Indacaterol", "LAMA", "LABA", "Spiriva", "Anoro Ellipta", "Breztri", "Enerzair breezhaler", "ICS", "مرض الانسداد الرئوي المزمن", "استشاري صدر", "لجنة عليا"]
+  },
+  {
+    "drug_name_ar": "قائمة أدوية الأورام المحدثة (جدول)",
+    "drug_name_en": "Updated Oncology Drugs List (Table)",
+    "protocol_ar": "[TABLE_START]\nم | اسم العقار | التشخيص | سلطة الوصف لجنة عليا\n١ | Ogivri (Trastuzumab IV) | Met breast cancer | لجنة عليا\n٢ | Herceptin (Trastuzumab) IV Herceptin (Trastuzumab) SC phesgo (pertuzumab/ trastuzumab) | Met breast cancer Breast cancer (adjuvant ) Breast cancer (neo-adjuvant ) | لجنة عليا لجنة عليا لجنة عليا\n٣ | Mabthera (Rituximab) | NHL Cll | لجنة عليا\n٤ | Temodal (Temozolamide) | Brain tumor | عرض اول مرة لجنة عليا ثم الاستكمال لجنة فرعية\n٥ | (Sunitinib) | RCC GIST | عرض اول مرة لجنة عليا ثم الاستكمال لجنة فرعية\n٦ | Bortezomib | Multiple myeloma | لجنة عليا\n٧ | Pemetrexed | Met.breast cancer Bronchogenic adenocarcinoma | تم الاستكمال لجنة فرعية لجنة عليا\n٨ | Lapatinib | Met.breast cancer | عرض اول مرة لجنة عليا ثم الاستكمال لجنة فرعية\n٩ | Everolimus | Met.RCC | عرض اول مرة لجنة عليا ثم الاستكمال لجنة فرعية\n١٠ | bevacizumab | Met.ovarian cancer Met.colon cancer | لجنة عليا حالات RCC لجنة عليا\n١١ | Sorafenib | Met.HCC | لجنة عليا اورام كبد\n١٢ | Pazopanib | Met.RCC Met.Sarcoma | عرض اول مرة لجنة عليا ثم الاستكمال لجنة فرعية\n١٣ | liposomal doxorubicin | Met.ovarian cancer Kaposi's sarcoma Met.colon cancer | لجنة عليا\n١٤ | Cetuximab | Met.colon cancer | لجنة عليا\n١٥ | panitumumab | Osteoporosis in breast cancer cases on hormonal treatnig | لجنة عليا\n١٦ | Denosumab 60 Denosumab 120 | Bone cancer | لجنة عليا\n١٧ | abiraterone acetate | Met prostate cancer | لجنة عليا\n١٨ | ibrutinib | CLL | لجنة عليا\n١٩ | daratumumab | CLL | لجنة عليا\n٢٠ | Ramucirumab | Gastric cancer | لجنة عليا\n٢١ | Crizotinib | Lung cancer | لجنة عليا\n٢٢ | gefitinib | Lung cancer | عرض اول مرة لجنة عليا ثم الاستكمال لجنة فرعية\n٢٣ | tagrisso (osimertinib) | Lung cancer | لجنة عليا\n٢٤ | Lenalidomide | Multiple myeloma | لجنة عليا\n٢٥ | Lenalidomide + Bortezomib | Multiple myeloma | لجنة عليا\n٢٦ | Octreotide 30 mg | Neuro endocrine tumor | لجنة عليا\n٢٧ | trastuzumab emtansine | Met breast cancer (adjuvant ) | لجنة عليا\n٢٨ | palbociclib | Met breast cancer | لجنة عليا\n٢٩ | ribociclib | Met breast cancer | لجنة عليا\n٣٠ | abemaciclib | Met breast cancer | لجنة عليا\n٣١ | fluvestrant | Met breast cancer | لجنة فرعية\n٣٢ | bendamustine hydrochloride | NHL | لجنة عليا\n٣٣ | Gazyva obinutuzumab | CLL ( unfit patients ) Refractory relapsed | لجنة عليا لجنة عليا\n٣٤ | DARATUMUMAB | Multiple myeloma eligible for transplant | لجنة عليا\n٣٥ | DACARBAZINE | Chemotherapy | لجنة فرعية\n٣٦ | PAMIDRONATE | Met bone cancer | لجنة عليا\n٣٧ | venetoclan | AML | لجنة فرعية\n٣٨ | irenotecan | Chemotherapy | لجنة عليا\n٣٩ | leucoverin ( folinic acide) | HCC | لجنة عليا اورام كبد\n٤٠ | stivagra | Ovarian cancer | لجنة عليا\n٤١ | Cabazitaxel | Advanced breast cancer | لجنة عليا عرض اول مرة\n٤٢ | Navelbine | Lung cancer | لجنة عليا تم الاستكمال\n٤٣ | sprycel | CML | لجنة عليا\n٤٤ | Tasigna | CML | لجنة عليا\n٤٥ | Immatinib | CML | لجنة عليا\n٤٦ | zoladex | Chemotherapy | لجنة فرعية\n٤٧ | zoledronic acid 4 mg | Met bone cancer | لجنة فرعية\n٤٨ | Tecentriq + Avastin | HCC | لجنة عليا اورام كبد\n[TABLE_END]\nد/ ايمه اسامه",
+    "keywords": ["Ogivri", "Trastuzumab", "Herceptin", "pertuzumab", "Mabthera", "Rituximab", "Temodal", "Temozolamide", "Sunitinib", "Bortezomib", "Pemetrexed", "Lapatinib", "Everolimus", "bevacizumab", "Sorafenib", "Pazopanib", "liposomal doxorubicin", "Cetuximab", "panitumumab", "Denosumab", "abiraterone acetate", "ibrutinib", "Ramucirumab", "Crizotinib", "gefitinib", "tagrisso", "osimertinib", "Lenalidomide", "Octreotide", "trastuzumab emtansine", "palbociclib", "ribociclib", "abemaciclib", "fluvestrant", "bendamustine hydrochloride", "Gazyva", "obinutuzumab", "DARATUMUMAB", "DACARBAZINE", "PAMIDRONATE", "venetoclan", "irenotecan", "leucoverin", "stivagra", "Cabazitaxel", "Navelbine", "sprycel", "Tasigna", "Immatinib", "zoladex", "zoledronic acid", "Tecentriq", "Avastin", "Oncology", "أدوية الأورام"]
+  },
+  {
+    "drug_name_ar": "قائمة أدوية إضافية (جدول)",
+    "drug_name_en": "Additional Drugs List (Table)",
+    "protocol_ar": "[TABLE_START]\nم | اسم العقار | Form | التشخيص | جهة الصرف/ملاحظات\n41 | ponomide | tab |  | لجنة MS فرعية\n42 | Asibagio | tab |  | \n43 | Sphingomod | tab |  | \n44 | gilenya | tab |  | لجنة عليا مع واعصاب مستشفى مدينة نصر\n45 | ocrevus | vial | MS | \n46 | tysabri | vial |  | \n47 | mavenclade | tab |  | لجنة عليا مع واعصاب م مدينة نصر ثم تقييم الحالة كل ٥ شهور من اللجنة العليا للدواء\n48 | Siponimod | tab | MS | \n49 | miglustat | caps | SICKLE cell anaemia | لجنة عليا وراثية\n50 | kuvan ( sapropterin ) |  | نقص انزيم Pku | \n51 | invega ( paliperidone ) | vial | الامراض النفسية والعصبية | لجنة عليا نفسية وعصبية\n52 | ripavict | spray |  | \n53 | lycerta | tab |  | \n54 | sandostatin ( octreotide 0.1 mg ) | amp |  | لجنة عليا\n55 | sandostatin lari octreotide | syringe |  | \n56 | cosentyx | syringe |  | لجنة عليا شريان رئوي\n57 | opsumit ( macitentan ) | tab | Pulmonary hypertension | \n58 | تجارى plavix | tab |  | لجنة عليا قلب\n59 | brilique | tab |  | \n60 | تجارى efient | tab | Heart disease | \n61 | zoladex | syringe | Precocious puberty | لجنة عليا\n62 | creon | tab | سوء الهضم pancreatin | \n63 | penicillamine | tab | Wilson disease | \n64 | Riluzole 50 mg | tab | Motor neuron disease | \n65 | immunoglobulin ( ivig ) | vial | Primary immunodeficiency | لجنة عليا\n66 | Zavicefta | vial |  | يصرف للحالات المحجوزة حسب نتيجة المزرعة\n67 | Colistin | vial |  | \n68 | Tygacil | vial |  | مكمل غذائي في حالات الفشل الكلوي التي لا تستجيب للعلاج\n69 | amino acid supplements | tab |  | \n70 | Spiriva 18mcg | Cap/once | COPD | لجنة عليا\n71 | Anoro ellipta 62.5mcg/24mcg | Spray/once |  | لجنة عليا\n72 | Breztri 160mcg/9mcg/5mcg | Spray/twice |  | لجنة عليا\n73 | Enerzair breezhaler 150/50/160mcg | Spray/once |  | لجنة عليا\n74 | Novorapid/mixtard/lantus/basaglar/semba | penfil | D M | لجنة عليا في حالة طلب عدد اكبر من 15 قلم في الشهرين من اجمالي النوع المطلوب\n75 | Pulmicort/ atrovent | amp | Pulmonary obstruction | لجنة عليا في حالة طلب معدل اعلى من المسموح\n76 | Cinacalcet | tab | HPT | لجنة عليا\n77 | Affinitor | tab | Tuberous sclerosis | لجنة عليا\n78 | Omegapress | tab | التبول اللاارادي | لجنة عليا\n79 | Minirin melt | tab | Diabetes insipidus | لجنة عليا\n80 | KCL | amp | Renal disease | لجنة عليا\n81 | Sod bicarb | amp | Renal disease | لجنة عليا\n82 | Pirfenidone | tab | Lung fibrosis | لجنة عليا\n83 | nintedanib | cap |  | د/ ايمه اسامه\n[TABLE_END]",
+    "keywords": ["ponomide", "Asibagio", "Sphingomod", "gilenya", "ocrevus", "tysabri", "mavenclade", "Siponimod", "miglustat", "kuvan", "sapropterin", "invega", "paliperidone", "ripavict", "lycerta", "sandostatin", "octreotide", "cosentyx", "opsumit", "macitentan", "plavix", "brilique", "efient", "zoladex", "creon", "penicillamine", "Riluzole", "immunoglobulin", "ivig", "Zavicefta", "Colistin", "Tygacil", "amino acid supplements", "Spiriva", "Anoro ellipta", "Breztri", "Enerzair breezhaler", "Novorapid", "mixtard", "lantus", "basaglar", "semba", "Pulmicort", "atrovent", "Cinacalcet", "Affinitor", "Omegapress", "Minirin melt", "KCL", "Sod bicarb", "Pirfenidone", "nintedanib", "MS", "SICKLE cell anaemia", "PKU", "Pulmonary hypertension", "Heart disease", "Precocious puberty", "pancreatin", "Wilson disease", "Motor neuron disease", "Primary immunodeficiency", "COPD", "DM", "Pulmonary obstruction", "HPT", "Tuberous sclerosis", "Diabetes insipidus", "Renal disease", "Lung fibrosis", "أدوية متنوعة"]
+  },
+  {
+    "drug_name_ar": "قائمة أدوية الروماتيزم والمناعة (جدول)",
+    "drug_name_en": "Rheumatology and Immunology Drugs List (Table)",
+    "protocol_ar": "[TABLE_START]\nم | drug | form | diagnosis | Description authority\n1 | Tocilizumab | vial | SPA | لجنة عليا روماتيزم ومناعة\n2 | Adalimumab | syringe | UC | \n3 | Etanercept | syringe | SPA | \n4 | Infliximab | syringe | PS | \n5 | Certolizumab | syringe | chron's | \n6 | Tremfya | syringe |  | \n7 | Cosentyx | syringe |  | \n8 | Taltz | syringe |  | \n9 | golimumab | syringe |  | \n10 | Stelara | tab |  | \n11 | secukinumab | syringe |  | \n12 | Xeljanz | tab |  | \n13 | baracitinib | tab |  | لجنة فرعية\n14 | dupilumab | syringe | atopic dermatitis | لجنة عليا جلدية ومناعة\n15 | omalizumab | syringe | chronic urticaria | \n16 | Denosumab 60 | syringe | Osteogenesis imperfecta | لجنة عليا روماتيزم ومناعة\n17 | (zoldronic acid ) 4 mg | syringe | Osteoporosis | \n18 | (zoldronic acid ) 5 mg | syringe |  | \n19 | Filgrastim | syringe | neutropenia | \n20 | Deferasirox | tab | Thalassemia | \n21 | throbhonorm | tab | P.M.F | \n22 | Revolade | tab |  | لجنة عليا امراض دم\n23 | ROMIPLOSTIM | syringe | ITP | \n24 | eltrombopag | syringe |  | \n25 | darbopoetin | syringe | CDK & ANAEMIA | \n26 | epoetin | vial |  | \n27 | factor 7 | vial | HEAMOPHILIA | لجنة عليا وقائى\n28 | factor 9 | vial |  | \n29 | factor 8 | vial |  | \n30 | Emicizumab | vial |  | \n31 | Cyclosporine soin 50ml | tab | Nephrotic syndrome نقص المناعة & | يعرض اول مرة لجنة عليا ولمدة 6 اشهر ثم يكون التجديد للجنة الفرعية ويتم حالات الزرع يعرض الجرعة الحالية والميعاد القادم للتحاليل اللجنة العليا للتقييم كل عام حتى تصبح قراءته طبيعية\n32 | Cyclosporine 25 mg | tab |  | \n33 | Cyclosporine 100 mg | tab |  | \n34 | Mycophenolate mofetil | tab |  | \n35 | Mycophenolic acid | tab |  | \n36 | Tacrolimus | tab |  | \n37 | sirolimus | tab |  | \n[TABLE_END]\nد/اميمة",
+    "keywords": ["Tocilizumab", "Adalimumab", "Etanercept", "Infliximab", "Certolizumab", "Tremfya", "Cosentyx", "Taltz", "golimumab", "Stelara", "secukinumab", "Xeljanz", "baracitinib", "dupilumab", "omalizumab", "Denosumab", "zoldronic acid", "Filgrastim", "Deferasirox", "throbhonorm", "Revolade", "ROMIPLOSTIM", "eltrombopag", "darbopoetin", "epoetin", "factor 7", "factor 9", "factor 8", "Emicizumab", "Cyclosporine", "Mycophenolate mofetil", "Mycophenolic acid", "Tacrolimus", "sirolimus", "Rheumatology", "Immunology", "روماتيزم", "مناعة"]
+  },
+  {
+    "drug_name_ar": "Ensure (انشور) لمرضى الرعاية المركزة",
+    "drug_name_en": "Ensure for ICU patients",
+    "protocol_ar": "نود ان نحيط سيادتكم علما بانه قد تمت موافقة السيد الدكتور رئيس مجلس الاداره على ادراج المستحضر الطبى Ensure للمرضى داخل مستشفيات الهيئة لمرضى الرعاية المركزة على ان تكون سلطة الوصف استشارى الرعاية المركزه وعلى ان يكون الصرف بحد اقصى اسبوع ( 6 scoops \\ day ) وضمن خطة علاجية متكاملة من المحاليل الوريدية ويتم اعادة التقييم من استشارى الرعاية المركزة وتقوم الصيدلية باستلام فوارغ العلب تمهيدا لاجراءات اعدام الفوارغ.\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["Ensure", "انشور", "رعاية مركزة", "ICU", "مستحضر طبي", "تغذية علاجية"]
+  },
+  {
+    "drug_name_ar": "Ryzodeg (رايزوديج) - انسولين",
+    "drug_name_en": "Ryzodeg - Insulin",
+    "protocol_ar": "من منطلق حرص الهيئة العامة للتأمين الصحى الدائم على توفير الادوية وحرصا على سياسة تنوع مصادر الامداد الدوائى\nنحيط سيادتكم علما بأنه قد تمت موافقة السيد الدكتور رئيس مجلس الادارة على ادراج عقار Ryzodeg من انتاج شركة نوفو نورديسك فى قائمة الادوية ذات التحمل\nعلى ان يتحمل المريض نسبة مساهمة قدرها 100 جنيه للقلم الواحد\nوعلى ان تكون الجرعة القصوى له 40 وحدة يوميا (بحد اقصى اربع اقلام شهريا) والا يتم وصفه مع اى نوع من الانسولين الحقن\nوان يتم الصرف طبقا لبروتوكول السكر الخاص بالهيئة العامة للتأمين الصحى والمعتمد من كبار السادة استشارى التخصص وان يتم تقديم تحليل السكر التراكمى الحديث للمريض عند الصرف\nواذا احتاج المريض لجرعات اعلى فانه يتم توجيه المريض لخطة علاجية اخرى طبقا لبروتوكول السكر المقدم من الهيئة\nوذلك من منطلق اتاحة العديد من الاختيارات العلاجية امام مريض السكر\nوتفضلوا بقبول فائق الاحترام",
+    "keywords": ["Ryzodeg", "رايزوديج", "انسولين", "insulin", "نوفو نورديسك", "السكر التراكمي", "مرض السكر"]
+  },
+  {
+    "drug_name_ar": "Darzalex (Daratumumab) 1800mg/15ml - Vial (S.C) (دارزاليكس)",
+    "drug_name_en": "Darzalex (Daratumumab) 1800mg/15ml - Vial (S.C)",
+    "protocol_ar": "إيماء إلى توفر صنف Darzalex (Daratumumab) 1800mg/15ml - Vial (S.C) على منظومة الشراء الموحد بسعر 62400 لليقال .\nونظرا إلى إمكانية صرف فيال واحد من الصنف المذكور بدلاً من 4 فيال من الشكل الوريدي ( بتكلفة 77530.84 /4vial ) للمرضى الذين يتعدى وزنهم 75 كيلو.\nنحيط سيادتكم علماً بإمكانية طلب صنف Darzalex (Daratumumab) 1800mg/15ml - Vial (S.C) وذلك للمرضى الذين يتعدى وزنهم 75 كيلو بنفس ضوابط صرف العقار السابق اعتمادها .\nوتفضلوا بقبول التحية",
+    "keywords": ["Darzalex", "Daratumumab", "دارزاليكس", "داراتوموماب", "شراء موحد", "وريدي", "تحت الجلد"]
+  },
+  {
+    "drug_name_ar": "Mabthera, Darzalex, Sutent (ماపథيرا، دارزاليكس، سوتنت) - ملاحظات صرف",
+    "drug_name_en": "Mabthera, Darzalex, Sutent - Dispensing Notes",
+    "protocol_ar": "مرسل لحضراتكم بعض الملاحظات والتي تم تكرارها في الطلبات المرسلة للجنة العليا للدواء مما يؤدى الى ارجاعها للفرع للتصحيح وبالتالي تأخير الرد وصرف العلاج للمريض وهذه الملحوظات كالتالي :\n1- عقار (Mabthera) يتطلب فحوصات محددة للموافقة على الصرف وهي كالتالي For Immunohistochemistry, HBsAg,HBcAb HCV AB, histopathology and PET CT .\n2 – عقار (Darzalex) يجب ارسال تقرير مفصل عن العلاجات السابقة التي تلقاها المريض ونتائجها .\n3 – عقار ( Sutent ) يعرض على اللجنة العليا اول مرة فقط لكل التشخيصات ثم يعاد تقييم الحالة والصرف من اللجنة الفرعية .\nنرجو من سيادتكم التكرم بالتنبيه على السادة مقررين اللجان الطبية بالفروع .\nمع قبول وافر التحية،،",
+    "keywords": ["Mabthera", "Darzalex", "Sutent", "ماపథيرا", "دارزاليكس", "سوتنت", "فحوصات", "Immunohistochemistry", "HBsAg", "HBcAb", "HCV AB", "PET CT", "صرف أدوية"]
+  },
+  {
+    "drug_name_ar": "Erythropoietin (Epoetin alfa) (اريثروبويتين)",
+    "drug_name_en": "Erythropoietin (Epoetin alfa)",
+    "protocol_ar": "-ايماءً إلى التساؤلات الوارده إلينا بشأن الاصناف التي تصرف عن طريق اللجان الفرعية ولا تحتاج عرض على اللجنه العليا كما يلى:\n1. صنف (Erythropoietin(Epoetin alfa يصرف طبقاً للبروتوكول المتبع من استشارى التخصص دون العرض على اللجنه العليا)\nفي حالات أمراض الدم(bonemarrow failure&aplastic anemia)MDS وايضاً حالات أمراض الفشل الكلوى(CDK).\n2. ادوية زرع الكبد(مثبطات المناعية) التي تصرف بعد إجراء عمليه الزرع تصرف من استشارى لجنه الزرع الفرعيه دون العرض على اللجنه العليا .\nمع قبول وافر التحية،،،،،",
+    "keywords": ["Erythropoietin", "Epoetin alfa", "اريثروبويتين", "ايبوتين الفا", "bonemarrow failure", "aplastic anemia", "MDS", "CDK", "فشل نخاع العظم", "انيميا لا تنسجية", "امراض الفشل الكلوي", "زرع الكبد", "مثبطات المناعية"]
+  },
+  {
+    "drug_name_ar": "أدوية علاج التصلب المتناثر (MS Drugs)",
+    "drug_name_en": "MS Drugs (Multiple Sclerosis)",
+    "protocol_ar": "تحية طيبة وبعد ،،،\nنحيط العلم انه قد تم اعتماد السيد الدكتور رئيس الهيئة العامة للتأمين الصحى لتحديث بروتوكول التصلب المتناثر MS.\nو جارى تعميم البروتوكول على لجان التصلب بالهيئة( مرفق).\nو احتوى البروتوكول على التحديثات التالية:\n- ادراج عقار (ponvory (ponesimod ضمن خطوط علاج المرحلة الاولى.\n- ادراج عقار ( mayzent (Siponimod اخر خط علاجى و يتم استخدامه فور توافره على منظومة الشراء الموحد.\n- استخدام البدائل الارخص على منظومه الشراء الموحد و ذلك لجميع الحالات حديثة التشخيص من المرضى الكبار ( فوق 18 سنة ) (القرار الصادر لهم اول مره ) و ذلك من ( Fingolomod (Teriflunomide و استمرار القرارات السارية للمرضى الكبار على نفس الاسم التجارى.\nو استمرار المرضى من الاطفال ما بين 18 عام ( سواء قرار قديم او صدور قرار جديد ) سيتم صرف الاسم التجارى فى تجارى ( aubagio –gilenya).\n- يتم صرف جميع الادوية الخاصة بالبروتوكول من خلال اللجان الفرعية للتصلب العصبي المتناثر ماعدا Tysabri MavencJade Ocrevus فانه لا يتم صرف هذه الادوية السابق ذكرها الا بعد اقرارها من اللجنه العليا للتصلب العصبي المتناثر بالقاهرة و مكان انعقادها الحالى فى مستشفى مدينة نصر للتأمين الصحى.\nوهذا للعلم والتقيد وتفضلوا بقبول فائق الاحترام",
+    "keywords": ["MS", "Multiple Sclerosis", "التصلب المتناثر", "ponvory", "ponesimod", "mayzent", "Siponimod", "Fingolomod", "Teriflunomide", "aubagio", "gilenya", "Tysabri", "MavencJade", "Ocrevus", "بروتوكول التصلب المتناثر"]
+  },
+  {
+    "drug_name_ar": "CPAP و BIPAP (أجهزة التنفس)",
+    "drug_name_en": "CPAP and BIPAP (Respiratory Devices)",
+    "protocol_ar": "تحية طيبة وبعد،،،\nنظرا لما تلاحظ من تزايد الطلبات الواردة من الفروع لتوفير أجهزة CPAP ,BIPAP لمنتفعي الهيئة وكثرة استهلاك تلك الأصناف مع ازدياد أسعارها وصعوبة توفيرها ،\nفقد تم مخاطبة السيد الدكتور / رئيس الإدارة المركزية للشئون الطبية للتنبيه لإعادة النظر في بروتوكول صرف أجهزة CPAP,BIPAP وذلك لحكم عملية صرف تلك الأجهزة منعا لسوء استخدامها ومنعا لإهدار المال العام\nمرفق طيه\nخطاب الإدارة العامة للخدمات الطبية لمديروالفروع والموضح به بروتوكول ضوابط صرف أجهزة CPAP BIPAP – للمنتفعين الذين يعانون من تليفات بالرئة وقصور بوظائف التنفس\nلذلك يرجى التأكد من الطلبات الواردة للتموين الطبي وتقارير الاشعة الخاصة بتلك الأجهزة أن تكون مطابقة للبروتوكول الجديد قبل رفعها للإدارة العامة للخدمات الطبية لأخذ موافقة السيد الدكتور / رئيس مجلس الإدارة علي الصرف وذلك مع اعتبار الأمر هام جدا\nولكم وافر الشكر،،،\n\n(محتوى المرفق)\nتحية طيبة وبعد\nنحيط علم سيادتكم انه :\nتم اعتماد السيد الدكتور / رئيس مجلس الإدارة بروتوكول ضوابط صرف أجهزة CPAP BIPAP للمنتفعين الذين يعانون من تليفات بالرئة وقصور بوظائف التنفس كالأتى:-\nدواعى استخدام جهاز CPAP\n1. توقف التنفس أثناء النوم (OSAS) مثبت من خلال دراسة النوم الحديثة (تخطيط النوم الكامل) خلال الستة أشهر الماضية\n2. فشل التنفس المزمن من النوع الأول (تشبع الاكسجين أقل من ٩٠٪ على الهواء المحيط / Pao2 أقل من ٦٠ مم زئبق) ولم يظهر تحسن بأستخدام الأكسجين الإضافى. يجب أن يكون لدى المريض تقرير طبي من المستشفى يثبت ان الاستفادة من CPAP بجانب العلاج بالأكسجين\nدواعى استخدام جهاز BIPAP:\n1. توقف التنفس المختلط أثناء النوم ( انسدادى – مركزى ) مثبت من خلال دراسة النوم الحديثة (تخطيط النوم الكامل) . خلال الأشهر الستة الماضية + تقريرعصبي\n2. توقف التنفس أثناء النوم مع فشل التنفس من النوع الثانى ( PaCO2>48 MMGH)\n3. متلازمة نقص التهوية الناتجة عن السمنة المفرطة : السمنة المفرطة + فشل التنفس من النوع الثانى ( معظمهم قد يحتاج إلى علاج بالأكسجين بجانب BIPAP)\nلذا يستلزم توجيه المختصين طرفكم بإرسال ملف المريض بعد استكمال كافة المستندات اللازمة للإدارة العامة للخدمات الطبية للبحث والدراسة والعرض على السلطة المختصة للصرف\nوتفضلوا بقبول فائق الأحترام\n\n(Indications from English page)\nIndications of CPAP:\n1. OSAS; proved by recent sleep study (full polysomnography) within last 6 months.\n2. Chronic Type I respiratory failure (Oxygen SAT below 90 on Room air, PaO2 below 60 mmHg on RA) and they didn’t show improvement with supplementary Oxygen up to 10 L/m (Use with oxygen concentrator. such patient should have medical report from hospital that they benefits from CPAP beside Oxygen therapy.\nIndications of Bilevel CPAP (BiPAP):\n1. Mixed sleep Apnea (Obstructive + Central): proved by recent sleep study (full polysomnography) within last 6 months + Neurology report.\n2. OSAS in Patients with Type II Resp Failure (PaCO2 > 48 mmHg)\n3. Obese Hypoventilaton Syndrome: Morbid Obesity + Type II Respiratory Failure (most of them may need oxygen therapy beside BiPAP)",
+    "keywords": ["CPAP", "BIPAP", "OSAS", "respiratory failure", "polysomnography", "sleep apnea", "Hypoventilation Syndrome", "جهاز تنفس", "توقف التنفس أثناء النوم", "فشل تنفسي", "دراسة النوم"]
+  },
+  {
+    "drug_name_ar": "Morphine Sulphate (مورفين سلفات)",
+    "drug_name_en": "Morphine Sulphate",
+    "protocol_ar": "٢. يتم استلام وإعدام الأقراص والامبولات المنصرفة بعد جردها بلجنة بعضوية كلاً من:-\n   • الصيدلى المسئول من المخزن الرئيسى\n   • الصيدلى صاحب العهدة\n   • مدير الشئون المالية والإدارية بالوحدة\nثقة المتعاملين بالصيدلية في خزانة خاصة أو مكان أمين تابع للصيدلى صاحب العهدة\nطريقة صرف morphine sulphate بالعيادات التي بها لجان أورام\nمراعاة الضوابط التالية عند الصرف\nيستخدم هذا الدواء إلا بعد إستنفاذ العلاج بمسكنات الألم العادية حتى لا يفقد العقار فاعليته من طول مدة علاج المريض في كل مرة يصرف الدواء\nمناظرة المريض في كل مرة تصرف الدواء في المرة التالية\nورقة أرجاع تطبع والشرائط الفارغة قبل صرف الدواء في المرة التالية",
+    "keywords": ["Morphine Sulphate", "مورفين سلفات", "أورام", "صرف أدوية مخدرة", "مسكن ألم"]
+  },
+  {
+    "drug_name_ar": "ضوابط وإجراءات صرف المواد المخدرة",
+    "drug_name_en": "Regulations for Dispensing Narcotic Substances",
+    "protocol_ar": "٦- ويراعى دق كل إضافة في دفتر ۱۱۲ مكرر وأن يختم تاريخ الصلاحية.\n٧- لا يسمح بتداول المواد المخدرة إلا الصيدلى أو الطبيب (الكتاب الإدارى)\nصرف المستلزمات من مخزن المستشفى\n١. يتم إصدار قرار من مدير المستشفى لأحد النواب الإداريين المعينين لاستلام عهدة المخدرات من الصيدلية بالصرف.\n٢. يقوم (الطبيب النائب الإدارى) موضح به الآتى :-\n   a. اسم الدواء المصروف ومواصفاته\n   b. تاريخ الصلاحية من اللاصقات الملصقة بالرقم والحروف\n   c. الكمية المستلمة من كل صنف بالأرقام والحروف\n٣. ينشئ الطبيب المختص دفتر صرف مخدرات (مخزن) كما يقوم الطبيب المختص بصرف المخدرات شخصياً له ويقوم الصيدلى باستلام اسم المريض المنصرف له الدواء والتشخيص وتاريخ الصرف واسم الطبيب المعالج ويقوم بالتوقيع بنفسه بذلك. وإذا وجد أى مخالفة في الأمر يراجع الصيدلى ببنك الدم أولاً.\nويقوم الصيدلى بالتسجيل بكل دقة للكميات المنصرفة له من المخدرات مع مراجعة ما يتم صرفه يومياً من خلال كشف المستهلك من الدفتر الخاص بالصيدلية (نموذج طلبات الصرف من مخزن المستشفى) والتوقيع بما يفيد المراجعة.\nيجب تحرير إذن صرف من أصل وصورة موضح به اسم وتوقيع المستلم مع كتابة التاريخ ويرفق مع طلب الصرف من الطبيب.\nيعتمد مدير المستشفى نموذج إذن صرف المخدرات من الصيدلية ويتم التوقيع عليه من الصيدلى المسئول والطبيب.\nدفتر عهدة المخدرات (١١٦) ويتم توقيع كاتب الشطب على كل إذن من أذون الصرف.\nعهدة المخدرات بالعيادة الخارجية\nيقوم كاتب الشطب بالعيادة الخارجية باستلام عهدة المخدرات من الصيدلية بناءاً على إذن صرف معتمد من مدير المستشفى وموقع عليه من الطبيب والصيدلى.\nيتم عمل نموذج كشف يومى بعهدة المخدرات بالعيادة الخارجية يوضح به الرصيد السابق والمنصرف والرصيد المتبقى ويتم توقيعه من كاتب الشطب والطبيب المسئول بالعيادة ويعتمد من مدير المستشفى.\n\nطريقة صرف والتداول والمحفظ للادوية المخدرة داخل مستشفيات الهيئة\nنظم صرف المخدرات من المخازن أو المستودعات\nيراعى عند صرف المواد المخدرة من الشركة المصرية لتجارة الأدوية أو المستودعات التابعة لوزارة الصحة أن تذكر ( كلمة مخدرات ( على طلب الصرف الصادر من المستشفى وأن يكون مختوم ومعتمد من مدير المستشفى\nيكتب أسماء المواد المخدرة بوضوح مع ذكر وصفها وقوة تركيزها باللغة العربية كما تكتب كمياتها رقماً وتركيزها بالأرقام والحروف\nيجوز القشط أو الشطب في المستند\nتكتب الكمية المنصرفة من المخازن بالأرقام والحروف باللغة العربية\nيكون الصيدلى المسئول عن عهدة المخدرات بالمستشفى معين و يحدد طبقا لقرار مدير المستشفى وهو ينوب المخطر في إستلامها من المخازن ولا يجوز لمندوب آخر الإستلام\nيجب قيد جميع الأصناف المخدرة الواردة إلى الصيدلية في نفس يوم ورودها وكذا المنصرف منها إلى المستشفى أولاً بأول في يوم صرفها\n\nأسئلة المخدرات بعهدة المستشفى\nيتم عمل دفتر مخدرات (نموذج ۱ مخازن حكومية ۱۱۲ ع.ح ونموذج ۲ مخازن حكومية ۱۱۸ ع.ح) منفصل عن عهد الصيدلية بالمستشفى\nويراعى فيه ماياتى :-\n١- تراجع دفاتر المخدرات الخاصة بالوحدة بمعرفة كاتب الشطب بحضور صيدلى الوحدة للتأكد من أن جميع الصفحات مرقمة ومسلسلة ولم تسقط أى صفحات بدون ترقيم ويكتب إقرار بذلك داخل غلاف الدفتر ويوقع عليه من كاتب الشطب وصيدلى المستشفى\n٢- يوقع كاتب الشطب بجوار الختم في اعلى الصفحة الأولى والأخيرة بالدفتر\n٣- يخصص لكل صنف صفحة منفصلة بالدفتر ۱۱۸ بدون بها مواصفات الصنف كاملة ( رقم التشغيلة – تاريخ الصلاحية ) و الأسم وقوة التركيز بالحروف والأرقام كما تترك بين الأصناف صفحات تسمح بتحريك الصنف الواحد في صفحات جديدة – متتابعة ويعمل فهرس للدفتر يلصق بداخل الغلاف\n٤- ممنوع الكشط والشطب وأى خطأ في الإضافة او الخصم يصحح بالحبر الأحمر في سطر منفصل يشار اليه الى مكان الخطأ\n*- يعتبر نزع صفحات هذه الدفاتر مخالفة كبرى تخضع لقانون المخدرات المدنى",
+    "keywords": ["مواد مخدرة", "Narcotic substances", "صرف أدوية", "دفتر مخدرات", "صيدلية", "مستشفى", "لائحة المخدرات"]
+  },
+  {
+    "drug_name_ar": "تحاليل خاصة لمرضى الأورام والدم",
+    "drug_name_en": "Special Tests for Oncology and Hematology Patients",
+    "protocol_ar": "تحية طيبة وبعد\nنحيط سيادتكم علما بأن طلب فحوصات مثل (deletion 17 P - BRCA test - EGFR - PDL 1) يتواجد هذه الفحوصات ضمن بروتوكولات علاج الأورام والدم أو صناعى يتوافر كروت تابعة للشركات المنتجة للعلاج إذا نسبت ايجابية التحاليل.\nيتواجد هذه الفحوصات مجانا مع خدمة العملاء أو قبول خاص ويمكن قسم الرعاية بهذا الإكتفاء عن موارد الهيئة وعام كعلاج خارجى (الخدمة مقدمة مجانا)\nمسئول معامل أو بالتعاقد مع شركات الأدوية وليس له نفقات تماما\nجدول استاذ علاج اورام",
+    "keywords": ["17P Deletion Test", "BRCA test", "EGFR", "PDL1", "Oncology", "Hematology", "تحاليل طبية", "أورام", "أمراض الدم", "فحوصات مجانية"]
+  },
+  {
+    "drug_name_ar": "Symbicort 160mg (120 dose) (سيمبيكورت)",
+    "drug_name_en": "Symbicort 160mg (120 dose)",
+    "protocol_ar": "نحيط سيادتكم علما بإمكانية طلب Symbicort 160 mg (120 dose) سلطة الوصف استشارى صدر ويتم صرفه بحد أقصى عدد ١ عبوة شهريا وذلك حفاظا على سلاسل الامداد الدوائى وضمان التوريد.\nوتفضلوا بقبول فائق الاحترام و التقدير",
+    "keywords": ["Symbicort", "سيمبيكورت", "استشاري صدر", "جهاز تنفسي", "ربو", "COPD"]
+  }
+];
+          
+
+        const drugListContainer = document.getElementById('drugListContainer');
+        const drugListElement = document.getElementById('drugList');
+        const searchInput = document.getElementById('searchInput');
+        const didYouMeanElement = document.getElementById('didYouMean');
+        const noResultsElement = document.getElementById('noResults');
+        const tocListElement = document.getElementById('tocList');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const mainContent = document.getElementById('mainContent');
+        let activeTocLink = null;
+
+        function levenshtein(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
+            const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
+            for (let i = 0; i <= a.length; i += 1) { matrix[0][i] = i; }
+            for (let j = 0; j <= b.length; j += 1) { matrix[j][0] = j; }
+            for (let j = 1; j <= b.length; j += 1) {
+                for (let i = 1; i <= a.length; i += 1) {
+                    const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
+                    matrix[j][i] = Math.min(
+                        matrix[j][i - 1] + 1,
+                        matrix[j - 1][i] + 1,
+                        matrix[j - 1][i - 1] + indicator,
+                    );
+                }
+            }
+            return matrix[b.length][a.length];
+        }
+
+        function renderTable(tableString) {
+            const rows = tableString.trim().split('\n');
+            if (rows.length === 0) return '';
+            let html = '<table class="protocol-table">';
+            const headerRow = rows[0].split('|').map(h => h.trim());
+            html += '<thead><tr>';
+            headerRow.forEach(header => html += `<th>${header}</th>`);
+            html += '</tr></thead><tbody>';
+            for (let i = 1; i < rows.length; i++) {
+                html += '<tr>';
+                const cells = rows[i].split('|').map(cell => cell.trim());
+                cells.forEach(cell => html += `<td>${cell}</td>`);
+                html += '</tr>';
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+        
+        function cleanProtocolText(text) {
+            let cleanedText = text;
+            cleanedText = cleanedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            cleanedText = cleanedText.replace(/\*(.*?)\*/g, (match, p1) => {
+                if (p1.match(/^\s|\s$|\d/) || match.match(/\s\*\s/) || p1.trim() === "") {
+                    return match;
+                }
+                return `<em>${p1}</em>`;
+            });
+            cleanedText = cleanedText.replace(/^-\s+/gm, '&bull; ');
+            cleanedText = cleanedText.replace(/\n-\s+/gm, '\n&bull; ');
+            cleanedText = cleanedText.replace(/^\*\s+/gm, '&bull; ');
+            cleanedText = cleanedText.replace(/\n\*\s+/gm, '\n&bull; ');
+            cleanedText = cleanedText.replace(/^(\d+)\.\s+/gm, (match, num) => `${num}.&nbsp;&nbsp;`);
+            cleanedText = cleanedText.replace(/\n(\d+)\.\s+/gm, (match, num) => `\n${num}.&nbsp;&nbsp;`);
+
+            return cleanedText.trim();
+        }
+
+        function createDrugEntryHTML(drug, searchTerm = '') {
+            const entryId = `drug-${(drug.drug_name_en || drug.drug_name_ar).replace(/[^a-zA-Z0-9أ-ي]/g, '-').toLowerCase()}`;
+            let rawProtocol = drug.protocol_ar;
+
+            const tableRegex = /\[TABLE_START\]([\s\S]*?)\[TABLE_END\]/g;
+            let processedProtocol = '';
+            let lastIndex = 0;
+
+            rawProtocol.replace(tableRegex, (match, tableData, offset) => {
+                let nonTablePart = rawProtocol.substring(lastIndex, offset);
+                nonTablePart = cleanProtocolText(nonTablePart);
+                if (searchTerm) {
+                    const highlightRegex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                    nonTablePart = nonTablePart.replace(highlightRegex, '<span class="highlight">$1</span>');
+                }
+                processedProtocol += nonTablePart.replace(/\n/g, '<br>');
+                processedProtocol += renderTable(tableData);
+                lastIndex = offset + match.length;
+                return '';
+            });
+
+            let remainingPart = rawProtocol.substring(lastIndex);
+            remainingPart = cleanProtocolText(remainingPart);
+            if (searchTerm) {
+                const highlightRegex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                remainingPart = remainingPart.replace(highlightRegex, '<span class="highlight">$1</span>');
+            }
+            processedProtocol += remainingPart.replace(/\n/g, '<br>');
+
+
+            let finalHtmlContent = '';
+            const segments = processedProtocol.split(/(<table.*?<\/table>)/s);
+            segments.forEach(segment => {
+                if (segment.startsWith('<table')) {
+                    finalHtmlContent += segment;
+                } else {
+                    const paragraphs = segment.split(/(?:<br>\s*){2,}|<br>\n<br>/g);
+                    paragraphs.forEach(para => {
+                        if (para.trim()) {
+                           let paragraphText = para.trim();
+                           finalHtmlContent += `<p>${paragraphText}</p>`;
+                        }
+                    });
+                }
+            });
+            if (finalHtmlContent.startsWith('<p></p>')) {
+                finalHtmlContent = finalHtmlContent.substring(7);
+            }
+
+
+            return `
+                <div class="drug-entry" id="${entryId}">
+                    <h2>
+                        ${drug.drug_name_ar}
+                        ${drug.drug_name_en && drug.drug_name_en !== drug.drug_name_ar ? `<span class="drug-name-en">(${drug.drug_name_en})</span>` : ''}
+                    </h2>
+                    <h3>البروتوكول / التعليمات:</h3>
+                    <div>${finalHtmlContent}</div>
+                    ${drug.keywords && drug.keywords.length > 0 ? `<div class="keywords"><strong>كلمات مفتاحية:</strong> ${drug.keywords.join('، ')}</div>` : ''}
+                </div>
+            `;
+        }
+
+        function displayDrugs(drugsToDisplay, isSearch = false) {
+            drugListElement.innerHTML = '';
+            if (drugsToDisplay.length === 0 && searchInput.value.trim()) {
+                noResultsElement.style.display = 'block';
+                return;
+            }
+            noResultsElement.style.display = 'none';
+
+            drugsToDisplay.forEach(drug => {
+                drugListElement.innerHTML += createDrugEntryHTML(drug, isSearch ? searchInput.value.trim().toLowerCase() : '');
+            });
+        }
+
+        function populateToc(drugsForToc = drugData) {
+            tocListElement.innerHTML = '';
+            drugsForToc.forEach(drug => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                const entryId = `drug-${(drug.drug_name_en || drug.drug_name_ar).replace(/[^a-zA-Z0-9أ-ي]/g, '-').toLowerCase()}`;
+                link.href = `#${entryId}`;
+                let tocText = drug.drug_name_en || drug.drug_name_ar;
+                if (drug.drug_name_en && drug.drug_name_ar && drug.drug_name_en.toLowerCase() !== drug.drug_name_ar.toLowerCase()) {
+                    tocText += ` (${drug.drug_name_ar})`;
+                }
+                link.textContent = tocText;
+                link.title = tocText; 
+
+                link.onclick = function(e) {
+                    e.preventDefault();
+                    const targetElement = document.getElementById(entryId);
+                    if (targetElement) {
+                        const headerOffset = document.querySelector('.header-controls').offsetHeight + 10; 
+                        const elementPosition = targetElement.getBoundingClientRect().top + mainContent.scrollTop;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        mainContent.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                    if (activeTocLink) {
+                        activeTocLink.classList.remove('active');
+                    }
+                    link.classList.add('active');
+                    activeTocLink = link;
+
+                    if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                        sidebar.classList.remove('open');
+                        mainContent.classList.remove('sidebar-open');
+                        sidebarToggle.textContent = '☰';
+                    }
+                };
+                listItem.appendChild(link);
+                tocListElement.appendChild(listItem);
+            });
+        }
+
+        function filterDrugs() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            didYouMeanElement.textContent = '';
+
+            if (!searchTerm) {
+                displayDrugs(drugData, false);
+                populateToc(drugData);
+                noResultsElement.style.display = 'none';
+                if (activeTocLink) {
+                    activeTocLink.classList.remove('active');
+                    activeTocLink = null;
+                }
+                return;
+            }
+
+            const filteredDrugs = drugData.filter(drug =>
+                drug.drug_name_ar.toLowerCase().includes(searchTerm) ||
+                (drug.drug_name_en && drug.drug_name_en.toLowerCase().includes(searchTerm)) ||
+                cleanProtocolText(drug.protocol_ar).toLowerCase().includes(searchTerm) ||
+                (drug.keywords && drug.keywords.some(kw => kw.toLowerCase().includes(searchTerm)))
+            );
+
+            displayDrugs(filteredDrugs, true);
+            populateToc(filteredDrugs);
+
+            if (activeTocLink && !filteredDrugs.some(d => {
+                let linkTextContent = activeTocLink.textContent;
+                const arabicPartMatch = linkTextContent.match(/\((.*)\)/);
+                if (arabicPartMatch) {
+                    linkTextContent = linkTextContent.replace(arabicPartMatch[0], '').trim();
+                }
+                const drugIdentifier = d.drug_name_en || d.drug_name_ar;
+                return drugIdentifier === linkTextContent;
+            })) {
+                activeTocLink.classList.remove('active');
+                activeTocLink = null;
+            }
+
+            if (filteredDrugs.length === 0 && searchTerm.length > 1) {
+                let suggestions = [];
+                drugData.forEach(drug => {
+                    const nameToTestAr = drug.drug_name_ar.toLowerCase();
+                    const nameToTestEn = drug.drug_name_en ? drug.drug_name_en.toLowerCase() : '';
+                    
+                    const distAr = levenshtein(searchTerm, nameToTestAr);
+                    const distEn = nameToTestEn ? levenshtein(searchTerm, nameToTestEn) : Infinity;
+                    
+                    let effectiveDist = Math.min(distAr, distEn);
+                    let suggestedName = distAr <= distEn ? drug.drug_name_ar : drug.drug_name_en;
+
+                    let keywordMatch = false;
+                    if (drug.keywords) {
+                        for (const kw of drug.keywords) {
+                            if (kw.toLowerCase().includes(searchTerm)) {
+                                keywordMatch = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const threshold = Math.max(1, Math.floor( (nameToTestEn || nameToTestAr).length / 3.5));
+
+                    if (effectiveDist <= threshold && effectiveDist < (nameToTestEn || nameToTestAr).length) {
+                        suggestions.push({ drug, dist: effectiveDist, name: suggestedName });
+                    } else if (keywordMatch && !suggestions.find(s => s.drug === drug)) {
+                        suggestions.push({ drug, dist: 100 + (drug.drug_name_en || drug.drug_name_ar).length, name: (drug.drug_name_en || drug.drug_name_ar) });
+                    }
+                });
+
+                suggestions.sort((a, b) => a.dist - b.dist);
+
+                if (suggestions.length > 0) {
+                    let suggestionHTML = 'هل تقصد: ';
+                    suggestions.slice(0, 3).forEach((s, index) => {
+                        let suggestionText = s.drug.drug_name_en || s.drug.drug_name_ar;
+                        if (s.drug.drug_name_en && s.drug.drug_name_ar && s.drug.drug_name_en.toLowerCase() !== s.drug.drug_name_ar.toLowerCase()) {
+                             suggestionText += ` (${s.drug.drug_name_ar})`;
+                        }
+                        suggestionHTML += `<a onclick="setSearchAndFocus('${(s.drug.drug_name_en || s.drug.drug_name_ar).replace(/'/g, "\\'")}')">${suggestionText}</a>`;
+                        if (index < Math.min(suggestions.length, 3) - 1) {
+                            suggestionHTML += '، ';
+                        }
+                    });
+                    suggestionHTML += '؟';
+                    didYouMeanElement.innerHTML = suggestionHTML;
+                } else {
+                     noResultsElement.style.display = 'block';
+                }
+            } else {
+                 noResultsElement.style.display = filteredDrugs.length === 0 ? 'block' : 'none';
+            }
+        }
+
+        function setSearchAndFocus(term) {
+            searchInput.value = term;
+            filterDrugs();
+            
+            const firstMatchingDrug = drugData.find(drug => 
+                (drug.drug_name_en && drug.drug_name_en.toLowerCase() === term.toLowerCase()) || 
+                drug.drug_name_ar.toLowerCase() === term.toLowerCase()
+            );
+
+            if (firstMatchingDrug) {
+                const entryId = `drug-${(firstMatchingDrug.drug_name_en || firstMatchingDrug.drug_name_ar).replace(/[^a-zA-Z0-9أ-ي]/g, '-').toLowerCase()}`;
+                const targetElement = document.getElementById(entryId);
+                if (targetElement) {
+                    const headerOffset = document.querySelector('.header-controls').offsetHeight + 10;
+                    const elementPosition = targetElement.getBoundingClientRect().top + mainContent.scrollTop;
+                    const offsetPosition = elementPosition - headerOffset;
+                    mainContent.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+
+                    const tocLinks = tocListElement.querySelectorAll('a');
+                    tocLinks.forEach(link => {
+                        let linkTextForMatch = link.textContent.split(' (')[0];
+                        let drugIdentifierForMatch = firstMatchingDrug.drug_name_en || firstMatchingDrug.drug_name_ar;
+                        if(linkTextForMatch === drugIdentifierForMatch) {
+                            if (activeTocLink) activeTocLink.classList.remove('active');
+                            link.classList.add('active');
+                            activeTocLink = link;
+                        }
+                    });
+                }
+            }
+             if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                mainContent.classList.remove('sidebar-open');
+                sidebarToggle.textContent = '☰';
+            }
+        }
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('sidebar-open');
+            sidebarToggle.textContent = sidebar.classList.contains('open') ? '✕' : '☰';
+        });
+
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnToggle = sidebarToggle.contains(event.target);
+                if (!isClickInsideSidebar && !isClickOnToggle) {
+                    sidebar.classList.remove('open');
+                    mainContent.classList.remove('sidebar-open');
+                    sidebarToggle.textContent = '☰';
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayDrugs(drugData, false);
+            populateToc();
+        });
+    </script>
+</body>
+</html>

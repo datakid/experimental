@@ -19,6 +19,9 @@
     --md-sys-color-tertiary-container: #DDE1FF;
     --md-sys-color-on-tertiary-container: #121A37;
     --md-sys-color-error: #BA1A1A;
+    --md-sys-color-on-error: #FFFFFF;
+    --md-sys-color-error-container: #FFDAD6;
+    --md-sys-color-on-error-container: #410002;
     --md-sys-color-background: #FBFCFD;
     --md-sys-color-on-background: #191C1D;
     --md-sys-color-surface: #FFFFFF;
@@ -30,6 +33,7 @@
     
     --md-ref-typeface-brand: 'Roboto', 'Noto Sans Arabic', 'Arial', sans-serif;
     --md-ref-typeface-plain: 'Roboto', 'Noto Sans Arabic', 'Arial', sans-serif;
+    --md-ref-typeface-elegant-en: 'Georgia', 'Times New Roman', serif;
     
     --transition-standard: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-emphasized: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -219,6 +223,31 @@ body {
     box-shadow: var(--elevation-1);
     transition: box-shadow var(--transition-standard), transform var(--transition-standard);
 }
+
+.disclaimer-banner {
+    background-color: var(--md-sys-color-error-container);
+    color: var(--md-sys-color-on-error-container);
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.95em;
+    font-weight: 500;
+    border: 1px solid var(--md-sys-color-error);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: ltr;
+}
+
+.disclaimer-banner .warning-icon {
+    margin-right: var(--space-sm);
+    font-size: 1.3em;
+    color: var(--md-sys-color-error);
+    line-height: 1;
+}
+
 
 .header-controls.scrolled {
     box-shadow: var(--elevation-2);
@@ -459,12 +488,17 @@ body {
 }
 
 .drug-entry h2 .drug-name-en {
-    font-size: 0.85em;
+    font-size: 0.9em;
     color: var(--md-sys-color-on-surface-variant);
     font-weight: normal;
     display: block;
-    margin-top: var(--space-xs);
+    margin-top: var(--space-sm);
     transition: color var(--transition-standard);
+    font-family: var(--md-ref-typeface-elegant-en);
+    font-style: italic;
+    letter-spacing: 0.02em;
+    direction: ltr;
+    text-align: left;
 }
 
 .drug-entry:hover h2 .drug-name-en {
@@ -673,6 +707,12 @@ body {
         padding: var(--space-md) var(--space-lg);
     }
     
+    .disclaimer-banner {
+        padding: var(--space-sm);
+        margin-bottom: var(--space-md);
+        font-size: 0.9em;
+    }
+
     .header-controls h1 {
         font-size: 1.6em;
         margin-bottom: var(--space-sm);
@@ -703,6 +743,10 @@ body {
         font-size: 1.4em;
     }
     
+    .drug-entry h2 .drug-name-en {
+        font-size: 0.85em;
+    }
+
     .drug-entry h3 {
         font-size: 1.1em;
     }
@@ -751,6 +795,10 @@ body {
 
     <div class="main-content" id="mainContent">
         <div class="header-controls">
+            <div class="disclaimer-banner">
+                <span class="warning-icon">⚠️</span>
+                This is experimental and LLM generated. Not for practical use.
+            </div>
             <h1>بروتوكولات الأدوية - التأمين الصحي</h1>
             <div class="search-container">
                 <button id="sidebarToggle" title="فتح/إغلاق الفهرس">☰</button>
@@ -764,6 +812,7 @@ body {
             <div id="noResults" style="display:none;">لم يتم العثور على نتائج.</div>
         </div>
     </div> 
+</body>
     <script>
         const drugData = [
   {

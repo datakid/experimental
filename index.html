@@ -248,7 +248,6 @@ body {
     line-height: 1;
 }
 
-
 .header-controls.scrolled {
     box-shadow: var(--elevation-2);
 }
@@ -814,6 +813,17 @@ body {
     </div> 
 </body>
     <script>
+        const escapeHTML = (str) => {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/[&<>"']/g, match => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[match]);
+        };
+
         const drugData = [
   {
     "drug_name_ar": "جهاز قياس السكر بدون وخز (Free style libre)",
@@ -1164,7 +1174,6 @@ body {
     "keywords": ["Symbicort", "سيمبيكورت", "استشاري صدر", "جهاز تنفسي", "ربو", "COPD"]
   }
 ];
-          
 
         const drugListContainer = document.getElementById('drugListContainer');
         const drugListElement = document.getElementById('drugList');
@@ -1202,12 +1211,12 @@ body {
             let html = '<table class="protocol-table">';
             const headerRow = rows[0].split('|').map(h => h.trim());
             html += '<thead><tr>';
-            headerRow.forEach(header => html += `<th>${header}</th>`);
+            headerRow.forEach(header => html += `<th>${escapeHTML(header)}</th>`);
             html += '</tr></thead><tbody>';
             for (let i = 1; i < rows.length; i++) {
                 html += '<tr>';
                 const cells = rows[i].split('|').map(cell => cell.trim());
-                cells.forEach(cell => html += `<td>${cell}</td>`);
+                cells.forEach(cell => html += `<td>${escapeHTML(cell)}</td>`);
                 html += '</tr>';
             }
             html += '</tbody></table>';
@@ -1215,7 +1224,7 @@ body {
         }
         
         function cleanProtocolText(text) {
-            let cleanedText = text;
+            let cleanedText = escapeHTML(text);
             cleanedText = cleanedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             cleanedText = cleanedText.replace(/\*(.*?)\*/g, (match, p1) => {
                 if (p1.match(/^\s|\s$|\d/) || match.match(/\s\*\s/) || p1.trim() === "") {
@@ -1234,7 +1243,7 @@ body {
         }
 
         function createDrugEntryHTML(drug, searchTerm = '') {
-            const entryId = `drug-${(drug.drug_name_en || drug.drug_name_ar).replace(/[^a-zA-Z0-9أ-ي]/g, '-').toLowerCase()}`;
+            const entryId = `drug-${escapeHTML(drug.drug_name_en || drug.drug_name_ar).replace(/[^a-zA-Z0-9أ-ي]/g, '-').toLowerCase()}`;
             let rawProtocol = drug.protocol_ar;
 
             const tableRegex = /\[TABLE_START\]([\s\S]*?)\[TABLE_END\]/g;
@@ -1245,7 +1254,7 @@ body {
                 let nonTablePart = rawProtocol.substring(lastIndex, offset);
                 nonTablePart = cleanProtocolText(nonTablePart);
                 if (searchTerm) {
-                    const highlightRegex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                    const highlightRegex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?![^<]*>)`, 'gi');
                     nonTablePart = nonTablePart.replace(highlightRegex, '<span class="highlight">$1</span>');
                 }
                 processedProtocol += nonTablePart.replace(/\n/g, '<br>');
@@ -1257,11 +1266,10 @@ body {
             let remainingPart = rawProtocol.substring(lastIndex);
             remainingPart = cleanProtocolText(remainingPart);
             if (searchTerm) {
-                const highlightRegex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                const highlightRegex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?![^<]*>)`, 'gi');
                 remainingPart = remainingPart.replace(highlightRegex, '<span class="highlight">$1</span>');
             }
             processedProtocol += remainingPart.replace(/\n/g, '<br>');
-
 
             let finalHtmlContent = '';
             const segments = processedProtocol.split(/(<table.*?<\/table>)/s);
@@ -1282,16 +1290,15 @@ body {
                 finalHtmlContent = finalHtmlContent.substring(7);
             }
 
-
             return `
                 <div class="drug-entry" id="${entryId}">
                     <h2>
-                        ${drug.drug_name_ar}
-                        ${drug.drug_name_en && drug.drug_name_en !== drug.drug_name_ar ? `<span class="drug-name-en">(${drug.drug_name_en})</span>` : ''}
+                        ${escapeHTML(drug.drug_name_ar)}
+                        ${drug.drug_name_en && drug.drug_name_en !== drug.drug_name_ar ? `<span class="drug-name-en">(${escapeHTML(drug.drug_name_en)})</span>` : ''}
                     </h2>
                     <h3>البروتوكول / التعليمات:</h3>
                     <div>${finalHtmlContent}</div>
-                    ${drug.keywords && drug.keywords.length > 0 ? `<div class="keywords"><strong>كلمات مفتاحية:</strong> ${drug.keywords.join('، ')}</div>` : ''}
+                    ${drug.keywords && drug.keywords.length > 0 ? `<div class="keywords"><strong>كلمات مفتاحية:</strong> ${drug.keywords.map(escapeHTML).join('، ')}</div>` : ''}
                 </div>
             `;
         }
@@ -1425,19 +1432,23 @@ body {
                 suggestions.sort((a, b) => a.dist - b.dist);
 
                 if (suggestions.length > 0) {
-                    let suggestionHTML = 'هل تقصد: ';
-                    suggestions.slice(0, 3).forEach((s, index) => {
+                    didYouMeanElement.textContent = 'هل تقصد: ';
+                    const topSuggestions = suggestions.slice(0, 3);
+                    topSuggestions.forEach((s, index) => {
                         let suggestionText = s.drug.drug_name_en || s.drug.drug_name_ar;
                         if (s.drug.drug_name_en && s.drug.drug_name_ar && s.drug.drug_name_en.toLowerCase() !== s.drug.drug_name_ar.toLowerCase()) {
                              suggestionText += ` (${s.drug.drug_name_ar})`;
                         }
-                        suggestionHTML += `<a onclick="setSearchAndFocus('${(s.drug.drug_name_en || s.drug.drug_name_ar).replace(/'/g, "\\'")}')">${suggestionText}</a>`;
-                        if (index < Math.min(suggestions.length, 3) - 1) {
-                            suggestionHTML += '، ';
+                        const a = document.createElement('a');
+                        a.textContent = suggestionText;
+                        a.onclick = () => setSearchAndFocus(s.drug.drug_name_en || s.drug.drug_name_ar);
+                        didYouMeanElement.appendChild(a);
+                        
+                        if (index < topSuggestions.length - 1) {
+                            didYouMeanElement.appendChild(document.createTextNode('، '));
                         }
                     });
-                    suggestionHTML += '؟';
-                    didYouMeanElement.innerHTML = suggestionHTML;
+                    didYouMeanElement.appendChild(document.createTextNode('؟'));
                 } else {
                      noResultsElement.style.display = 'block';
                 }

@@ -1,829 +1,469 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lx protocols "slopped"</title>
-    <style>
-:root {
-    --md-sys-color-primary: #00677F;
-    --md-sys-color-on-primary: #FFFFFF;
-    --md-sys-color-primary-container: #BCEEFF;
-    --md-sys-color-on-primary-container: #001F29;
-    --md-sys-color-secondary: #4A6269;
-    --md-sys-color-on-secondary: #FFFFFF;
-    --md-sys-color-secondary-container: #CDE7EE;
-    --md-sys-color-on-secondary-container: #051F25;
-    --md-sys-color-tertiary: #565D7E;
-    --md-sys-color-on-tertiary: #FFFFFF;
-    --md-sys-color-tertiary-container: #DDE1FF;
-    --md-sys-color-on-tertiary-container: #121A37;
-    --md-sys-color-error: #BA1A1A;
-    --md-sys-color-on-error: #FFFFFF;
-    --md-sys-color-error-container: #FFDAD6;
-    --md-sys-color-on-error-container: #410002;
-    --md-sys-color-background: #FBFCFD;
-    --md-sys-color-on-background: #191C1D;
-    --md-sys-color-surface: #FFFFFF;
-    --md-sys-color-on-surface: #191C1D;
-    --md-sys-color-surface-variant: #DAE4E7;
-    --md-sys-color-on-surface-variant: #3F484B;
-    --md-sys-color-outline: #C0C8CC;
-    --md-sys-color-shadow: rgba(0, 0, 0, 0.08);
-    
-    --md-ref-typeface-brand: 'Roboto', 'Noto Sans Arabic', 'Arial', sans-serif;
-    --md-ref-typeface-plain: 'Roboto', 'Noto Sans Arabic', 'Arial', sans-serif;
-    --md-ref-typeface-elegant-en: 'Georgia', 'Times New Roman', serif;
-    
-    --transition-standard: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-emphasized: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-decelerated: 0.4s cubic-bezier(0, 0, 0.2, 1);
-    --transition-accelerated: 0.2s cubic-bezier(0.4, 0, 1, 1);
-    
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-    
-    --elevation-1: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
-    --elevation-2: 0 3px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.1);
-    --elevation-3: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.12);
-    --elevation-4: 0 6px 12px rgba(0, 0, 0, 0.12), 0 3px 8px rgba(0, 0, 0, 0.14);
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    scroll-behavior: smooth;
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-    font-family: var(--md-ref-typeface-plain);
-    margin: 0;
-    background-color: var(--md-sys-color-background);
-    color: var(--md-sys-color-on-background);
-    line-height: 1.75;
-    font-size: 1rem;
-    font-weight: 400;
-    overflow-x: hidden;
-    display: flex;
-    letter-spacing: 0.01em;
-}
-
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--md-sys-color-surface-variant);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--md-sys-color-primary);
-    border-radius: 4px;
-    opacity: 0.7;
-    transition: opacity var(--transition-standard);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    opacity: 1;
-    background: var(--md-sys-color-secondary);
-}
-
-#sidebar {
-    width: 300px;
-    background-color: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-surface-variant);
-    padding: var(--space-lg);
-    height: 100vh;
-    overflow-y: auto;
-    border-left: 1px solid var(--md-sys-color-outline);
-    transition: transform var(--transition-emphasized);
-    position: fixed;
-    right: -300px;
-    top: 0;
-    z-index: 1001;
-    box-shadow: -3px 0 12px var(--md-sys-color-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-#sidebar.open {
-    transform: translateX(-300px);
-}
-
-#sidebar h3 {
-    margin-top: 0;
-    color: var(--md-sys-color-primary);
-    border-bottom: 2px solid var(--md-sys-color-primary-container);
-    padding-bottom: var(--space-md);
-    font-family: var(--md-ref-typeface-brand);
-    font-size: 1.4em;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    position: relative;
-}
-
-#sidebar h3::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 60px;
-    height: 2px;
-    background-color: var(--md-sys-color-primary);
-    transition: width var(--transition-emphasized);
-}
-
-#sidebar:hover h3::after {
-    width: 100%;
-}
-
-#tocList {
-    list-style-type: none;
-    padding: 0;
-    margin: var(--space-md) 0 0 0;
-}
-
-#tocList li a {
-    display: block;
-    padding: var(--space-sm) var(--space-md);
-    text-decoration: none;
-    color: var(--md-sys-color-on-surface-variant);
-    border-bottom: 1px solid rgba(192, 200, 204, 0.3);
-    transition: all var(--transition-standard);
-    border-radius: 8px;
-    margin-bottom: var(--space-xs);
-    font-size: 0.95em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    position: relative;
-}
-
-#tocList li a::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 3px;
-    background-color: var(--md-sys-color-primary);
-    transform: scaleY(0);
-    transition: transform var(--transition-standard);
-    border-radius: 0 2px 2px 0;
-}
-
-#tocList li a:hover, #tocList li a.active {
-    background-color: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-on-primary-container);
-    font-weight: 500;
-    padding-right: var(--space-xl);
-    padding-left: calc(var(--space-md) + 3px);
-    box-shadow: var(--elevation-1);
-    transform: translateX(2px);
-}
-
-#tocList li a:hover::before, #tocList li a.active::before {
-    transform: scaleY(1);
-}
-
-.main-content {
-    flex-grow: 1;
-    height: 100vh;
-    overflow-y: auto;
-    padding-right: 0;
-    transition: margin-right var(--transition-emphasized);
-    background-image: linear-gradient(to bottom, rgba(188, 238, 255, 0.05), rgba(221, 225, 255, 0.05));
-    position: relative;
-}
-
-.main-content.sidebar-open {
-    margin-right: 300px;
-}
-
-.header-controls {
-    background-color: var(--md-sys-color-surface);
-    padding: var(--space-lg) var(--space-xl);
-    border-bottom: 1px solid var(--md-sys-color-outline);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    box-shadow: var(--elevation-1);
-    transition: box-shadow var(--transition-standard), transform var(--transition-standard);
-}
-
-.disclaimer-banner {
-    background-color: var(--md-sys-color-error-container);
-    color: var(--md-sys-color-on-error-container);
-    padding: var(--space-md);
-    margin-bottom: var(--space-lg);
-    border-radius: 8px;
-    text-align: center;
-    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.95em;
-    font-weight: 500;
-    border: 1px solid var(--md-sys-color-error);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    direction: ltr;
-}
-
-.disclaimer-banner .warning-icon {
-    margin-right: var(--space-sm);
-    font-size: 1.3em;
-    color: var(--md-sys-color-error);
-    line-height: 1;
-}
-
-.header-controls.scrolled {
-    box-shadow: var(--elevation-2);
-}
-
-.header-controls h1 {
-    color: var(--md-sys-color-primary);
-    text-align: center;
-    margin: 0 0 var(--space-md) 0;
-    font-family: var(--md-ref-typeface-brand);
-    font-size: 2em;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    transition: transform var(--transition-standard);
-    position: relative;
-    display: inline-block;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.header-controls h1::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background-color: var(--md-sys-color-primary);
-    transform: translateX(-50%);
-    transition: width var(--transition-emphasized);
-}
-
-.header-controls:hover h1::after {
-    width: 80px;
-}
-
-.search-container {
-    display: flex;
-    gap: var(--space-md);
-    align-items: center;
-    margin-bottom: var(--space-sm);
-    position: relative;
-}
-
-#searchInput {
-    flex-grow: 1;
-    padding: 12px 18px;
-    border: 1px solid var(--md-sys-color-outline);
-    border-radius: 24px;
-    font-size: 1em;
-    background-color: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-background);
-    transition: all var(--transition-standard);
-    box-shadow: var(--elevation-1);
-}
-
-#searchInput:focus {
-    border-color: var(--md-sys-color-primary);
-    box-shadow: 0 0 0 3px rgba(0, 103, 127, 0.15), var(--elevation-2);
-    outline: none;
-    transform: translateY(-1px);
-}
-
-#searchInput::placeholder {
-    color: var(--md-sys-color-on-surface-variant);
-    opacity: 0.7;
-    transition: opacity var(--transition-standard);
-}
-
-#searchInput:focus::placeholder {
-    opacity: 0.4;
-}
-
-#sidebarToggle {
-    background-color: var(--md-sys-color-primary);
-    color: var(--md-sys-color-on-primary);
-    border: none;
-    padding: 0;
-    font-size: 1.5em;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all var(--transition-standard);
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: var(--elevation-2);
-    position: relative;
-    overflow: hidden;
-}
-
-#sidebarToggle::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.5s ease-out, height 0.5s ease-out;
-}
-
-#sidebarToggle:hover {
-    background-color: var(--md-sys-color-secondary);
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-#sidebarToggle:hover::before {
-    width: 150%;
-    height: 150%;
-}
-
-#sidebarToggle:active {
-    transform: scale(0.95);
-}
-
-#didYouMean {
-    padding: var(--space-xs) var(--space-xl) var(--space-sm) var(--space-xl);
-    font-style: italic;
-    color: var(--md-sys-color-secondary);
-    font-size: 0.9em;
-    min-height: 1.2em;
-    transition: all var(--transition-standard);
-    opacity: 0.9;
-}
-
-#didYouMean a {
-    color: var(--md-sys-color-primary);
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all var(--transition-standard);
-    position: relative;
-    display: inline-block;
-}
-
-#didYouMean a::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background-color: var(--md-sys-color-primary);
-    transition: width var(--transition-standard);
-}
-
-#didYouMean a:hover {
-    color: var(--md-sys-color-tertiary);
-}
-
-#didYouMean a:hover::after {
-    width: 100%;
-    background-color: var(--md-sys-color-tertiary);
-}
-
-.container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: var(--space-lg) var(--space-xl);
-    animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.drug-entry {
-    background-color: var(--md-sys-color-surface);
-    border: 1px solid var(--md-sys-color-outline);
-    border-radius: 16px;
-    padding: var(--space-xl);
-    margin-bottom: var(--space-xl);
-    box-shadow: var(--elevation-2);
-    transition: all var(--transition-standard);
-    position: relative;
-    overflow: hidden;
-}
-
-.drug-entry::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 0;
-    background-color: var(--md-sys-color-primary);
-    transition: height var(--transition-emphasized);
-}
-
-.drug-entry:hover {
-    box-shadow: var(--elevation-3);
-    transform: translateY(-2px);
-}
-
-.drug-entry:hover::before {
-    height: 100%;
-}
-
-.drug-entry h2 {
-    margin-top: 0;
-    margin-bottom: var(--space-md);
-    color: var(--md-sys-color-primary);
-    font-size: 1.6em;
-    font-family: var(--md-ref-typeface-brand);
-    border-bottom: 1px solid var(--md-sys-color-primary-container);
-    padding-bottom: var(--space-md);
-    position: relative;
-    letter-spacing: -0.01em;
-    font-weight: 600;
-}
-
-.drug-entry h2::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 80px;
-    height: 2px;
-    background-color: var(--md-sys-color-primary);
-    transition: width var(--transition-emphasized);
-}
-
-.drug-entry:hover h2::after {
-    width: 100%;
-}
-
-.drug-entry h2 .drug-name-en {
-    font-size: 0.9em;
-    color: var(--md-sys-color-on-surface-variant);
-    font-weight: normal;
-    display: block;
-    margin-top: var(--space-sm);
-    transition: color var(--transition-standard);
-    font-family: var(--md-ref-typeface-elegant-en);
-    font-style: italic;
-    letter-spacing: 0.02em;
-    direction: ltr;
-    text-align: left;
-}
-
-.drug-entry:hover h2 .drug-name-en {
-    color: var(--md-sys-color-secondary);
-}
-
-.drug-entry h3 {
-    color: var(--md-sys-color-secondary);
-    font-size: 1.2em;
-    margin-top: var(--space-lg);
-    margin-bottom: var(--space-sm);
-    font-weight: 600;
-    position: relative;
-    padding-left: var(--space-sm);
-    letter-spacing: -0.01em;
-}
-
-.drug-entry h3::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 3px;
-    background-color: var(--md-sys-color-secondary-container);
-    border-radius: 2px;
-}
-
-.drug-entry p, .drug-entry ul, .drug-entry ol, .drug-entry div > p {
-    margin-bottom: var(--space-md);
-    white-space: pre-wrap;
-    color: var(--md-sys-color-on-surface);
-    word-wrap: break-word;
-    line-height: 1.8;
-}
-
-.drug-entry ul, .drug-entry ol {
-    padding-right: var(--space-xl);
-}
-
-.drug-entry li {
-    margin-bottom: var(--space-sm);
-    position: relative;
-}
-
-.drug-entry li::marker {
-    color: var(--md-sys-color-primary);
-}
-
-.highlight {
-    background-color: var(--md-sys-color-tertiary-container);
-    color: var(--md-sys-color-on-tertiary-container);
-    padding: 0.1em 0.3em;
-    border-radius: 4px;
-    font-weight: bold;
-    display: inline-block;
-    position: relative;
-    transition: all var(--transition-standard);
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-}
-
-.highlight:hover {
-    background-color: var(--md-sys-color-tertiary);
-    color: var(--md-sys-color-on-tertiary);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#noResults {
-    text-align: center;
-    padding: var(--space-xl) var(--space-lg);
-    font-size: 1.4em;
-    color: var(--md-sys-color-on-surface-variant);
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.5s ease-out;
-}
-
-.keywords {
-    font-size: 0.95em;
-    color: var(--md-sys-color-on-surface-variant);
-    margin-top: var(--space-lg);
-    padding-top: var(--space-md);
-    border-top: 1px dashed var(--md-sys-color-outline);
-    line-height: 1.7;
-    transition: all var(--transition-standard);
-}
-
-.keywords strong {
-    color: var(--md-sys-color-secondary);
-    font-weight: 600;
-}
-
-.keywords:hover {
-    color: var(--md-sys-color-on-surface);
-    border-top-style: solid;
-}
-
-.protocol-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin: var(--space-md) 0;
-    font-size: 0.95em;
-    box-shadow: var(--elevation-2);
-    border: 1px solid var(--md-sys-color-outline);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all var(--transition-standard);
-}
-
-.protocol-table:hover {
-    box-shadow: var(--elevation-3);
-}
-
-.protocol-table th, .protocol-table td {
-    border: none;
-    border-bottom: 1px solid var(--md-sys-color-outline);
-    border-right: 1px solid var(--md-sys-color-outline);
-    padding: 12px 16px;
-    text-align: right;
-    transition: all var(--transition-standard);
-}
-
-.protocol-table th:last-child, .protocol-table td:last-child {
-    border-right: none;
-}
-
-.protocol-table tr:last-child td {
-    border-bottom: none;
-}
-
-.protocol-table thead th {
-    background-color: var(--md-sys-color-secondary-container);
-    color: var(--md-sys-color-on-secondary-container);
-    font-weight: 600;
-    border-bottom: 2px solid var(--md-sys-color-primary);
-    position: relative;
-}
-
-.protocol-table thead th::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--md-sys-color-primary);
-    transition: width var(--transition-emphasized);
-}
-
-.protocol-table:hover thead th::after {
-    width: 100%;
-}
-
-.protocol-table tbody tr:nth-child(even) td {
-    background-color: rgba(249, 249, 249, 0.7);
-}
-
-.protocol-table tbody tr:hover td {
-    background-color: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-on-primary-container);
-}
-
-@media (max-width: 768px) {
-    :root {
-        --space-xl: 24px;
-        --space-lg: 20px;
-        --space-md: 12px;
-    }
-    
-    body {
-        flex-direction: column;
-        font-size: 15px;
-    }
-    
-    #sidebar {
-        width: 100%;
-        height: auto;
-        max-height: 70vh;
-        position: fixed;
-        right: 0;
-        top: -100vh;
-        transform: translateY(0);
-        border-left: none;
-        border-bottom: 1px solid var(--md-sys-color-outline);
-        box-shadow: 0 3px 15px var(--md-sys-color-shadow);
-        transition: transform var(--transition-emphasized);
-        border-radius: 0 0 16px 16px;
-    }
-    
-    #sidebar.open {
-        transform: translateY(100vh);
-        top: 0;
-    }
-    
-    .main-content.sidebar-open {
-        margin-right: 0;
-    }
-    
-    .header-controls {
-        padding: var(--space-md) var(--space-lg);
-    }
-    
-    .disclaimer-banner {
-        padding: var(--space-sm);
-        margin-bottom: var(--space-md);
-        font-size: 0.9em;
-    }
-
-    .header-controls h1 {
-        font-size: 1.6em;
-        margin-bottom: var(--space-sm);
-    }
-    
-    .container {
-        padding: var(--space-md);
-    }
-    
-    .drug-entry {
-        padding: var(--space-lg);
-        margin-bottom: var(--space-lg);
-        border-radius: 12px;
-    }
-    
-    #sidebarToggle {
-        font-size: 1.3em;
-        width: 44px;
-        height: 44px;
-    }
-    
-    #searchInput {
-        padding: 10px 16px;
-        font-size: 0.95em;
-    }
-    
-    .drug-entry h2 {
-        font-size: 1.4em;
-    }
-    
-    .drug-entry h2 .drug-name-en {
-        font-size: 0.85em;
-    }
-
-    .drug-entry h3 {
-        font-size: 1.1em;
-    }
-    
-    .protocol-table th, .protocol-table td {
-        padding: 8px 12px;
-        font-size: 0.9em;
-    }
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.02);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes slideInRight {
-    from {
-        transform: translateX(30px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-.drug-entry {
-    animation: slideInRight 0.5s ease-out forwards;
-    animation-delay: calc(var(--animation-order, 0) * 0.1s);
-    opacity: 0;
-}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f0e0c">
+<title>بروتوكولات الأدوية — التأمين الصحي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Fraunces:ital,opsz@1,9..144&display=swap" rel="stylesheet">
+<script>
+(function(){
+var saved = localStorage.getItem('drugbook-theme');
+var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+document.documentElement.setAttribute('data-theme', theme);
+})();
+</script>
+<style>
+:root{
+  --font-ui:'Cairo',sans-serif;
+  --font-read:'Amiri','Cairo',serif;
+  --font-accent:'Fraunces','Amiri',serif;
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:20px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+  --header-h:auto;
+}
+[data-theme="light"]{
+  --bg:#faf8f4;
+  --bg-raised:#ffffff;
+  --bg-sunken:#f2efe8;
+  --ink:#1c1a16;
+  --ink-soft:#57524a;
+  --ink-faint:#948d80;
+  --line:#e6e0d4;
+  --line-soft:#eeeae0;
+  --accent:#0d7d6e;
+  --accent-ink:#ffffff;
+  --accent-soft:#e2f1ee;
+  --accent-glow:rgba(13,125,110,.18);
+  --warn:#9a5b12;
+  --warn-bg:#faf0e2;
+  --warn-line:#eddbb9;
+  --shadow-1:0 1px 2px rgba(28,26,22,.04), 0 1px 1px rgba(28,26,22,.03);
+  --shadow-2:0 8px 24px rgba(28,26,22,.08), 0 2px 6px rgba(28,26,22,.05);
+  --shadow-3:0 20px 50px rgba(28,26,22,.14), 0 6px 16px rgba(28,26,22,.08);
+  --grain-op:.025;
+  --scrim:rgba(20,18,14,.45);
+}
+[data-theme="dark"]{
+  --bg:#131210;
+  --bg-raised:#1c1a17;
+  --bg-sunken:#0d0c0a;
+  --ink:#f1ede4;
+  --ink-soft:#b6ada0;
+  --ink-faint:#736b5f;
+  --line:#2e2b26;
+  --line-soft:#242119;
+  --accent:#2fd4b8;
+  --accent-ink:#0a1613;
+  --accent-soft:rgba(47,212,184,.12);
+  --accent-glow:rgba(47,212,184,.22);
+  --warn:#e8b567;
+  --warn-bg:#241d10;
+  --warn-line:#3a2e15;
+  --shadow-1:0 1px 2px rgba(0,0,0,.3);
+  --shadow-2:0 10px 30px rgba(0,0,0,.45), 0 2px 8px rgba(0,0,0,.3);
+  --shadow-3:0 24px 60px rgba(0,0,0,.55), 0 8px 20px rgba(0,0,0,.4);
+  --grain-op:.05;
+  --scrim:rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-ui);
+  line-height:1.7;
+  transition:background .35s var(--ease-soft), color .35s var(--ease-soft);
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9999;
+  opacity:var(--grain-op);
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection{background:var(--accent);color:var(--accent-ink)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:10px;border:2px solid var(--bg);background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-faint)}
+
+.topbar{
+  position:sticky;top:0;z-index:60;
+  background:color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border-bottom:1px solid var(--line-soft);
+  transition:border-color .35s var(--ease-soft);
+}
+.topbar-inner{
+  max-width:920px;margin:0 auto;padding:22px 24px 18px;
+}
+.brand-row{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;
+}
+.brand{
+  display:flex;align-items:baseline;gap:10px;
+}
+.brand h1{
+  font-size:1.5rem;font-weight:800;letter-spacing:-.01em;
+  background:linear-gradient(90deg, var(--ink), var(--ink-soft));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.brand .count{
+  font-family:var(--font-accent);font-style:italic;font-size:.85rem;color:var(--ink-faint);
+  white-space:nowrap;
+}
+.controls{display:flex;align-items:center;gap:8px}
+.icon-btn{
+  width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg-raised);border:1px solid var(--line);
+  color:var(--ink-soft);cursor:pointer;
+  transition:all .25s var(--ease-soft);
+  position:relative;
+  flex-shrink:0;
+}
+.icon-btn svg{width:18px;height:18px;transition:transform .4s var(--ease)}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.icon-btn:active{transform:scale(.92)}
+.icon-btn.theme-btn svg{transform:rotate(0deg)}
+[data-theme="dark"] .icon-btn.theme-btn .sun{display:none}
+[data-theme="light"] .icon-btn.theme-btn .moon{display:none}
+
+.search-wrap{position:relative}
+.search-box{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg-raised);
+  border:1.5px solid var(--line);
+  border-radius:16px;
+  padding:13px 16px;
+  transition:all .3s var(--ease-soft);
+  box-shadow:var(--shadow-1);
+}
+.search-box:focus-within{
+  border-color:var(--accent);
+  box-shadow:0 0 0 4px var(--accent-soft);
+}
+.search-box svg.search-icon{width:19px;height:19px;color:var(--ink-faint);flex-shrink:0;transition:color .3s}
+.search-box:focus-within svg.search-icon{color:var(--accent)}
+#searchInput{
+  flex:1;border:none;outline:none;background:transparent;
+  font-family:var(--font-ui);font-size:1rem;color:var(--ink);
+  min-width:0;
+}
+#searchInput::placeholder{color:var(--ink-faint)}
+.kbd-hint{
+  font-family:var(--font-ui);font-size:.72rem;color:var(--ink-faint);
+  border:1px solid var(--line);border-radius:6px;padding:2px 7px;
+  flex-shrink:0;letter-spacing:.02em;
+}
+.clear-btn{
+  width:22px;height:22px;border-radius:50%;border:none;
+  background:var(--bg-sunken);color:var(--ink-soft);
+  display:none;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+  transition:background .2s;
+}
+.clear-btn:hover{background:var(--line)}
+.clear-btn svg{width:11px;height:11px}
+.search-active .clear-btn{display:flex}
+.search-active .kbd-hint{display:none}
+
+.did-you-mean{
+  padding:12px 4px 0;font-size:.88rem;color:var(--ink-soft);
+  display:none;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.did-you-mean.show{display:flex}
+.did-you-mean a{
+  color:var(--accent);text-decoration:none;font-weight:600;
+  border-bottom:1px dashed var(--accent);cursor:pointer;padding-bottom:1px;
+}
+.did-you-mean a:hover{border-bottom-style:solid}
+
+.drawer-scrim{
+  position:fixed;inset:0;background:var(--scrim);z-index:70;
+  opacity:0;pointer-events:none;transition:opacity .35s var(--ease-soft);
+  backdrop-filter:blur(2px);
+}
+.drawer-scrim.open{opacity:1;pointer-events:auto}
+
+.drawer{
+  position:fixed;top:0;bottom:0;left:0;
+  width:min(340px,86vw);
+  background:var(--bg-raised);
+  border-left:1px solid var(--line);
+  z-index:80;
+  transform:translateX(-100%);
+  transition:transform .45s var(--ease);
+  display:flex;flex-direction:column;
+  box-shadow:var(--shadow-3);
+}
+.drawer.open{transform:translateX(0)}
+.drawer-head{
+  padding:22px 22px 16px;border-bottom:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.drawer-head h3{font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
+.drawer-head .icon-btn{width:34px;height:34px}
+.drawer-head .icon-btn svg{width:15px;height:15px}
+#tocList{list-style:none;overflow-y:auto;padding:12px;flex:1}
+#tocList li a{
+  display:block;padding:10px 14px;border-radius:10px;
+  color:var(--ink-soft);text-decoration:none;font-size:.9rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:all .2s var(--ease-soft);
+  border-right:2px solid transparent;
+  margin-bottom:2px;
+}
+#tocList li a:hover{background:var(--bg-sunken);color:var(--ink)}
+#tocList li a.active{
+  background:var(--accent-soft);color:var(--accent);
+  border-right-color:var(--accent);font-weight:600;
+}
+#tocList .toc-empty{padding:24px 14px;color:var(--ink-faint);font-size:.85rem;text-align:center}
+
+.disclaimer{
+  max-width:920px;margin:22px auto 0;padding:0 24px;
+}
+.disclaimer-inner{
+  display:flex;align-items:center;gap:10px;
+  background:var(--warn-bg);border:1px solid var(--warn-line);
+  color:var(--warn);border-radius:12px;padding:11px 16px;
+  font-size:.85rem;font-weight:600;
+}
+.disclaimer-inner svg{width:16px;height:16px;flex-shrink:0}
+
+.container{max-width:920px;margin:0 auto;padding:26px 24px 120px}
+
+#emptyState{
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:90px 20px;gap:18px;
+}
+#emptyState.show{display:flex}
+#emptyState svg{width:56px;height:56px;color:var(--line);stroke-width:1.2}
+#emptyState h3{font-size:1.15rem;font-weight:700;color:var(--ink-soft)}
+#emptyState p{font-size:.9rem;color:var(--ink-faint);max-width:320px}
+
+#emptyDataState{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:120px 20px;gap:16px;
+}
+#emptyDataState svg{width:60px;height:60px;color:var(--line);stroke-width:1.1}
+#emptyDataState h3{font-size:1.2rem;font-weight:800;color:var(--ink-soft)}
+#emptyDataState p{font-size:.92rem;color:var(--ink-faint);max-width:360px}
+
+.entry{
+  background:var(--bg-raised);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:30px 32px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow-1);
+  transition:box-shadow .35s var(--ease-soft), border-color .35s var(--ease-soft), transform .35s var(--ease-soft);
+  opacity:0;transform:translateY(14px);
+  animation:rise .6s var(--ease) forwards;
+  animation-delay:calc(var(--i,0) * 45ms);
+  scroll-margin-top:150px;
+  position:relative;
+}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+.entry:hover{box-shadow:var(--shadow-2);border-color:var(--line-soft)}
+
+.entry-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+  border-bottom:1px solid var(--line-soft);padding-bottom:18px;margin-bottom:18px;
+}
+.entry-title h2{
+  font-size:1.4rem;font-weight:700;letter-spacing:-.01em;color:var(--ink);
+  margin-bottom:6px;
+}
+.entry-title .en{
+  font-family:var(--font-accent);font-style:italic;font-size:.92rem;
+  color:var(--accent);direction:ltr;text-align:left;display:block;font-weight:500;
+}
+.entry-tools{display:flex;gap:6px;flex-shrink:0}
+.entry-tools button{
+  width:34px;height:34px;border-radius:9px;border:1px solid var(--line);
+  background:var(--bg-sunken);color:var(--ink-faint);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s var(--ease-soft);
+}
+.entry-tools button svg{width:14px;height:14px}
+.entry-tools button:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+
+.entry-body{
+  font-family:var(--font-read);
+  font-size:1.06rem;
+  line-height:2;
+  color:var(--ink);
+}
+.entry-body h3{
+  font-family:var(--font-ui);font-size:1rem;font-weight:700;color:var(--accent);
+  margin:20px 0 10px;display:flex;align-items:center;gap:8px;
+}
+.entry-body h3::before{content:'';width:3px;height:16px;background:var(--accent);border-radius:2px}
+.entry-body p{margin-bottom:14px;white-space:pre-wrap}
+.entry-body strong{font-weight:700;color:var(--ink)}
+.entry-body em{color:var(--ink-soft)}
+.entry-body mark{
+  background:var(--accent-soft);color:var(--accent);
+  padding:.05em .3em;border-radius:4px;font-weight:700;box-decoration-break:clone;
+}
+
+.protocol-table{
+  width:100%;border-collapse:collapse;margin:16px 0;
+  font-family:var(--font-ui);font-size:.88rem;line-height:1.6;
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;
+}
+.protocol-table th,.protocol-table td{
+  padding:11px 14px;text-align:right;border-bottom:1px solid var(--line-soft);
+  border-left:1px solid var(--line-soft);
+}
+.protocol-table th:last-child,.protocol-table td:last-child{border-left:none}
+.protocol-table tr:last-child td{border-bottom:none}
+.protocol-table thead th{
+  background:var(--bg-sunken);color:var(--ink);font-weight:700;
+}
+.protocol-table tbody tr:hover td{background:var(--accent-soft)}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px;padding-top:18px;border-top:1px dashed var(--line)}
+.chip{
+  font-family:var(--font-ui);font-size:.78rem;color:var(--ink-soft);
+  background:var(--bg-sunken);border:1px solid var(--line);
+  padding:4px 11px;border-radius:20px;transition:all .2s var(--ease-soft);
+}
+.chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:var(--bg);padding:11px 22px;border-radius:30px;
+  font-size:.85rem;font-weight:600;z-index:200;opacity:0;pointer-events:none;
+  transition:all .35s var(--ease);box-shadow:var(--shadow-3);
+}
+[data-theme="dark"] .toast{background:var(--accent);color:var(--accent-ink)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.to-top{
+  position:fixed;bottom:26px;right:26px;z-index:50;
+  width:46px;height:46px;border-radius:50%;
+  background:var(--bg-raised);border:1px solid var(--line);color:var(--ink-soft);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:var(--shadow-2);opacity:0;pointer-events:none;transform:translateY(10px);
+  transition:all .3s var(--ease-soft);
+}
+.to-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.to-top:hover{color:var(--accent);border-color:var(--accent)}
+.to-top svg{width:18px;height:18px}
+
+@media(max-width:640px){
+  .topbar-inner{padding:16px 16px 14px}
+  .brand h1{font-size:1.2rem}
+  .container{padding:18px 16px 100px}
+  .entry{padding:22px 20px}
+  .entry-title h2{font-size:1.2rem}
+  .entry-body{font-size:1rem}
+  .to-top{bottom:18px;right:18px}
+}
+
+@media print{
+  .topbar,.drawer,.drawer-scrim,.disclaimer,.to-top,.toast,.entry-tools{display:none!important}
+  body::before{display:none}
+  body{background:#fff;color:#000}
+  .container{padding:0;max-width:100%}
+  .entry{
+    box-shadow:none;border:none;border-bottom:1px solid #ccc;border-radius:0;
+    page-break-inside:avoid;opacity:1!important;transform:none!important;animation:none!important;
+  }
+  body.print-single .entry{display:none}
+  body.print-single .entry.print-target{display:block}
+  .protocol-table{border-color:#999}
+  .protocol-table th,.protocol-table td{border-color:#ccc}
+}
+</style>
 </head>
 <body>
-    <div id="sidebar">
-        <h3>فهرس الأدوية</h3>
-        <ul id="tocList"></ul>
+
+<div class="drawer-scrim" id="scrim"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>فهرس الأدوية</h3>
+    <button class="icon-btn" id="closeDrawer" aria-label="إغلاق">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <ul id="tocList"></ul>
+</aside>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-row">
+      <div class="controls">
+        <button class="icon-btn" id="openDrawer" aria-label="فتح الفهرس">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+      </div>
+      <div class="brand">
+        <h1>بروتوكولات الأدوية</h1>
+      </div>
+      <div class="controls">
+        <span class="count" id="entryCount"></span>
+        <button class="icon-btn theme-btn" id="themeToggle" aria-label="تبديل المظهر">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        </button>
+      </div>
     </div>
+    <div class="search-wrap">
+      <div class="search-box" id="searchBox">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="ابحث عن دواء، بروتوكول، أو كلمة مفتاحية…" autocomplete="off" spellcheck="false">
+        <button class="clear-btn" id="clearSearch" aria-label="مسح"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+        <span class="kbd-hint">/</span>
+      </div>
+      <div class="did-you-mean" id="didYouMean"></div>
+    </div>
+  </div>
+</div>
 
-    <div class="main-content" id="mainContent">
-        <div class="header-controls">
-            <div class="disclaimer-banner">
-                <span class="warning-icon">⚠️</span>
-                This is experimental and LLM generated. Not for practical use.
-            </div>
-            <h1>بروتوكولات الأدوية - التأمين الصحي</h1>
-            <div class="search-container">
-                <button id="sidebarToggle" title="فتح/إغلاق الفهرس">☰</button>
-                <input type="text" id="searchInput" placeholder="ابحث عن دواء أو بروتوكول..." onkeyup="filterDrugs()">
-            </div>
-            <div id="didYouMean"></div>
-        </div>
-        <div class="container" id="drugListContainer">
-            <div id="drugList">
-            </div>
-            <div id="noResults" style="display:none;">لم يتم العثور على نتائج.</div>
-        </div>
-    </div> 
-</body>
-    <script>
-        const escapeHTML = (str) => {
-            if (str === null || str === undefined) return '';
-            return String(str).replace(/[&<>"']/g, match => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;'
-            })[match]);
-        };
+<div class="disclaimer">
+  <div class="disclaimer-inner">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+    <span>محتوى تجريبي تم توليده بواسطة نموذج ذكاء اصطناعي — غير مخصص للاستخدام الفعلي.</span>
+  </div>
+</div>
 
+<div class="container">
+  <div id="list"></div>
+  <div id="emptyState">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+    <h3>لا توجد نتائج مطابقة</h3>
+    <p>جرّب كلمة بحث مختلفة أو أقصر، أو تحقق من الإملاء.</p>
+  </div>
+  <div id="emptyDataState">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+    <h3>لا توجد بيانات محملة بعد</h3>
+    <p>أضف بيانات الأدوية إلى المصفوفة drugData لعرضها هنا.</p>
+  </div>
+</div>
+
+<button class="to-top" id="toTop" aria-label="العودة للأعلى">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+<script>
 const drugData = [
   {
     "drug_name_ar": "جهاز قياس السكر بدون وخز (Free style libre)",
@@ -1180,347 +820,314 @@ const drugData = [
     "keywords": ["Actemra", "Humira", "Enbrel", "Remicade", "Dupixent", "Xolair", "Revolade", "Hemlibra", "هيموفيليا", "روماتويد", "علاج بيولوجي"]
   }
 ];
-        const drugListContainer = document.getElementById('drugListContainer');
-        const drugListElement = document.getElementById('drugList');
-        const searchInput = document.getElementById('searchInput');
-        const didYouMeanElement = document.getElementById('didYouMean');
-        const noResultsElement = document.getElementById('noResults');
-        const tocListElement = document.getElementById('tocList');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const mainContent = document.getElementById('mainContent');
-        let activeTocLink = null;
+const escapeHTML = (str) => {
+  if (str === null || str === undefined) return '';
+  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+};
 
-        function levenshtein(a, b) {
-            if (a.length === 0) return b.length;
-            if (b.length === 0) return a.length;
-            const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
-            for (let i = 0; i <= a.length; i += 1) { matrix[0][i] = i; }
-            for (let j = 0; j <= b.length; j += 1) { matrix[j][0] = j; }
-            for (let j = 1; j <= b.length; j += 1) {
-                for (let i = 1; i <= a.length; i += 1) {
-                    const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
-                    matrix[j][i] = Math.min(
-                        matrix[j][i - 1] + 1,
-                        matrix[j - 1][i] + 1,
-                        matrix[j - 1][i - 1] + indicator,
-                    );
-                }
-            }
-            return matrix[b.length][a.length];
-        }
+const slugify = (drug) => 'drug-' + (drug.drug_name_en || drug.drug_name_ar).replace(/[^a-zA-Z0-9أ-ي]/g,'-').toLowerCase();
 
-        function renderTable(tableString) {
-            const rows = tableString.trim().split('\n');
-            if (rows.length === 0) return '';
-            let html = '<table class="protocol-table">';
-            const headerRow = rows[0].split('|').map(h => h.trim());
-            html += '<thead><tr>';
-            headerRow.forEach(header => html += `<th>${escapeHTML(header)}</th>`);
-            html += '</tr></thead><tbody>';
-            for (let i = 1; i < rows.length; i++) {
-                html += '<tr>';
-                const cells = rows[i].split('|').map(cell => cell.trim());
-                cells.forEach(cell => html += `<td>${escapeHTML(cell)}</td>`);
-                html += '</tr>';
-            }
-            html += '</tbody></table>';
-            return html;
-        }
-        
-        function cleanProtocolText(text) {
-            let cleanedText = escapeHTML(text);
-            cleanedText = cleanedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            cleanedText = cleanedText.replace(/\*(.*?)\*/g, (match, p1) => {
-                if (p1.match(/^\s|\s$|\d/) || match.match(/\s\*\s/) || p1.trim() === "") {
-                    return match;
-                }
-                return `<em>${p1}</em>`;
-            });
-            cleanedText = cleanedText.replace(/^-\s+/gm, '&bull; ');
-            cleanedText = cleanedText.replace(/\n-\s+/gm, '\n&bull; ');
-            cleanedText = cleanedText.replace(/^\*\s+/gm, '&bull; ');
-            cleanedText = cleanedText.replace(/\n\*\s+/gm, '\n&bull; ');
-            cleanedText = cleanedText.replace(/^(\d+)\.\s+/gm, (match, num) => `${num}.&nbsp;&nbsp;`);
-            cleanedText = cleanedText.replace(/\n(\d+)\.\s+/gm, (match, num) => `\n${num}.&nbsp;&nbsp;`);
+function renderTable(tableString){
+  const rows = tableString.trim().split('\n');
+  if (!rows.length) return '';
+  let html = '<table class="protocol-table"><thead><tr>';
+  rows[0].split('|').map(h=>h.trim()).forEach(h=>html+=`<th>${escapeHTML(h)}</th>`);
+  html += '</tr></thead><tbody>';
+  for (let i=1;i<rows.length;i++){
+    html += '<tr>';
+    rows[i].split('|').map(c=>c.trim()).forEach(c=>html+=`<td>${escapeHTML(c)}</td>`);
+    html += '</tr>';
+  }
+  return html + '</tbody></table>';
+}
 
-            return cleanedText.trim();
-        }
+function cleanProtocolText(text){
+  let t = escapeHTML(text);
+  t = t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  t = t.replace(/\*(.*?)\*/g,(m,p1)=>{
+    if (p1.match(/^\s|\s$|\d/) || m.match(/\s\*\s/) || p1.trim()==='') return m;
+    return `<em>${p1}</em>`;
+  });
+  t = t.replace(/^-\s+/gm,'&bull; ').replace(/\n-\s+/gm,'\n&bull; ');
+  t = t.replace(/^\*\s+/gm,'&bull; ').replace(/\n\*\s+/gm,'\n&bull; ');
+  t = t.replace(/^(\d+)\.\s+/gm,(m,n)=>`${n}.&nbsp;&nbsp;`);
+  t = t.replace(/\n(\d+)\.\s+/gm,(m,n)=>`\n${n}.&nbsp;&nbsp;`);
+  return t.trim();
+}
 
-        function createDrugEntryHTML(drug, searchTerm = '') {
-            const entryId = `drug-${escapeHTML(drug.drug_name_en || drug.drug_name_ar).replace(/[^a-zA-Z0-9أ-ي]/g, '-').toLowerCase()}`;
-            let rawProtocol = drug.protocol_ar;
+function highlight(html, term){
+  if (!term) return html;
+  const safe = term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const re = new RegExp(`(${safe})(?![^<]*>)`,'gi');
+  return html.replace(re,'<mark>$1</mark>');
+}
 
-            const tableRegex = /\[TABLE_START\]([\s\S]*?)\[TABLE_END\]/g;
-            let processedProtocol = '';
-            let lastIndex = 0;
+function buildProtocolHTML(drug, term){
+  const raw = drug.protocol_ar;
+  const tableRe = /\[TABLE_START\]([\s\S]*?)\[TABLE_END\]/g;
+  let out = '', last = 0;
+  raw.replace(tableRe,(match, tableData, offset)=>{
+    let chunk = cleanProtocolText(raw.substring(last, offset));
+    chunk = highlight(chunk, term);
+    out += chunk.replace(/\n/g,'<br>');
+    out += renderTable(tableData);
+    last = offset + match.length;
+    return '';
+  });
+  let rest = cleanProtocolText(raw.substring(last));
+  rest = highlight(rest, term);
+  out += rest.replace(/\n/g,'<br>');
 
-            rawProtocol.replace(tableRegex, (match, tableData, offset) => {
-                let nonTablePart = rawProtocol.substring(lastIndex, offset);
-                nonTablePart = cleanProtocolText(nonTablePart);
-                if (searchTerm) {
-                    const highlightRegex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?![^<]*>)`, 'gi');
-                    nonTablePart = nonTablePart.replace(highlightRegex, '<span class="highlight">$1</span>');
-                }
-                processedProtocol += nonTablePart.replace(/\n/g, '<br>');
-                processedProtocol += renderTable(tableData);
-                lastIndex = offset + match.length;
-                return '';
-            });
+  let html = '';
+  out.split(/(<table.*?<\/table>)/s).forEach(seg=>{
+    if (seg.startsWith('<table')){ html += seg; return; }
+    seg.split(/(?:<br>\s*){2,}/g).forEach(p=>{
+      if (p.trim()) html += `<p>${p.trim()}</p>`;
+    });
+  });
+  return html;
+}
 
-            let remainingPart = rawProtocol.substring(lastIndex);
-            remainingPart = cleanProtocolText(remainingPart);
-            if (searchTerm) {
-                const highlightRegex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?![^<]*>)`, 'gi');
-                remainingPart = remainingPart.replace(highlightRegex, '<span class="highlight">$1</span>');
-            }
-            processedProtocol += remainingPart.replace(/\n/g, '<br>');
+function entryHTML(drug, term, index){
+  const id = slugify(drug);
+  const nameAr = highlight(escapeHTML(drug.drug_name_ar), term);
+  const nameEn = drug.drug_name_en && drug.drug_name_en !== drug.drug_name_ar
+    ? `<span class="en">${highlight(escapeHTML(drug.drug_name_en), term)}</span>` : '';
+  const chips = (drug.keywords && drug.keywords.length)
+    ? `<div class="chips">${drug.keywords.map(k=>`<span class="chip">${escapeHTML(k)}</span>`).join('')}</div>` : '';
+  return `
+  <article class="entry" id="${id}" style="--i:${index}">
+    <div class="entry-head">
+      <div class="entry-title">
+        <h2>${nameAr}</h2>
+        ${nameEn}
+      </div>
+      <div class="entry-tools">
+        <button class="link-btn" data-id="${id}" title="نسخ الرابط" aria-label="نسخ الرابط">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1-1"/></svg>
+        </button>
+        <button class="print-btn" data-id="${id}" title="طباعة" aria-label="طباعة">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="entry-body">
+      <h3>البروتوكول / التعليمات</h3>
+      ${buildProtocolHTML(drug, term)}
+      ${chips}
+    </div>
+  </article>`;
+}
 
-            let finalHtmlContent = '';
-            const segments = processedProtocol.split(/(<table.*?<\/table>)/s);
-            segments.forEach(segment => {
-                if (segment.startsWith('<table')) {
-                    finalHtmlContent += segment;
-                } else {
-                    const paragraphs = segment.split(/(?:<br>\s*){2,}|<br>\n<br>/g);
-                    paragraphs.forEach(para => {
-                        if (para.trim()) {
-                           let paragraphText = para.trim();
-                           finalHtmlContent += `<p>${paragraphText}</p>`;
-                        }
-                    });
-                }
-            });
-            if (finalHtmlContent.startsWith('<p></p>')) {
-                finalHtmlContent = finalHtmlContent.substring(7);
-            }
+const listEl = document.getElementById('list');
+const emptyStateEl = document.getElementById('emptyState');
+const emptyDataEl = document.getElementById('emptyDataState');
+const tocListEl = document.getElementById('tocList');
+const searchInput = document.getElementById('searchInput');
+const searchBox = document.getElementById('searchBox');
+const didYouMeanEl = document.getElementById('didYouMean');
+const entryCountEl = document.getElementById('entryCount');
+const toastEl = document.getElementById('toast');
 
-            return `
-                <div class="drug-entry" id="${entryId}">
-                    <h2>
-                        ${escapeHTML(drug.drug_name_ar)}
-                        ${drug.drug_name_en && drug.drug_name_en !== drug.drug_name_ar ? `<span class="drug-name-en">(${escapeHTML(drug.drug_name_en)})</span>` : ''}
-                    </h2>
-                    <h3>البروتوكول / التعليمات:</h3>
-                    <div>${finalHtmlContent}</div>
-                    ${drug.keywords && drug.keywords.length > 0 ? `<div class="keywords"><strong>كلمات مفتاحية:</strong> ${drug.keywords.map(escapeHTML).join('، ')}</div>` : ''}
-                </div>
-            `;
-        }
+let fuse = null;
+if (typeof Fuse !== 'undefined' && drugData.length){
+  fuse = new Fuse(drugData, {
+    keys: [
+      {name:'drug_name_ar', weight:0.4},
+      {name:'drug_name_en', weight:0.3},
+      {name:'keywords', weight:0.2},
+      {name:'protocol_ar', weight:0.1}
+    ],
+    threshold:0.32,
+    ignoreLocation:true,
+    minMatchCharLength:2
+  });
+} else if (typeof Fuse === 'undefined') {
+  console.error("Fuse.js library failed to load. Search will not work.");
+}
 
-        function displayDrugs(drugsToDisplay, isSearch = false) {
-            drugListElement.innerHTML = '';
-            if (drugsToDisplay.length === 0 && searchInput.value.trim()) {
-                noResultsElement.style.display = 'block';
-                return;
-            }
-            noResultsElement.style.display = 'none';
+function render(items, term){
+  listEl.innerHTML = items.map((d,i)=>entryHTML(d, term, i)).join('');
+  emptyStateEl.classList.toggle('show', items.length===0 && term);
+  emptyDataEl.style.display = drugData.length===0 ? 'flex' : 'none';
+  entryCountEl.textContent = drugData.length ? `${items.length} من ${drugData.length} بروتوكول` : '';
+  buildTOC(items);
+}
 
-            drugsToDisplay.forEach(drug => {
-                drugListElement.innerHTML += createDrugEntryHTML(drug, isSearch ? searchInput.value.trim().toLowerCase() : '');
-            });
-        }
+function buildTOC(items){
+  if (!items.length){
+    tocListEl.innerHTML = '<li class="toc-empty">لا توجد عناصر</li>';
+    return;
+  }
+  tocListEl.innerHTML = items.map(d=>{
+    const id = slugify(d);
+    let label = d.drug_name_en || d.drug_name_ar;
+    if (d.drug_name_en && d.drug_name_ar && d.drug_name_en.toLowerCase() !== d.drug_name_ar.toLowerCase()){
+      label += ` (${d.drug_name_ar})`;
+    }
+    return `<li><a href="#${id}" data-id="${id}" title="${escapeHTML(label)}">${escapeHTML(label)}</a></li>`;
+  }).join('');
+}
 
-        function populateToc(drugsForToc = drugData) {
-            tocListElement.innerHTML = '';
-            drugsForToc.forEach(drug => {
-                const listItem = document.createElement('li');
-                const link = document.createElement('a');
-                const entryId = `drug-${(drug.drug_name_en || drug.drug_name_ar).replace(/[^a-zA-Z0-9أ-ي]/g, '-').toLowerCase()}`;
-                link.href = `#${entryId}`;
-                let tocText = drug.drug_name_en || drug.drug_name_ar;
-                if (drug.drug_name_en && drug.drug_name_ar && drug.drug_name_en.toLowerCase() !== drug.drug_name_ar.toLowerCase()) {
-                    tocText += ` (${drug.drug_name_ar})`;
-                }
-                link.textContent = tocText;
-                link.title = tocText; 
+let debounceTimer;
+function runSearch(){
+  const term = searchInput.value.trim();
+  searchBox.parentElement.parentElement.classList.toggle('search-active', !!term);
+  didYouMeanEl.classList.remove('show');
+  didYouMeanEl.innerHTML = '';
 
-                link.onclick = function(e) {
-                    e.preventDefault();
-                    const targetElement = document.getElementById(entryId);
-                    if (targetElement) {
-                        const headerOffset = document.querySelector('.header-controls').offsetHeight + 10; 
-                        const elementPosition = targetElement.getBoundingClientRect().top + mainContent.scrollTop;
-                        const offsetPosition = elementPosition - headerOffset;
+  if (!term){
+    render(drugData, '');
+    return;
+  }
+  if (!fuse){
+    render([], term);
+    return;
+  }
+  let results = fuse.search(term, {limit:200}).map(r=>r.item);
 
-                        mainContent.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                        });
-                    }
-                    if (activeTocLink) {
-                        activeTocLink.classList.remove('active');
-                    }
-                    link.classList.add('active');
-                    activeTocLink = link;
+  if (!results.length){
+    const loose = new Fuse(drugData, {
+      keys:['drug_name_ar','drug_name_en','keywords'],
+      threshold:0.6, ignoreLocation:true
+    }).search(term, {limit:4}).map(r=>r.item);
+    if (loose.length){
+      didYouMeanEl.classList.add('show');
+      didYouMeanEl.appendChild(document.createTextNode('هل تقصد: '));
+      loose.forEach((d,i)=>{
+        const a = document.createElement('a');
+        a.textContent = d.drug_name_ar;
+        a.onclick = ()=>{ searchInput.value = d.drug_name_ar; runSearch(); searchInput.focus(); };
+        didYouMeanEl.appendChild(a);
+        if (i < loose.length-1) didYouMeanEl.appendChild(document.createTextNode('، '));
+      });
+      didYouMeanEl.appendChild(document.createTextNode('؟'));
+    }
+  }
+  render(results, term);
+}
 
-                    if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
-                        sidebar.classList.remove('open');
-                        mainContent.classList.remove('sidebar-open');
-                        sidebarToggle.textContent = '☰';
-                    }
-                };
-                listItem.appendChild(link);
-                tocListElement.appendChild(listItem);
-            });
-        }
+searchInput.addEventListener('input', ()=>{
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(runSearch, 140);
+});
 
-        function filterDrugs() {
-            const searchTerm = searchInput.value.trim().toLowerCase();
-            didYouMeanElement.textContent = '';
+document.getElementById('clearSearch').addEventListener('click', ()=>{
+  searchInput.value = '';
+  runSearch();
+  searchInput.focus();
+});
 
-            if (!searchTerm) {
-                displayDrugs(drugData, false);
-                populateToc(drugData);
-                noResultsElement.style.display = 'none';
-                if (activeTocLink) {
-                    activeTocLink.classList.remove('active');
-                    activeTocLink = null;
-                }
-                return;
-            }
+document.addEventListener('keydown', (e)=>{
+  if (e.key === '/' && document.activeElement !== searchInput){
+    e.preventDefault();
+    searchInput.focus();
+  }
+  if (e.key === 'Escape'){
+    if (document.activeElement === searchInput && searchInput.value){
+      searchInput.value = '';
+      runSearch();
+    } else {
+      closeDrawer();
+    }
+  }
+});
 
-            const filteredDrugs = drugData.filter(drug =>
-                drug.drug_name_ar.toLowerCase().includes(searchTerm) ||
-                (drug.drug_name_en && drug.drug_name_en.toLowerCase().includes(searchTerm)) ||
-                cleanProtocolText(drug.protocol_ar).toLowerCase().includes(searchTerm) ||
-                (drug.keywords && drug.keywords.some(kw => kw.toLowerCase().includes(searchTerm)))
-            );
+const drawer = document.getElementById('drawer');
+const scrim = document.getElementById('scrim');
+function openDrawer(){ drawer.classList.add('open'); scrim.classList.add('open'); }
+function closeDrawer(){ drawer.classList.remove('open'); scrim.classList.remove('open'); }
+document.getElementById('openDrawer').addEventListener('click', openDrawer);
+document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
+scrim.addEventListener('click', closeDrawer);
 
-            displayDrugs(filteredDrugs, true);
-            populateToc(filteredDrugs);
+tocListEl.addEventListener('click', (e)=>{
+  const a = e.target.closest('a');
+  if (!a) return;
+  e.preventDefault();
+  const target = document.getElementById(a.dataset.id);
+  if (target){
+    const offset = document.querySelector('.topbar').offsetHeight + 30;
+    window.scrollTo({top: target.getBoundingClientRect().top + window.scrollY - offset, behavior:'smooth'});
+  }
+  document.querySelectorAll('#tocList a.active').forEach(el=>el.classList.remove('active'));
+  a.classList.add('active');
+  if (window.innerWidth <= 900) closeDrawer();
+});
 
-            if (activeTocLink && !filteredDrugs.some(d => {
-                let linkTextContent = activeTocLink.textContent;
-                const arabicPartMatch = linkTextContent.match(/\((.*)\)/);
-                if (arabicPartMatch) {
-                    linkTextContent = linkTextContent.replace(arabicPartMatch[0], '').trim();
-                }
-                const drugIdentifier = d.drug_name_en || d.drug_name_ar;
-                return drugIdentifier === linkTextContent;
-            })) {
-                activeTocLink.classList.remove('active');
-                activeTocLink = null;
-            }
+listEl.addEventListener('click', (e)=>{
+  const linkBtn = e.target.closest('.link-btn');
+  const printBtn = e.target.closest('.print-btn');
+  if (linkBtn){
+    const url = location.href.split('#')[0] + '#' + linkBtn.dataset.id;
+    navigator.clipboard.writeText(url).then(()=>showToast('تم نسخ الرابط'));
+  }
+  if (printBtn){
+    const entry = document.getElementById(printBtn.dataset.id);
+    entry.classList.add('print-target');
+    document.body.classList.add('print-single');
+    window.print();
+  }
+});
+window.addEventListener('afterprint', ()=>{
+  document.body.classList.remove('print-single');
+  document.querySelectorAll('.print-target').forEach(el=>el.classList.remove('print-target'));
+});
 
-            if (filteredDrugs.length === 0 && searchTerm.length > 1) {
-                let suggestions = [];
-                drugData.forEach(drug => {
-                    const nameToTestAr = drug.drug_name_ar.toLowerCase();
-                    const nameToTestEn = drug.drug_name_en ? drug.drug_name_en.toLowerCase() : '';
-                    
-                    const distAr = levenshtein(searchTerm, nameToTestAr);
-                    const distEn = nameToTestEn ? levenshtein(searchTerm, nameToTestEn) : Infinity;
-                    
-                    let effectiveDist = Math.min(distAr, distEn);
-                    let suggestedName = distAr <= distEn ? drug.drug_name_ar : drug.drug_name_en;
+let toastTimer;
+function showToast(msg){
+  clearTimeout(toastTimer);
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 2200);
+}
 
-                    let keywordMatch = false;
-                    if (drug.keywords) {
-                        for (const kw of drug.keywords) {
-                            if (kw.toLowerCase().includes(searchTerm)) {
-                                keywordMatch = true;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    const threshold = Math.max(1, Math.floor( (nameToTestEn || nameToTestAr).length / 3.5));
+const themeToggle = document.getElementById('themeToggle');
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+function applyThemeColor(){
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  themeColorMeta.setAttribute('content', dark ? '#131210' : '#faf8f4');
+}
+applyThemeColor();
+themeToggle.addEventListener('click', ()=>{
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('drugbook-theme', next);
+  applyThemeColor();
+});
 
-                    if (effectiveDist <= threshold && effectiveDist < (nameToTestEn || nameToTestAr).length) {
-                        suggestions.push({ drug, dist: effectiveDist, name: suggestedName });
-                    } else if (keywordMatch && !suggestions.find(s => s.drug === drug)) {
-                        suggestions.push({ drug, dist: 100 + (drug.drug_name_en || drug.drug_name_ar).length, name: (drug.drug_name_en || drug.drug_name_ar) });
-                    }
-                });
+const toTopBtn = document.getElementById('toTop');
+window.addEventListener('scroll', ()=>{
+  toTopBtn.classList.toggle('show', window.scrollY > 500);
+  document.querySelector('.topbar').style.boxShadow = window.scrollY > 4 ? 'var(--shadow-1)' : 'none';
+}, {passive:true});
+toTopBtn.addEventListener('click', ()=>window.scrollTo({top:0, behavior:'smooth'}));
 
-                suggestions.sort((a, b) => a.dist - b.dist);
+let observer;
+function setupScrollSpy(){
+  if (observer) observer.disconnect();
+  const entries = document.querySelectorAll('.entry');
+  if (!entries.length) return;
+  observer = new IntersectionObserver((obs)=>{
+    obs.forEach(o=>{
+      if (o.isIntersecting){
+        document.querySelectorAll('#tocList a.active').forEach(el=>el.classList.remove('active'));
+        const link = document.querySelector(`#tocList a[data-id="${o.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-140px 0px -70% 0px'});
+  entries.forEach(el=>observer.observe(el));
+}
 
-                if (suggestions.length > 0) {
-                    didYouMeanElement.textContent = 'هل تقصد: ';
-                    const topSuggestions = suggestions.slice(0, 3);
-                    topSuggestions.forEach((s, index) => {
-                        let suggestionText = s.drug.drug_name_en || s.drug.drug_name_ar;
-                        if (s.drug.drug_name_en && s.drug.drug_name_ar && s.drug.drug_name_en.toLowerCase() !== s.drug.drug_name_ar.toLowerCase()) {
-                             suggestionText += ` (${s.drug.drug_name_ar})`;
-                        }
-                        const a = document.createElement('a');
-                        a.textContent = suggestionText;
-                        a.onclick = () => setSearchAndFocus(s.drug.drug_name_en || s.drug.drug_name_ar);
-                        didYouMeanElement.appendChild(a);
-                        
-                        if (index < topSuggestions.length - 1) {
-                            didYouMeanElement.appendChild(document.createTextNode('، '));
-                        }
-                    });
-                    didYouMeanElement.appendChild(document.createTextNode('؟'));
-                } else {
-                     noResultsElement.style.display = 'block';
-                }
-            } else {
-                 noResultsElement.style.display = filteredDrugs.length === 0 ? 'block' : 'none';
-            }
-        }
+const origRender = render;
+render = function(items, term){
+  origRender(items, term);
+  requestAnimationFrame(setupScrollSpy);
+};
 
-        function setSearchAndFocus(term) {
-            searchInput.value = term;
-            filterDrugs();
-            
-            const firstMatchingDrug = drugData.find(drug => 
-                (drug.drug_name_en && drug.drug_name_en.toLowerCase() === term.toLowerCase()) || 
-                drug.drug_name_ar.toLowerCase() === term.toLowerCase()
-            );
-
-            if (firstMatchingDrug) {
-                const entryId = `drug-${(firstMatchingDrug.drug_name_en || firstMatchingDrug.drug_name_ar).replace(/[^a-zA-Z0-9أ-ي]/g, '-').toLowerCase()}`;
-                const targetElement = document.getElementById(entryId);
-                if (targetElement) {
-                    const headerOffset = document.querySelector('.header-controls').offsetHeight + 10;
-                    const elementPosition = targetElement.getBoundingClientRect().top + mainContent.scrollTop;
-                    const offsetPosition = elementPosition - headerOffset;
-                    mainContent.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-
-                    const tocLinks = tocListElement.querySelectorAll('a');
-                    tocLinks.forEach(link => {
-                        let linkTextForMatch = link.textContent.split(' (')[0];
-                        let drugIdentifierForMatch = firstMatchingDrug.drug_name_en || firstMatchingDrug.drug_name_ar;
-                        if(linkTextForMatch === drugIdentifierForMatch) {
-                            if (activeTocLink) activeTocLink.classList.remove('active');
-                            link.classList.add('active');
-                            activeTocLink = link;
-                        }
-                    });
-                }
-            }
-             if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-                mainContent.classList.remove('sidebar-open');
-                sidebarToggle.textContent = '☰';
-            }
-        }
-
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            mainContent.classList.toggle('sidebar-open');
-            sidebarToggle.textContent = sidebar.classList.contains('open') ? '✕' : '☰';
-        });
-
-        document.addEventListener('click', function(event) {
-            if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
-                const isClickInsideSidebar = sidebar.contains(event.target);
-                const isClickOnToggle = sidebarToggle.contains(event.target);
-                if (!isClickInsideSidebar && !isClickOnToggle) {
-                    sidebar.classList.remove('open');
-                    mainContent.classList.remove('sidebar-open');
-                    sidebarToggle.textContent = '☰';
-                }
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            displayDrugs(drugData, false);
-            populateToc();
-        });
-    </script>
+render(drugData, '');
+</script>
 </body>
 </html>
